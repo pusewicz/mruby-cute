@@ -1,65 +1,45 @@
-assert("cf_sprite_defaults") do
-  sprite = Cute.cf_sprite_defaults
-  assert_kind_of(Cute::CF_Sprite, sprite)
-  assert_equal(0, Cute.cf_sprite_width(sprite))
-  assert_equal(0, Cute.cf_sprite_height(sprite))
-end
+# assert("Cute::Sprite.make_sprite") do
+#   sprite = Cute::Sprite.make_sprite("test_sprite.ase")
+#   assert_kind_of(Cute::Sprite, sprite)
+# end
 
-assert("cf_sprite_width") do
-  sprite = Cute.cf_sprite_defaults
-  assert_equal(0, Cute.cf_sprite_width(sprite))
-end
-
-assert("cf_sprite_height") do
-  sprite = Cute.cf_sprite_defaults
-  assert_equal(0, Cute.cf_sprite_height(sprite))
-end
-
-assert("cf_make_demo_sprite") do
+assert("Cute::Sprite.cf_make_demo_sprite") do
   Cute.cf_make_app("Test App", 0, 10, 10, 800, 600, 0, "test_app")
-  sprite = Cute.cf_make_demo_sprite
-  assert_kind_of(Cute::CF_Sprite, sprite)
+  demo_sprite = Cute.cf_make_demo_sprite
+  assert_kind_of(Cute::CF_Sprite, demo_sprite)
+  Cute.cf_app_destroy
 end
 
-assert("cf_sprite_is_playing") do
+assert("Cute::Sprite#draw") do
   Cute.cf_make_app("Test App", 0, 10, 10, 800, 600, 0, "test_app")
-  sprite = Cute.cf_make_demo_sprite
-  assert_false(Cute.cf_sprite_is_playing(sprite, "idle"))
-  assert_false(Cute.cf_sprite_is_playing(sprite, "walk"))
+  sprite = Cute::Sprite.new
+  assert_nothing_raised { sprite.draw }
+  Cute.cf_app_destroy
 end
 
-assert("cf_sprite_play") do
+assert("Cute::Sprite#play") do
   Cute.cf_make_app("Test App", 0, 10, 10, 800, 600, 0, "test_app")
-  sprite = Cute.cf_make_demo_sprite
-  assert_nil(Cute.cf_sprite_play(sprite, "idle"))
-  assert_true(Cute.cf_sprite_is_playing(sprite, "idle"))
+  sprite = Cute::Sprite.new
+  assert_nothing_raised { sprite.play("idle") }
+  Cute.cf_app_destroy
 end
 
-assert("cf_sprite_update") do
+assert("Cute::Sprite#update") do
   Cute.cf_make_app("Test App", 0, 10, 10, 800, 600, 0, "test_app")
-  sprite = Cute.cf_make_demo_sprite
-  assert_nil(Cute.cf_sprite_update(sprite))
+  sprite = Cute::Sprite.new
+  sprite.play("idle")
+  assert_nothing_raised { sprite.update }
+  Cute.cf_app_destroy
 end
 
-assert("cf_sprite_draw") do
+assert("Cute::Sprite#playing?") do
   Cute.cf_make_app("Test App", 0, 10, 10, 800, 600, 0, "test_app")
-  sprite = Cute.cf_make_demo_sprite
-  assert_nil(Cute.cf_sprite_draw(sprite))
-end
-
-assert("Sprite") do
-  sprite = Cute::Sprite.new(nil)
-  assert_kind_of(Cute::Sprite, sprite)
-
-  assert_equal(0, sprite.width)
-  assert_equal(0, sprite.height)
-end
-
-assert("Sprite#playing?") do
-  Cute.cf_make_app("Test App", 0, 10, 10, 800, 600, 0, "test_app")
-  sprite = Cute::Sprite.new(Cute.cf_make_demo_sprite)
-  assert_false(sprite.playing?("idle"))
-  assert_false(sprite.playing?("walk"))
+  sprite = Cute::Sprite.new
   sprite.play("idle")
   assert_true(sprite.playing?("idle"))
+  assert_false(sprite.playing?("walk"))
+  sprite.play("spin")
+  assert_false(sprite.playing?("idle"))
+  assert_true(sprite.playing?("spin"))
+  Cute.cf_app_destroy
 end

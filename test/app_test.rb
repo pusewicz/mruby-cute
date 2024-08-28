@@ -6,7 +6,9 @@ assert("cf_make_app") do
 end
 
 assert("cf_app_is_running") do
+  Cute.cf_make_app("Test App", 0, 10, 10, 800, 600, 0, "test_app")
   assert_true(Cute.cf_app_is_running)
+  assert_nil(Cute.cf_app_destroy)
 end
 
 assert("cf_make_app CF_AppOptionFlagBits") do

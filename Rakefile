@@ -1,7 +1,8 @@
 require 'etc'
 require 'rake/clean'
 
-CMAKE_BUILD_PARALLEL_LEVEL=ENV.fetch('CMAKE_BUILD_PARALLEL_LEVEL', Etc.nprocessors + 2)
+ENV["CMAKE_GENERATOR"] ||= "Ninja"
+ENV["CMAKE_BUILD_PARALLEL_LEVEL"] ||= (Etc.nprocessors + 2).to_s
 MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || "cute_build_config.rb")
 MRUBY_VERSION="3.3.0"
 CUTE_VERSION="sdl3-fetch-http"
@@ -13,6 +14,7 @@ CUTE_BUILD_DIR=File.join(CUTE_DEPS_DIR, 'build')
 directory DEPS_DIR
 
 CLEAN.include(CUTE_BUILD_DIR)
+CLOBBER.include(MRUBY_DEPS_DIR)
 
 desc "Clone MRuby"
 file MRUBY_DEPS_DIR => [DEPS_DIR] do
