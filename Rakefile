@@ -1,7 +1,6 @@
 require 'etc'
 
-parallism = Etc.nprocessors + 2
-
+CMAKE_BUILD_PARALLEL_LEVEL=ENV.fetch('CMAKE_BUILD_PARALLEL_LEVEL', Etc.nprocessors + 2)
 MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || "cute_build_config.rb")
 MRUBY_VERSION="3.3.0"
 CUTE_VERSION="master"
@@ -22,7 +21,7 @@ file :cute_framework do
     cmd << " && git fetch --tags && git checkout $(git rev-parse #{CUTE_VERSION})"
   end
   sh cmd
-  sh "cd cute_framework && mkdir build && cd build && cmake -G Ninja .. && CMAKE_BUILD_PARALLEL_LEVEL=#{parallism} cmake --build ."
+  sh "cd cute_framework && mkdir build && cd build && cmake -G Ninja .. && CMAKE_BUILD_PARALLEL_LEVEL=#{CMAKE_BUILD_PARALLEL_LEVEL} cmake --build ."
 end
 
 desc "compile binary"
