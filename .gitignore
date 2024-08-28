@@ -1,0 +1,6 @@
+/mruby
+/cute
+
+cute_build_config.rb.lock
+
+*.a
