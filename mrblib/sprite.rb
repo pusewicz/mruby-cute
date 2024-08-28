@@ -1,6 +1,6 @@
 module Cute
   class Sprite
-    def initialize(cf_sprite)
+    def initialize(cf_sprite = nil)
       @cf_sprite = cf_sprite || Cute.cf_sprite_defaults
     end
 

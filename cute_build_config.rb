@@ -6,7 +6,6 @@ MRuby::Build.new do |conf|
 
   if ENV['DEBUG'] == 'true'
     conf.enable_debug
-    conf.gem core: 'mruby-bin-debugger'
     conf.cc.defines = %w(MRB_USE_DEBUG_HOOK)
   end
 end

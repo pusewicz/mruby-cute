@@ -1,0 +1,71 @@
+name: Ruby
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          # - { name: "Windows MSVC", os: windows-latest, cc: "cl", cxx: "cl" }
+          - {
+              name: "Ubuntu gcc",
+              os: ubuntu-latest,
+              cc: "gcc",
+              cxx: "g++",
+              generator: "Ninja",
+            }
+          - {
+              name: "MacOS clang",
+              os: macos-latest,
+              cc: "clang",
+              cxx: "clang++",
+              generator: "Ninja",
+            }
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Install dependencies (Ubuntu)
+        if: startsWith(matrix.os, 'ubuntu-')
+        run: |
+          sudo apt-get update && sudo apt-get install -y \
+          libasound2-dev \
+          libpulse-dev \
+          libaudio-dev \
+          libjack-dev \
+          libsndio-dev \
+          libusb-1.0-0-dev \
+          libx11-dev \
+          libxext-dev \
+          libxrandr-dev \
+          libxcursor-dev \
+          libxfixes-dev \
+          libxi-dev \
+          libxss-dev \
+          libwayland-dev \
+          libxkbcommon-dev \
+          libdrm-dev \
+          libgbm-dev \
+          libgl1-mesa-dev \
+          libgles2-mesa-dev \
+          libegl1-mesa-dev \
+          libdbus-1-dev \
+          libibus-1.0-dev \
+          libudev-dev \
+          fcitx-libs-dev
+      - name: Setup Ninja
+        uses: ashutoshvarma/setup-ninja@master
+      - uses: actions/checkout@v4
+      - name: Run tests
+        run: rake test
+        env:
+          CC: ${{ matrix.config.cc }}
+          CXX: ${{ matrix.config.cxx }}
+          CMAKE_GENERATOR: ${{ matrix.config.generator }}
