@@ -7,3 +7,13 @@ MRuby bindings for the [Cutest Framework](https://randygaul.github.io/cute_frame
 ```bash
 $ rake test
 ```
+
+## Compilation Commands
+
+Prerequisite: [Bear](https://github.com/rizsotto/Bear)
+
+To generate `compilation_commands.json` file, prepend `bear --` to the compilation command. For example:
+
+```bash
+bear -- rake
+```
