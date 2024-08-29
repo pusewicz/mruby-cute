@@ -20,3 +20,7 @@ assert("cf_make_app CF_AppOptionFlagBits") do
   assert_equal(1 << 9, Cute::APP_OPTIONS_GFX_METAL_BIT)
   assert_equal(1 << 10, Cute::APP_OPTIONS_GFX_VULKAN_BIT)
 end
+
+assert("cf_default_display") do
+  assert_equal(0, Cute.default_display)
+end
