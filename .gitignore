@@ -1,6 +1,8 @@
 /mruby
 /cute_framework
+/.cache
 
 cute_build_config.rb.lock
+compile_commands.json
 
 *.a
