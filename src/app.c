@@ -1,6 +1,10 @@
 #include "mruby-cute.h"
 #include <cute.h>
 #include <mruby.h>
+#include <mruby/class.h>
+#include <mruby/data.h>
+#include <mruby/string.h>
+#include <mruby/variable.h>
 
 static mrb_value mrbcf_make_app(mrb_state* mrb, mrb_value self)
 {
@@ -17,7 +21,7 @@ static mrb_value mrbcf_make_app(mrb_state* mrb, mrb_value self)
 
   CF_Result result = cf_make_app(window_title, display_id, x, y, w, h, options, argv0);
 
-  return mrb_cptr_value(mrb, &result);
+  return mrb_cf_result_from_cf_result(mrb, result); // TODO: Should this be mrb_cute_result_from_cf_result?
 }
 
 static mrb_value mrbcf_app_is_running(mrb_state* mrb, mrb_value self)

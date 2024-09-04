@@ -1,5 +1,7 @@
 assert("cf_make_app") do
-  assert_kind_of(Object, Cute.make_app("Test App", 0, 10, 10, 800, 600, 0, "test_app"))
+  result = Cute.make_app("Test App", 0, 10, 10, 800, 600, 0, "test_app")
+  assert_kind_of(Cute::Result, result)
+  assert_false(result.error?)
   assert_nil(Cute.app_destroy)
 end
 

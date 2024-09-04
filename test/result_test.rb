@@ -2,6 +2,14 @@ assert("Cute::Result#initialize") do
   result = Cute::Result.new(0, "Success")
   assert_equal(0, result.code)
   assert_equal("Success", result.details)
+
+  result = Cute::Result.new(0)
+  assert_equal(0, result.code)
+  assert_nil(result.details)
+
+  result = Cute::Result.new(0, nil)
+  assert_equal(0, result.code)
+  assert_nil(result.details)
 end
 
 assert("Cute::Result#error?") do
