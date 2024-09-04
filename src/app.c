@@ -47,6 +47,15 @@ static mrb_value mrbcf_default_display(mrb_state* mrb, mrb_value self)
   return mrb_fixnum_value(cf_default_display());
 }
 
+static mrb_value mrbcf_app_draw_onto_screen(mrb_state* mrb, mrb_value self)
+{
+  mrb_bool clear_to_black = true;
+  mrb_get_args(mrb, "|b", &clear_to_black);
+
+  cf_app_draw_onto_screen(clear_to_black);
+  return mrb_nil_value();
+}
+
 static void define_constants(mrb_state* mrb, struct RClass* mrb_cute_module)
 {
   DEFINE_MODULE_CONSTANT(APP_OPTIONS_NO_GFX_BIT);
@@ -69,5 +78,6 @@ void mrb_cute_app_init(mrb_state* mrb, struct RClass* mrb_cute_module)
   DEFINE_MODULE_FUNCTION(app_destroy, MRB_ARGS_NONE());
   DEFINE_MODULE_FUNCTION(app_update, MRB_ARGS_NONE());
   DEFINE_MODULE_FUNCTION(default_display, MRB_ARGS_NONE());
+  DEFINE_MODULE_FUNCTION(app_draw_onto_screen, MRB_ARGS_OPT(1));
   define_constants(mrb, mrb_cute_module);
 }
