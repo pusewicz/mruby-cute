@@ -8,3 +8,8 @@ assert("Cute::Sprite.make_demo_sprite") do
   demo_sprite = Cute::Sprite.make_demo_sprite
   assert_kind_of(Cute::Sprite, demo_sprite)
 end
+
+assert("Cute::Sprite#draw") do
+  sprite = Cute::Sprite.make_demo_sprite
+  assert_nothing_raised { sprite.draw }
+end

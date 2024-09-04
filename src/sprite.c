@@ -37,6 +37,17 @@ static mrb_value mrb_sprite_make_demo_sprite(mrb_state* mrb, mrb_value self)
   return mrb_obj_value(data);
 }
 
+static mrb_value mrb_sprite_draw(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite = DATA_PTR(self);
+  if (!sprite) {
+    mrb_raise(mrb, E_RUNTIME_ERROR, "Sprite is not initialized");
+  }
+
+  cf_draw_sprite(sprite);
+  return mrb_nil_value();
+}
+
 void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* cute_module)
 {
   struct RClass* sprite_class = mrb_define_class_under(mrb, cute_module, "Sprite", mrb->object_class);
@@ -44,4 +55,5 @@ void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* cute_module)
 
   mrb_define_class_method(mrb, sprite_class, "make_sprite", mrb_sprite_make_sprite, MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, sprite_class, "make_demo_sprite", mrb_sprite_make_demo_sprite, MRB_ARGS_NONE());
+  mrb_define_method(mrb, sprite_class, "draw", mrb_sprite_draw, MRB_ARGS_NONE());
 }
