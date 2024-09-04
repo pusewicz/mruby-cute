@@ -50,4 +50,8 @@ task :deep_clean do
 end
 Rake::Task[:clean].enhance [:deep_clean]
 
+task :example => :compile do
+  exec "mruby/build/host/bin/mruby example/example.rb"
+end
+
 task :default => :compile

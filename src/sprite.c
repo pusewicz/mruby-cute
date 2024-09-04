@@ -48,6 +48,31 @@ static mrb_value mrb_sprite_draw(mrb_state* mrb, mrb_value self)
   return mrb_nil_value();
 }
 
+static mrb_value mrb_sprite_play(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite = DATA_PTR(self);
+  if (!sprite) {
+    mrb_raise(mrb, E_RUNTIME_ERROR, "Sprite is not initialized");
+  }
+
+  char* animation_name;
+  mrb_get_args(mrb, "z", &animation_name);
+
+  cf_sprite_play(sprite, animation_name);
+  return self;
+}
+
+static mrb_value mrb_sprite_update(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite = DATA_PTR(self);
+  if (!sprite) {
+    mrb_raise(mrb, E_RUNTIME_ERROR, "Sprite is not initialized");
+  }
+
+  cf_sprite_update(sprite);
+  return self;
+}
+
 void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* cute_module)
 {
   struct RClass* sprite_class = mrb_define_class_under(mrb, cute_module, "Sprite", mrb->object_class);
@@ -56,4 +81,6 @@ void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* cute_module)
   mrb_define_class_method(mrb, sprite_class, "make_sprite", mrb_sprite_make_sprite, MRB_ARGS_REQ(1));
   mrb_define_class_method(mrb, sprite_class, "make_demo_sprite", mrb_sprite_make_demo_sprite, MRB_ARGS_NONE());
   mrb_define_method(mrb, sprite_class, "draw", mrb_sprite_draw, MRB_ARGS_NONE());
+  mrb_define_method(mrb, sprite_class, "play", mrb_sprite_play, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, sprite_class, "update", mrb_sprite_update, MRB_ARGS_NONE());
 }

@@ -13,3 +13,16 @@ assert("Cute::Sprite#draw") do
   sprite = Cute::Sprite.make_demo_sprite
   assert_nothing_raised { sprite.draw }
 end
+
+assert("Cute::Sprite#play") do
+  sprite = Cute::Sprite.make_demo_sprite
+  assert_nothing_raised { sprite.play("idle") }
+  assert_same(sprite, sprite.play("walk"))  # Check if it returns self
+end
+
+assert("Cute::Sprite#update") do
+  sprite = Cute::Sprite.make_demo_sprite
+  sprite.play("idle")
+  assert_nothing_raised { sprite.update }
+  assert_same(sprite, sprite.update)  # Check if it returns self
+end

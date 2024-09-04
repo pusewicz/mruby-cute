@@ -7,14 +7,16 @@ result = Cute.make_app("Example App", 0, 0, 0, 800, 600, Cute::APP_OPTIONS_WINDO
 if result.error?
   puts "Error creating app: #{result.details}"
   exit(1)
-else
-  puts "Success creating app!"
-  sprite = Cute::Sprite.make_demo_sprite
-  while Cute.app_is_running
-    Cute.app_update
-    sprite.draw
-    Cute.app_draw_onto_screen
-  end
-
-  Cute.destroy_app
 end
+
+sprite = Cute::Sprite.make_demo_sprite
+sprite.play("spin")
+
+while Cute.app_is_running
+  Cute.app_update
+  sprite.update
+  sprite.draw
+  Cute.app_draw_onto_screen
+end
+
+Cute.destroy_app
