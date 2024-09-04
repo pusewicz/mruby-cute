@@ -19,6 +19,7 @@ void mrb_mruby_cute_gem_init(mrb_state* mrb)
   struct RClass* mrb_cute_module = mrb_define_module(mrb, "Cute");
 
   mrb_cute_init(mrb, mrb_cute_module);
+  mrb_cute_math_init(mrb, mrb_cute_module);
   mrb_cute_app_init(mrb, mrb_cute_module);
   mrb_cute_result_init(mrb, mrb_cute_module);
   mrb_cute_sprite_init(mrb, mrb_cute_module);

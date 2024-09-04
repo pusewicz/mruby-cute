@@ -30,9 +30,9 @@ end
 assert("Cute::Sprite#is_playing?") do
   sprite = Cute::Sprite.make_demo_sprite
   sprite.play("idle")
-  assert_true(sprite.is_playing?("idle"))
-  assert_false(sprite.is_playing?("walk"))
+  assert_true(sprite.playing?("idle"))
+  assert_false(sprite.playing?("walk"))
   sprite.play("walk")
-  assert_false(sprite.is_playing?("idle"))
-  assert_true(sprite.is_playing?("walk"))
+  assert_false(sprite.playing?("idle"))
+  assert_true(sprite.playing?("walk"))
 end
