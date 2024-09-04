@@ -1,7 +1,10 @@
+require_relative "mrblib/version"
+
 MRuby::Gem::Specification.new("mruby-cute") do |spec|
   spec.license = "MIT"
   spec.authors = "pusewicz"
   spec.summary = "mruby bindings for the Cute game library"
+  spec.version = Cute::VERSION
 
   spec.cc.flags << "-std=c99"
 
