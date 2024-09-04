@@ -1,22 +1,24 @@
 #!../mruby/build/host/bin/mruby
 
-puts "Hello, you are running #{Cute.version_string_linked}!"
+include Cute
 
-result = Cute.make_app("Example App", 0, 0, 0, 800, 600, Cute::APP_OPTIONS_WINDOW_POS_CENTERED_BIT, "example.rb")
+puts "Hello, you are running #{version_string_linked}!"
+
+result = make_app("Example App", 0, 0, 0, 800, 600, APP_OPTIONS_WINDOW_POS_CENTERED_BIT, "example.rb")
 
 if result.error?
   puts "Error creating app: #{result.details}"
   exit(1)
 end
 
-sprite = Cute::Sprite.make_demo_sprite
+sprite = Sprite.make_demo_sprite
 sprite.play("spin")
 
-while Cute.app_is_running
-  Cute.app_update
+while app_is_running
+  app_update
   sprite.update
   sprite.draw
-  Cute.app_draw_onto_screen
+  app_draw_onto_screen
 end
 
-Cute.destroy_app
+app_destroy
