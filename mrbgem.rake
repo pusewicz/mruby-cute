@@ -4,6 +4,16 @@ MRuby::Gem::Specification.new("mruby-cute") do |spec|
   spec.summary = "mruby bindings for the Cute game library"
 
   spec.cc.flags << "-std=c99"
+
+  if ENV['DEBUG'] == 'true'
+    # Debug flags
+    spec.cc.flags << "-g3"
+    spec.cc.flags << "-Wno-unused-parameter"
+    spec.cc.flags << "-Wno-unused-variable"
+    spec.cc.flags << "-Wno-unused-function"
+    spec.cc.flags << "-Wno-unused-value"
+  end
+
   spec.cc.include_paths << File.expand_path("../cute_framework/include")
   spec.cc.include_paths << File.expand_path("../cute_framework/libraries")
   spec.cxx.flags << "-std=c++17"
