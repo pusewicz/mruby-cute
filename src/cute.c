@@ -20,6 +20,7 @@ void mrb_mruby_cute_gem_init(mrb_state* mrb)
 
   mrb_cute_init(mrb, mrb_cute_module);
   mrb_cute_app_init(mrb, mrb_cute_module);
+  mrb_cute_result_init(mrb, mrb_cute_module);
 }
 
 void mrb_mruby_cute_gem_final(mrb_state* mrb)
