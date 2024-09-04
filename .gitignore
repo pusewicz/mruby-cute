@@ -4,5 +4,6 @@
 
 cute_build_config.rb.lock
 compile_commands.json
+cute.json
 
 *.a
