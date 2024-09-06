@@ -32,6 +32,7 @@ jobs:
             }
     runs-on: ${{ matrix.config.os }}
     steps:
+      - uses: actions/checkout@v4
       - name: Install dependencies (Ubuntu)
         if: startsWith(matrix.os, 'ubuntu-')
         run: |
@@ -61,11 +62,13 @@ jobs:
           libudev-dev \
           fcitx-libs-dev
       - name: Setup Ninja
-        uses: ashutoshvarma/setup-ninja@master
-      - uses: actions/checkout@v4
+        uses: seanmiddleditch/gha-setup-ninja@master
       - name: Run tests
         run: rake test
         env:
           CC: ${{ matrix.config.cc }}
           CXX: ${{ matrix.config.cxx }}
+          CMAKE_C_COMPILER: ${{ matrix.config.cc }}
+          CMAKE_CXX_COMPILER: ${{ matrix.config.cxx }}
           CMAKE_GENERATOR: ${{ matrix.config.generator }}
+          CMAKE_MAKE_PROGRAM: ninja
