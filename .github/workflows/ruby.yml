@@ -42,7 +42,6 @@ jobs:
           libaudio-dev \
           libdbus-1-dev \
           libdrm-dev \
-          libegl1-mesa-dev \
           libgbm-dev \
           libgl1-mesa-dev \
           libgles2-mesa-dev \
