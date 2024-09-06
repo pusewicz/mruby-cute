@@ -34,7 +34,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies (Ubuntu)
-        if: startsWith(matrix.config.os, 'ubuntu-')
+        if: startsWith(runner.os, 'ubuntu-')
         run: |
           sudo apt-get update && sudo apt-get install -y \
           fcitx-libs-dev \
