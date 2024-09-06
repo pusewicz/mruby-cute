@@ -30,7 +30,7 @@ jobs:
               cxx: "clang++",
               generator: "Ninja",
             }
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.config.os }}
     steps:
       - name: Install dependencies (Ubuntu)
         if: startsWith(matrix.os, 'ubuntu-')
