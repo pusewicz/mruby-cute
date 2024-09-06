@@ -17,14 +17,14 @@ jobs:
         config:
           # - { name: "Windows MSVC", os: windows-latest, cc: "cl", cxx: "cl" }
           - {
-              name: "Ubuntu gcc",
+              # name: "Ubuntu gcc",
               os: ubuntu-latest,
               cc: "gcc",
               cxx: "g++",
               generator: "Ninja",
             }
           - {
-              name: "MacOS clang",
+              # name: "MacOS clang",
               os: macos-latest,
               cc: "clang",
               cxx: "clang++",
