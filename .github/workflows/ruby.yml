@@ -37,30 +37,32 @@ jobs:
         if: startsWith(matrix.os, 'ubuntu-')
         run: |
           sudo apt-get update && sudo apt-get install -y \
+          fcitx-libs-dev \
           libasound2-dev \
-          libpulse-dev \
           libaudio-dev \
-          libjack-dev \
-          libsndio-dev \
-          libusb-1.0-0-dev \
-          libx11-dev \
-          libxext-dev \
-          libxrandr-dev \
-          libxcursor-dev \
-          libxfixes-dev \
-          libxi-dev \
-          libxss-dev \
-          libwayland-dev \
-          libxkbcommon-dev \
+          libdbus-1-dev \
           libdrm-dev \
+          libegl1-mesa-dev \
           libgbm-dev \
           libgl1-mesa-dev \
           libgles2-mesa-dev \
-          libegl1-mesa-dev \
-          libdbus-1-dev \
+          libglu1-mesa-dev
           libibus-1.0-dev \
+          libjack-dev \
+          libpulse-dev \
+          libsndio-dev \
           libudev-dev \
-          fcitx-libs-dev
+          libusb-1.0-0-dev \
+          libwayland-dev \
+          libx11-dev \
+          libxcursor-dev \
+          libxext-dev \
+          libxfixes-dev \
+          libxi-dev \
+          libxkbcommon-dev \
+          libxrandr-dev \
+          libxss-dev \
+          mesa-common-dev
       - name: Setup Ninja
         uses: seanmiddleditch/gha-setup-ninja@master
       - name: Run tests
