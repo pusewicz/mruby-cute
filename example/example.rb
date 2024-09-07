@@ -2,23 +2,23 @@
 
 include Cute
 
-puts "Hello, you are running #{version_string_linked}!"
+puts "Hello, you are running #{cf_version_string_linked}!"
 
-result = make_app("Example App", 0, 0, 0, 800, 600, APP_OPTIONS_WINDOW_POS_CENTERED_BIT, "example.rb")
+result = cf_make_app("Example App", 0, 0, 0, 800, 600, CF_APP_OPTIONS_WINDOW_POS_CENTERED_BIT, "example.rb")
 
-if result.error?
+if cf_is_error(result)
   puts "Error creating app: #{result.details}"
   exit(1)
 end
 
-sprite = Sprite.make_demo_sprite
+sprite = Sprite.new(cf_make_demo_sprite)
 sprite.play("spin")
 
-while app_is_running
-  app_update
+while cf_app_is_running
+  cf_app_update
   sprite.update
   sprite.draw
-  app_draw_onto_screen
+  cf_app_draw_onto_screen
 end
 
-app_destroy
+cf_app_destroy
