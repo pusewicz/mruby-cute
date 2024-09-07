@@ -23,6 +23,24 @@ static mrb_value mrb_cf_is_error(mrb_state* mrb, mrb_value self)
   return mrb_bool_value(cf_is_error(result));
 }
 
+static mrb_value mrb_cf_result_error(mrb_state* mrb, mrb_value self)
+{
+  char const* details;
+  mrb_get_args(mrb, "z", &details);
+  CF_Result* result_ptr = (CF_Result*) mrb_malloc(mrb, sizeof(CF_Result));
+  *result_ptr = cf_result_error(details);
+  struct RClass* cf_result_class = mrb_class_get_under(mrb, mrb_module_get(mrb, "Cute"), "CF_Result");
+  return mrb_obj_value(Data_Wrap_Struct(mrb, cf_result_class, &mrb_cf_result_type, result_ptr));
+}
+
+static mrb_value mrb_cf_result_success(mrb_state* mrb, mrb_value self)
+{
+  CF_Result* result_ptr = (CF_Result*) mrb_malloc(mrb, sizeof(CF_Result));
+  *result_ptr = cf_result_success();
+  struct RClass* cf_result_class = mrb_class_get_under(mrb, mrb_module_get(mrb, "Cute"), "CF_Result");
+  return mrb_obj_value(Data_Wrap_Struct(mrb, cf_result_class, &mrb_cf_result_type, result_ptr));
+}
+
 void mrb_cute_result_init(mrb_state* mrb, struct RClass* cute_module)
 {
   // CF_Result
@@ -33,4 +51,6 @@ void mrb_cute_result_init(mrb_state* mrb, struct RClass* cute_module)
 
   // cute_result
   mrb_define_module_function(mrb, cute_module, "cf_is_error", mrb_cf_is_error, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, cute_module, "cf_result_error", mrb_cf_result_error, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, cute_module, "cf_result_success", mrb_cf_result_success, MRB_ARGS_NONE());
 }
