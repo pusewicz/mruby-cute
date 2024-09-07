@@ -5,18 +5,35 @@
 
 static const struct mrb_data_type mrb_cf_sprite_type = {"CF_Sprite", mrb_free};
 
-static mrb_value mrb_cf_sprite_defaults(mrb_state* mrb, mrb_value self)
+/*
+ * CF_Sprite
+ */
+
+static mrb_value mrb_cf_sprite_initialize(mrb_state* mrb, mrb_value self)
 {
-  CF_Sprite* sprite_ptr = (CF_Sprite*) mrb_malloc(mrb, sizeof(CF_Sprite));
-  *sprite_ptr = cf_sprite_defaults();
-  struct RClass* cf_sprite_class = mrb_class_get_under(mrb, mrb_module_get(mrb, "Cute"), "CF_Sprite");
-  return mrb_obj_value(Data_Wrap_Struct(mrb, cf_sprite_class, &mrb_cf_sprite_type, sprite_ptr));
+  CF_Sprite* sprite = (CF_Sprite*) DATA_PTR(self);
+  if (sprite) mrb_free(mrb, sprite);
+  DATA_TYPE(self) = &mrb_cf_sprite_type;
+  DATA_PTR(self) = mrb_malloc(mrb, sizeof(CF_Sprite));
+  return self;
 }
+
+/*
+ * cute_sprite
+ */
 
 static mrb_value mrb_cf_make_demo_sprite(mrb_state* mrb, mrb_value self)
 {
   CF_Sprite* sprite_ptr = (CF_Sprite*) mrb_malloc(mrb, sizeof(CF_Sprite));
   *sprite_ptr = cf_make_demo_sprite();
+  struct RClass* cf_sprite_class = mrb_class_get_under(mrb, mrb_module_get(mrb, "Cute"), "CF_Sprite");
+  return mrb_obj_value(Data_Wrap_Struct(mrb, cf_sprite_class, &mrb_cf_sprite_type, sprite_ptr));
+}
+
+static mrb_value mrb_cf_sprite_defaults(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite_ptr = (CF_Sprite*) mrb_malloc(mrb, sizeof(CF_Sprite));
+  *sprite_ptr = cf_sprite_defaults();
   struct RClass* cf_sprite_class = mrb_class_get_under(mrb, mrb_module_get(mrb, "Cute"), "CF_Sprite");
   return mrb_obj_value(Data_Wrap_Struct(mrb, cf_sprite_class, &mrb_cf_sprite_type, sprite_ptr));
 }
@@ -29,12 +46,19 @@ static mrb_value mrb_cf_sprite_draw(mrb_state* mrb, mrb_value self)
   return mrb_nil_value();
 }
 
-static mrb_value mrb_cf_sprite_update(mrb_state* mrb, mrb_value self)
+static mrb_value mrb_cf_sprite_height(mrb_state* mrb, mrb_value self)
 {
   CF_Sprite* sprite;
   mrb_get_args(mrb, "d", &sprite, &mrb_cf_sprite_type);
-  cf_sprite_update(sprite);
-  return mrb_nil_value();
+  return mrb_fixnum_value(cf_sprite_height(sprite));
+}
+
+static mrb_value mrb_cf_sprite_is_playing(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite;
+  char* animation;
+  mrb_get_args(mrb, "dz", &sprite, &mrb_cf_sprite_type, &animation);
+  return mrb_bool_value(cf_sprite_is_playing(sprite, animation));
 }
 
 static mrb_value mrb_cf_sprite_play(mrb_state* mrb, mrb_value self)
@@ -46,12 +70,12 @@ static mrb_value mrb_cf_sprite_play(mrb_state* mrb, mrb_value self)
   return mrb_nil_value();
 }
 
-static mrb_value mrb_cf_sprite_is_playing(mrb_state* mrb, mrb_value self)
+static mrb_value mrb_cf_sprite_update(mrb_state* mrb, mrb_value self)
 {
   CF_Sprite* sprite;
-  char* animation;
-  mrb_get_args(mrb, "dz", &sprite, &mrb_cf_sprite_type, &animation);
-  return mrb_bool_value(cf_sprite_is_playing(sprite, animation));
+  mrb_get_args(mrb, "d", &sprite, &mrb_cf_sprite_type);
+  cf_sprite_update(sprite);
+  return mrb_nil_value();
 }
 
 static mrb_value mrb_cf_sprite_width(mrb_state* mrb, mrb_value self)
@@ -59,22 +83,6 @@ static mrb_value mrb_cf_sprite_width(mrb_state* mrb, mrb_value self)
   CF_Sprite* sprite;
   mrb_get_args(mrb, "d", &sprite, &mrb_cf_sprite_type);
   return mrb_fixnum_value(cf_sprite_width(sprite));
-}
-
-static mrb_value mrb_cf_sprite_height(mrb_state* mrb, mrb_value self)
-{
-  CF_Sprite* sprite;
-  mrb_get_args(mrb, "d", &sprite, &mrb_cf_sprite_type);
-  return mrb_fixnum_value(cf_sprite_height(sprite));
-}
-
-static mrb_value mrb_cf_sprite_initialize(mrb_state* mrb, mrb_value self)
-{
-  CF_Sprite* sprite = (CF_Sprite*) DATA_PTR(self);
-  if (sprite) mrb_free(mrb, sprite);
-  DATA_TYPE(self) = &mrb_cf_sprite_type;
-  DATA_PTR(self) = mrb_malloc(mrb, sizeof(CF_Sprite));
-  return self;
 }
 
 void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* cute_module)
