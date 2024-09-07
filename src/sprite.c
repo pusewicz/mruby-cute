@@ -61,6 +61,22 @@ static mrb_value mrb_cf_sprite_is_playing(mrb_state* mrb, mrb_value self)
   return mrb_bool_value(cf_sprite_is_playing(sprite, animation));
 }
 
+static mrb_value mrb_cf_sprite_pause(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite;
+  mrb_get_args(mrb, "d", &sprite, &mrb_cf_sprite_type);
+  cf_sprite_pause(sprite);
+  return mrb_nil_value();
+}
+
+static mrb_value mrb_cf_sprite_unpause(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite;
+  mrb_get_args(mrb, "d", &sprite, &mrb_cf_sprite_type);
+  cf_sprite_unpause(sprite);
+  return mrb_nil_value();
+}
+
 static mrb_value mrb_cf_sprite_play(mrb_state* mrb, mrb_value self)
 {
   CF_Sprite* sprite;
@@ -99,6 +115,8 @@ void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* cute_module)
   mrb_define_module_function(mrb, cute_module, "cf_sprite_draw", mrb_cf_sprite_draw, MRB_ARGS_REQ(1));
   mrb_define_module_function(mrb, cute_module, "cf_sprite_height", mrb_cf_sprite_height, MRB_ARGS_REQ(1));
   mrb_define_module_function(mrb, cute_module, "cf_sprite_is_playing", mrb_cf_sprite_is_playing, MRB_ARGS_REQ(2));
+  mrb_define_module_function(mrb, cute_module, "cf_sprite_pause", mrb_cf_sprite_pause, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, cute_module, "cf_sprite_unpause", mrb_cf_sprite_pause, MRB_ARGS_REQ(1));
   mrb_define_module_function(mrb, cute_module, "cf_sprite_play", mrb_cf_sprite_play, MRB_ARGS_REQ(2));
   mrb_define_module_function(mrb, cute_module, "cf_sprite_update", mrb_cf_sprite_update, MRB_ARGS_REQ(1));
   mrb_define_module_function(mrb, cute_module, "cf_sprite_width", mrb_cf_sprite_width, MRB_ARGS_REQ(1));
