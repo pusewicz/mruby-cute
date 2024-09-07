@@ -101,6 +101,42 @@ static mrb_value mrb_cf_sprite_width(mrb_state* mrb, mrb_value self)
   return mrb_fixnum_value(cf_sprite_width(sprite));
 }
 
+// float cf_sprite_get_scale_x
+static mrb_value mrb_cf_sprite_get_scale_x(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite;
+  mrb_get_args(mrb, "d", &sprite, &mrb_cf_sprite_type);
+  return mrb_float_value(mrb, cf_sprite_get_scale_x(sprite));
+}
+
+// float cf_sprite_get_scale_y
+static mrb_value mrb_cf_sprite_get_scale_y(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite;
+  mrb_get_args(mrb, "d", &sprite, &mrb_cf_sprite_type);
+  return mrb_float_value(mrb, cf_sprite_get_scale_y(sprite));
+}
+
+// void cf_sprite_set_scale_x
+static mrb_value mrb_cf_sprite_set_scale_x(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite;
+  mrb_float scale_x;
+  mrb_get_args(mrb, "df", &sprite, &mrb_cf_sprite_type, &scale_x);
+  cf_sprite_set_scale_x(sprite, scale_x);
+  return mrb_nil_value();
+}
+
+// void cf_sprite_set_scale_y
+static mrb_value mrb_cf_sprite_set_scale_y(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite;
+  mrb_float scale_y;
+  mrb_get_args(mrb, "df", &sprite, &mrb_cf_sprite_type, &scale_y);
+  cf_sprite_set_scale_y(sprite, scale_y);
+  return mrb_nil_value();
+}
+
 void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* cute_module)
 {
   // CF_Sprite
@@ -120,4 +156,8 @@ void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* cute_module)
   mrb_define_module_function(mrb, cute_module, "cf_sprite_play", mrb_cf_sprite_play, MRB_ARGS_REQ(2));
   mrb_define_module_function(mrb, cute_module, "cf_sprite_update", mrb_cf_sprite_update, MRB_ARGS_REQ(1));
   mrb_define_module_function(mrb, cute_module, "cf_sprite_width", mrb_cf_sprite_width, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, cute_module, "cf_sprite_get_scale_x", mrb_cf_sprite_get_scale_x, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, cute_module, "cf_sprite_get_scale_y", mrb_cf_sprite_get_scale_y, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, cute_module, "cf_sprite_set_scale_x", mrb_cf_sprite_set_scale_x, MRB_ARGS_REQ(2));
+  mrb_define_module_function(mrb, cute_module, "cf_sprite_set_scale_y", mrb_cf_sprite_set_scale_y, MRB_ARGS_REQ(2));
 }
