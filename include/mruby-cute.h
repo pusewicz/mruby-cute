@@ -4,6 +4,7 @@
 #include <mruby/data.h>
 
 static const struct mrb_data_type mrb_cf_result_type = {"CF_Result", mrb_free};
+static const struct mrb_data_type mrb_cf_v2_type = {"CF_V2", mrb_free};
 
 void mrb_cute_app_init(mrb_state* mrb, struct RClass* mrb_cute_module);
 void mrb_cute_result_init(mrb_state* mrb, struct RClass* mrb_cute_module);
