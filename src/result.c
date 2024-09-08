@@ -7,10 +7,10 @@
 
 static mrb_value mrb_cf_result_initialize(mrb_state* mrb, mrb_value self)
 {
-  CF_Sprite* sprite = (CF_Sprite*) DATA_PTR(self);
-  if (sprite) mrb_free(mrb, sprite);
+  CF_Result* result_ptr = (CF_Result*) DATA_PTR(self);
+  if (result_ptr) mrb_free(mrb, result_ptr);
   DATA_TYPE(self) = &mrb_cf_result_type;
-  DATA_PTR(self) = mrb_malloc(mrb, sizeof(CF_Sprite));
+  DATA_PTR(self) = mrb_malloc(mrb, sizeof(CF_Result));
   return self;
 }
 
