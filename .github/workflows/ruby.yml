@@ -19,8 +19,8 @@ jobs:
           - {
               # name: "Ubuntu gcc",
               os: ubuntu-latest,
-              cc: "gcc",
-              cxx: "g++",
+              cc: "clang",
+              cxx: "clang++",
               generator: "Ninja",
             }
           - {
