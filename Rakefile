@@ -5,7 +5,7 @@ ENV["CMAKE_GENERATOR"] ||= "Ninja"
 ENV["CMAKE_BUILD_PARALLEL_LEVEL"] ||= (Etc.nprocessors + 2).to_s
 MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || "cute_build_config.rb")
 MRUBY_VERSION="3.3.0"
-CUTE_VERSION="sdl3-fetch-http"
+CUTE_VERSION="master"
 DEPS_DIR=File.expand_path('deps')
 MRUBY_DEPS_DIR=File.join(DEPS_DIR, 'mruby')
 CUTE_DEPS_DIR=File.join(DEPS_DIR, 'cute_framework')
@@ -27,31 +27,37 @@ end
 
 desc "Clone and build Cute Framework"
 file CUTE_DEPS_DIR => [DEPS_DIR] do
-  url = "https://github.com/bullno1/cute_framework/archive/refs/heads/#{CUTE_VERSION}.zip"
+  url = "https://github.com/RandyGaul/cute_framework/archive/refs/heads/#{CUTE_VERSION}.zip"
   unless File.directory?(CUTE_DEPS_DIR)
     sh "curl -L #{url} -o #{DEPS_DIR}/cute_framework.zip"
     sh "unzip -q #{DEPS_DIR}/cute_framework.zip -d #{DEPS_DIR}"
     sh "mv #{DEPS_DIR}/cute_framework-#{CUTE_VERSION} #{CUTE_DEPS_DIR}"
     rm "#{DEPS_DIR}/cute_framework.zip"
   end
+end
 
-  unless File.directory?(CUTE_BUILD_DIR)
-    mkdir_p CUTE_BUILD_DIR
-    cd CUTE_BUILD_DIR do
-      sh "cmake -G Ninja -DCF_FRAMEWORK_BUILD_SAMPLES=OFF -DCF_FRAMEWORK_BUILD_TESTS=OFF .. && cmake --build ."
-    end
+file CUTE_BUILD_DIR => CUTE_DEPS_DIR do
+  mkdir_p CUTE_BUILD_DIR
+  cd CUTE_BUILD_DIR do
+    sh "cmake -G Ninja -DCF_FRAMEWORK_BUILD_SAMPLES=OFF -DCF_FRAMEWORK_BUILD_TESTS=OFF .. && cmake --build ."
+  end
+end
+
+task :compile_cute => [CUTE_BUILD_DIR] do
+  cd CUTE_BUILD_DIR do
+    sh "cmake --build ."
   end
 end
 
 desc "compile binary"
-task :compile => [CUTE_DEPS_DIR, MRUBY_DEPS_DIR] do
+task :compile => [CUTE_BUILD_DIR, MRUBY_DEPS_DIR] do
   cd MRUBY_DEPS_DIR do
     sh "env MRUBY_CONFIG=#{MRUBY_CONFIG} DEBUG=true rake all"
   end
 end
 
 desc "test"
-task :test => [CUTE_DEPS_DIR, MRUBY_DEPS_DIR] do
+task :test => [CUTE_BUILD_DIR, MRUBY_DEPS_DIR] do
   cd MRUBY_DEPS_DIR do
     sh "env MRUBY_CONFIG=#{MRUBY_CONFIG} DEBUG=true rake all test"
   end
