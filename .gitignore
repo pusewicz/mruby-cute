@@ -1,5 +1,4 @@
-/mruby
-/cute_framework
+/deps
 /.cache
 
 cute_build_config.rb.lock
