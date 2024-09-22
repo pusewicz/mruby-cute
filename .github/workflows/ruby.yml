@@ -36,32 +36,19 @@ jobs:
       - name: Install dependencies (Ubuntu)
         if: startsWith(matrix.config.os, 'ubuntu-')
         run: |
-          sudo apt-get update && sudo apt-get install -y \
-          fcitx-libs-dev \
+          sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends \
+          gcc-multilib \
           libasound2-dev \
-          libaudio-dev \
-          libdbus-1-dev \
-          libdrm-dev \
-          libgbm-dev \
-          libgl1-mesa-dev \
-          libgles2-mesa-dev \
-          libglu1-mesa-dev
-          libibus-1.0-dev \
-          libjack-dev \
           libpulse-dev \
-          libsndio-dev \
-          libudev-dev \
-          libusb-1.0-0-dev \
-          libwayland-dev \
+          libglfw3 \
+          libglfw3-dev \
           libx11-dev \
           libxcursor-dev \
-          libxext-dev \
-          libxfixes-dev \
-          libxi-dev \
-          libxkbcommon-dev \
           libxrandr-dev \
-          libxss-dev \
-          mesa-common-dev
+          libxinerama-dev \
+          libxi-dev \
+          libxext-dev \
+          libxfixes-dev
       - name: Setup Ninja
         uses: seanmiddleditch/gha-setup-ninja@master
       - name: Run tests
