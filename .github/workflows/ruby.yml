@@ -17,20 +17,21 @@ jobs:
         config:
           # - { name: "Windows MSVC", os: windows-latest, cc: "cl", cxx: "cl" }
           - {
-              # name: "Ubuntu gcc",
+              name: "Ubuntu",
               os: ubuntu-latest,
               cc: "clang",
               cxx: "clang++",
               generator: "Ninja",
             }
           - {
-              # name: "MacOS clang",
+              name: "macOS",
               os: macos-latest,
               cc: "clang",
               cxx: "clang++",
               generator: "Ninja",
             }
     runs-on: ${{ matrix.config.os }}
+    name: ${{ matrix.config.name }}-${{ matrix.config.cc }}
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies (Ubuntu)
