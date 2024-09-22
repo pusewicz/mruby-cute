@@ -38,7 +38,7 @@ file CUTE_DEPS_DIR => [DEPS_DIR] do
   unless File.directory?(CUTE_BUILD_DIR)
     mkdir_p CUTE_BUILD_DIR
     cd CUTE_BUILD_DIR do
-      sh "cmake -G Ninja .. && CMAKE_BUILD_PARALLEL_LEVEL=#{CMAKE_BUILD_PARALLEL_LEVEL} cmake --build ."
+      sh "cmake -G Ninja .. && cmake --build ."
     end
   end
 end
