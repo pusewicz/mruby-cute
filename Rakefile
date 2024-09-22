@@ -4,7 +4,7 @@ require 'rake/clean'
 CMAKE_BUILD_PARALLEL_LEVEL=ENV.fetch('CMAKE_BUILD_PARALLEL_LEVEL', Etc.nprocessors + 2)
 MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || "cute_build_config.rb")
 MRUBY_VERSION="3.3.0"
-CUTE_VERSION="master"
+CUTE_VERSION="sdl3-fetch-http"
 DEPS_DIR=File.expand_path('deps')
 MRUBY_DEPS_DIR=File.join(DEPS_DIR, 'mruby')
 CUTE_DEPS_DIR=File.join(DEPS_DIR, 'cute_framework')
@@ -16,7 +16,7 @@ CLEAN.include(CUTE_BUILD_DIR)
 
 desc "Clone MRuby"
 file MRUBY_DEPS_DIR => [DEPS_DIR] do
-  url = "https://github.com/mruby/mruby/archive/refs/tags/3.3.0.zip"
+  url = "https://github.com/mruby/mruby/archive/refs/tags/#{MRUBY_VERSION}.zip"
   sh "curl -L #{url} -o #{DEPS_DIR}/mruby.zip"
   sh "unzip -q #{DEPS_DIR}/mruby.zip -d #{DEPS_DIR}"
   sh "mv #{DEPS_DIR}/mruby-#{MRUBY_VERSION} #{MRUBY_DEPS_DIR}"
@@ -25,11 +25,11 @@ end
 
 desc "Clone and build Cute Framework"
 file CUTE_DEPS_DIR => [DEPS_DIR] do
-  url = "https://github.com/RandyGaul/cute_framework/archive/refs/heads/master.zip"
+  url = "https://github.com/bullno1/cute_framework/archive/refs/heads/#{CUTE_VERSION}.zip"
   unless File.directory?(CUTE_DEPS_DIR)
     sh "curl -L #{url} -o #{DEPS_DIR}/cute_framework.zip"
     sh "unzip -q #{DEPS_DIR}/cute_framework.zip -d #{DEPS_DIR}"
-    sh "mv #{DEPS_DIR}/cute_framework-master #{CUTE_DEPS_DIR}"
+    sh "mv #{DEPS_DIR}/cute_framework-#{CUTE_VERSION} #{CUTE_DEPS_DIR}"
     rm "#{DEPS_DIR}/cute_framework.zip"
   end
 
@@ -50,7 +50,9 @@ end
 
 desc "test"
 task :test => [CUTE_DEPS_DIR, MRUBY_DEPS_DIR] do
-  sh "cd mruby && env MRUBY_CONFIG=#{MRUBY_CONFIG} DEBUG=true rake all test"
+  cd MRUBY_DEPS_DIR do
+    sh "env MRUBY_CONFIG=#{MRUBY_CONFIG} DEBUG=true rake all test"
+  end
 end
 
 task :deep_clean do
