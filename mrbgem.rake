@@ -6,13 +6,9 @@ MRuby::Gem::Specification.new("mruby-cute") do |spec|
   spec.summary = "mruby bindings for the Cute game library"
   spec.version = Cute::VERSION
 
-  if ENV['DEBUG'] == 'true'
+  if ENV['DEBUG']
     # Debug flags
     spec.cc.flags << "-g3"
-    spec.cc.flags << "-Wno-unused-parameter"
-    spec.cc.flags << "-Wno-unused-variable"
-    spec.cc.flags << "-Wno-unused-function"
-    spec.cc.flags << "-Wno-unused-value"
   end
 
   # C flags
@@ -26,6 +22,8 @@ MRuby::Gem::Specification.new("mruby-cute") do |spec|
 
   # Linker flags
   static_libs = Dir.glob(File.expand_path("../cute_framework/build/**/*.a"))
+
+  spec.linker.flags += static_libs.map { |lib| "-Wl,-rpath,#{File.dirname(lib)}" }.uniq
   spec.linker.library_paths += static_libs.map { |lib| File.dirname(lib) }.uniq
   spec.linker.libraries.push("c++")
   spec.linker.libraries += static_libs.map { |lib| File.basename(lib, ".a").sub(/^lib/, "") }
@@ -49,7 +47,7 @@ MRuby::Gem::Specification.new("mruby-cute") do |spec|
       Metal
       QuartzCore
     ].each do |framework|
-      spec.linker.flags << "-framework #{framework}"
+      spec.linker.flags << "-Wl,-framework,#{framework}"
     end
   end
 end
