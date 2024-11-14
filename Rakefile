@@ -8,38 +8,44 @@ MRUBY_VERSION="3.3.0"
 CUTE_VERSION="master"
 DEPS_DIR=File.expand_path('deps')
 MRUBY_DEPS_DIR=File.join(DEPS_DIR, 'mruby')
+MRUBY_ARCHIVE=File.join(DEPS_DIR, "mruby-#{MRUBY_VERSION}.zip")
 CUTE_DEPS_DIR=File.join(DEPS_DIR, 'cute_framework')
 CUTE_BUILD_DIR=File.join(CUTE_DEPS_DIR, 'build')
+CUTE_ARCHIVE=File.join(DEPS_DIR, "cute_framework-#{CUTE_VERSION}.zip")
 
 directory DEPS_DIR
 
 CLEAN.include(CUTE_BUILD_DIR)
 CLOBBER.include(MRUBY_DEPS_DIR)
 
-desc "Clone MRuby"
-file MRUBY_DEPS_DIR => [DEPS_DIR] do
+desc "Download MRuby"
+file MRUBY_ARCHIVE => [DEPS_DIR] do
   url = "https://github.com/mruby/mruby/archive/refs/tags/#{MRUBY_VERSION}.zip"
-  sh "curl -L #{url} -o #{DEPS_DIR}/mruby.zip"
-  sh "unzip -q #{DEPS_DIR}/mruby.zip -d #{DEPS_DIR}"
-  sh "mv #{DEPS_DIR}/mruby-#{MRUBY_VERSION} #{MRUBY_DEPS_DIR}"
-  rm "#{DEPS_DIR}/mruby.zip"
+  sh "curl -L #{url} -o #{MRUBY_ARCHIVE}"
 end
 
-desc "Clone and build Cute Framework"
-file CUTE_DEPS_DIR => [DEPS_DIR] do
+desc "Extract MRuby"
+file MRUBY_DEPS_DIR => [MRUBY_ARCHIVE] do
+  sh "unzip -q #{MRUBY_ARCHIVE} -d #{DEPS_DIR}"
+  sh "mv #{DEPS_DIR}/mruby-#{MRUBY_VERSION} #{MRUBY_DEPS_DIR}"
+end
+
+desc "Download Cute"
+file CUTE_ARCHIVE => [DEPS_DIR] do
   url = "https://github.com/RandyGaul/cute_framework/archive/refs/heads/#{CUTE_VERSION}.zip"
-  unless File.directory?(CUTE_DEPS_DIR)
-    sh "curl -L #{url} -o #{DEPS_DIR}/cute_framework.zip"
-    sh "unzip -q #{DEPS_DIR}/cute_framework.zip -d #{DEPS_DIR}"
-    sh "mv #{DEPS_DIR}/cute_framework-#{CUTE_VERSION} #{CUTE_DEPS_DIR}"
-    rm "#{DEPS_DIR}/cute_framework.zip"
-  end
+  sh "curl -L #{url} -o #{CUTE_ARCHIVE}"
+end
+
+desc "Extract Cute"
+file CUTE_DEPS_DIR => [CUTE_ARCHIVE] do
+  sh "unzip -q #{CUTE_ARCHIVE} -d #{DEPS_DIR}"
+  sh "mv #{DEPS_DIR}/cute_framework-#{CUTE_VERSION} #{CUTE_DEPS_DIR}"
 end
 
 file CUTE_BUILD_DIR => CUTE_DEPS_DIR do
   mkdir_p CUTE_BUILD_DIR
   cd CUTE_BUILD_DIR do
-    sh "cmake -G Ninja -DCF_FRAMEWORK_BUILD_SAMPLES=OFF -DCF_FRAMEWORK_BUILD_TESTS=OFF .. && cmake --build ."
+    sh "cmake -G Ninja -DCF_FRAMEWORK_BUILD_SAMPLES=OFF -DCF_FRAMEWORK_BUILD_TESTS=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .. && cmake --build ."
   end
 end
 

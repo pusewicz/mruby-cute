@@ -2,6 +2,7 @@
 #include <cute.h>
 #include <mruby.h>
 #include <mruby/class.h>
+#include <mruby/string.h>
 
 static const struct mrb_data_type mrb_cf_sprite_type = {"CF_Sprite", mrb_free};
 
@@ -11,11 +12,95 @@ static const struct mrb_data_type mrb_cf_sprite_type = {"CF_Sprite", mrb_free};
 
 static mrb_value mrb_cf_sprite_initialize(mrb_state* mrb, mrb_value self)
 {
-  CF_Sprite* sprite = (CF_Sprite*) DATA_PTR(self);
-  if (sprite) mrb_free(mrb, sprite);
+  CF_Sprite* sprite;
+  sprite = (CF_Sprite*) mrb_malloc(mrb, sizeof(CF_Sprite));
+  *sprite = cf_sprite_defaults();
+
+  DATA_PTR(self) = sprite;
   DATA_TYPE(self) = &mrb_cf_sprite_type;
-  DATA_PTR(self) = mrb_malloc(mrb, sizeof(CF_Sprite));
+
   return self;
+}
+
+static mrb_value mrb_cf_sprite_inpsect(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite;
+
+  sprite = (CF_Sprite*) mrb_data_get_ptr(mrb, self, &mrb_cf_sprite_type);
+  if (sprite == NULL) {
+    mrb_raise(mrb, E_RUNTIME_ERROR, "uninitialized data");
+  }
+
+  mrb_value str = mrb_str_new_cstr(mrb, "#<Cute::CF_Sprite");
+  mrb_str_cat_cstr(mrb, str, " name:");
+  mrb_str_cat_str(mrb, str, mrb_inspect(mrb, mrb_str_new_cstr(mrb, sprite->name)));
+  mrb_str_cat_cstr(mrb, str, " w:");
+  mrb_str_cat_str(mrb, str, mrb_inspect(mrb, mrb_fixnum_value(sprite->w)));
+  mrb_str_cat_cstr(mrb, str, " h:");
+  mrb_str_cat_str(mrb, str, mrb_inspect(mrb, mrb_fixnum_value(sprite->h)));
+  mrb_str_cat_cstr(mrb, str, " opacity:");
+  mrb_str_cat_str(mrb, str, mrb_inspect(mrb, mrb_float_value(mrb, sprite->opacity)));
+  mrb_str_cat_cstr(mrb, str, ">");
+
+  return str;
+}
+
+static mrb_value mrb_cf_sprite_get_w(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite;
+
+  sprite = (CF_Sprite*) mrb_data_get_ptr(mrb, self, &mrb_cf_sprite_type);
+  if (sprite == NULL) {
+    mrb_raise(mrb, E_RUNTIME_ERROR, "uninitialized data");
+  }
+
+  return mrb_fixnum_value(sprite->w);
+}
+
+static mrb_value mrb_cf_sprite_set_w(mrb_state* mrb, mrb_value self)
+{
+  mrb_int w;
+  CF_Sprite* sprite;
+
+  sprite = (CF_Sprite*) mrb_data_get_ptr(mrb, self, &mrb_cf_sprite_type);
+  if (sprite == NULL) {
+    mrb_raise(mrb, E_RUNTIME_ERROR, "uninitialized data");
+  }
+
+  mrb_get_args(mrb, "i", &w);
+
+  sprite->w = w;
+
+  return mrb_fixnum_value(sprite->w);
+}
+
+static mrb_value mrb_cf_sprite_get_h(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite;
+  sprite = (CF_Sprite*) mrb_data_get_ptr(mrb, self, &mrb_cf_sprite_type);
+
+  if (sprite == NULL) {
+    mrb_raise(mrb, E_RUNTIME_ERROR, "uninitialized data");
+  }
+
+  return mrb_fixnum_value(sprite->h);
+}
+
+static mrb_value mrb_cf_sprite_set_h(mrb_state* mrb, mrb_value self)
+{
+  mrb_int h;
+  CF_Sprite* sprite;
+
+  sprite = (CF_Sprite*) mrb_data_get_ptr(mrb, self, &mrb_cf_sprite_type);
+  if (sprite == NULL) {
+    mrb_raise(mrb, E_RUNTIME_ERROR, "uninitialized data");
+  }
+
+  mrb_get_args(mrb, "i", &h);
+
+  sprite->h = h;
+
+  return mrb_fixnum_value(sprite->h);
 }
 
 /*
@@ -140,10 +225,15 @@ static mrb_value mrb_cf_sprite_set_scale_y(mrb_state* mrb, mrb_value self)
 void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* cute_module)
 {
   // CF_Sprite
-  struct RClass* cf_sprite_class = mrb_define_class_under(mrb, cute_module, "CF_Sprite", mrb->object_class);
-  MRB_SET_INSTANCE_TT(cf_sprite_class, MRB_TT_DATA);
-
+  struct RClass* cf_sprite_class;
+  cf_sprite_class = mrb_define_class_under(mrb, cute_module, "CF_Sprite", mrb->object_class);
+  MRB_SET_INSTANCE_TT(cf_sprite_class, MRB_TT_CDATA);
   mrb_define_method(mrb, cf_sprite_class, "initialize", mrb_cf_sprite_initialize, MRB_ARGS_NONE());
+  mrb_define_method(mrb, cf_sprite_class, "inspect", mrb_cf_sprite_inpsect, MRB_ARGS_NONE());
+  mrb_define_method(mrb, cf_sprite_class, "w", mrb_cf_sprite_get_w, MRB_ARGS_NONE());
+  mrb_define_method(mrb, cf_sprite_class, "w=", mrb_cf_sprite_set_w, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cf_sprite_class, "h", mrb_cf_sprite_get_h, MRB_ARGS_NONE());
+  mrb_define_method(mrb, cf_sprite_class, "h=", mrb_cf_sprite_set_h, MRB_ARGS_REQ(1));
 
   // cute_sprite
   mrb_define_module_function(mrb, cute_module, "cf_make_demo_sprite", mrb_cf_make_demo_sprite, MRB_ARGS_NONE());
@@ -152,7 +242,7 @@ void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* cute_module)
   mrb_define_module_function(mrb, cute_module, "cf_sprite_height", mrb_cf_sprite_height, MRB_ARGS_REQ(1));
   mrb_define_module_function(mrb, cute_module, "cf_sprite_is_playing", mrb_cf_sprite_is_playing, MRB_ARGS_REQ(2));
   mrb_define_module_function(mrb, cute_module, "cf_sprite_pause", mrb_cf_sprite_pause, MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, cute_module, "cf_sprite_unpause", mrb_cf_sprite_pause, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, cute_module, "cf_sprite_unpause", mrb_cf_sprite_unpause, MRB_ARGS_REQ(1));
   mrb_define_module_function(mrb, cute_module, "cf_sprite_play", mrb_cf_sprite_play, MRB_ARGS_REQ(2));
   mrb_define_module_function(mrb, cute_module, "cf_sprite_update", mrb_cf_sprite_update, MRB_ARGS_REQ(1));
   mrb_define_module_function(mrb, cute_module, "cf_sprite_width", mrb_cf_sprite_width, MRB_ARGS_REQ(1));
