@@ -53,10 +53,10 @@ static mrb_value mrb_cf_v2(mrb_state* mrb, mrb_value self)
   return mrb_obj_value(Data_Wrap_Struct(mrb, v2_class, &mrb_cf_v2_type, v2_ptr));
 }
 
-void mrb_cute_math_init(mrb_state* mrb, struct RClass* cute_module)
+void mrb_cute_math_init(mrb_state* mrb, struct RClass* mrb_cute_module)
 {
   // CF_V2
-  struct RClass* v2_class = mrb_define_class_under(mrb, cute_module, "CF_V2", mrb->object_class);
+  struct RClass* v2_class = mrb_define_class_under(mrb, mrb_cute_module, "CF_V2", mrb->object_class);
   MRB_SET_INSTANCE_TT(v2_class, MRB_TT_DATA);
 
   mrb_define_method(mrb, v2_class, "initialize", mrb_cf_v2_initialize, MRB_ARGS_OPT(2));
@@ -66,5 +66,5 @@ void mrb_cute_math_init(mrb_state* mrb, struct RClass* cute_module)
   mrb_define_method(mrb, v2_class, "y=", mrb_cf_v2_set_y, MRB_ARGS_REQ(1));
 
   // cute_math
-  mrb_define_module_function(mrb, cute_module, "cf_v2", mrb_cf_v2, MRB_ARGS_REQ(2));
+  mrb_define_module_function(mrb, mrb_cute_module, "cf_v2", mrb_cf_v2, MRB_ARGS_REQ(2));
 }

@@ -222,11 +222,11 @@ static mrb_value mrb_cf_sprite_set_scale_y(mrb_state* mrb, mrb_value self)
   return mrb_nil_value();
 }
 
-void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* cute_module)
+void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* mrb_cute_module)
 {
   // CF_Sprite
   struct RClass* cf_sprite_class;
-  cf_sprite_class = mrb_define_class_under(mrb, cute_module, "CF_Sprite", mrb->object_class);
+  cf_sprite_class = mrb_define_class_under(mrb, mrb_cute_module, "CF_Sprite", mrb->object_class);
   MRB_SET_INSTANCE_TT(cf_sprite_class, MRB_TT_CDATA);
   mrb_define_method(mrb, cf_sprite_class, "initialize", mrb_cf_sprite_initialize, MRB_ARGS_NONE());
   mrb_define_method(mrb, cf_sprite_class, "inspect", mrb_cf_sprite_inspect, MRB_ARGS_NONE());
@@ -236,18 +236,18 @@ void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* cute_module)
   mrb_define_method(mrb, cf_sprite_class, "h=", mrb_cf_sprite_set_h, MRB_ARGS_REQ(1));
 
   // cute_sprite
-  mrb_define_module_function(mrb, cute_module, "cf_make_demo_sprite", mrb_cf_make_demo_sprite, MRB_ARGS_NONE());
-  mrb_define_module_function(mrb, cute_module, "cf_sprite_defaults", mrb_cf_sprite_defaults, MRB_ARGS_NONE());
-  mrb_define_module_function(mrb, cute_module, "cf_sprite_draw", mrb_cf_sprite_draw, MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, cute_module, "cf_sprite_height", mrb_cf_sprite_height, MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, cute_module, "cf_sprite_is_playing", mrb_cf_sprite_is_playing, MRB_ARGS_REQ(2));
-  mrb_define_module_function(mrb, cute_module, "cf_sprite_pause", mrb_cf_sprite_pause, MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, cute_module, "cf_sprite_unpause", mrb_cf_sprite_unpause, MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, cute_module, "cf_sprite_play", mrb_cf_sprite_play, MRB_ARGS_REQ(2));
-  mrb_define_module_function(mrb, cute_module, "cf_sprite_update", mrb_cf_sprite_update, MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, cute_module, "cf_sprite_width", mrb_cf_sprite_width, MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, cute_module, "cf_sprite_get_scale_x", mrb_cf_sprite_get_scale_x, MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, cute_module, "cf_sprite_get_scale_y", mrb_cf_sprite_get_scale_y, MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, cute_module, "cf_sprite_set_scale_x", mrb_cf_sprite_set_scale_x, MRB_ARGS_REQ(2));
-  mrb_define_module_function(mrb, cute_module, "cf_sprite_set_scale_y", mrb_cf_sprite_set_scale_y, MRB_ARGS_REQ(2));
+  mrb_define_module_function(mrb, mrb_cute_module, "cf_make_demo_sprite", mrb_cf_make_demo_sprite, MRB_ARGS_NONE());
+  mrb_define_module_function(mrb, mrb_cute_module, "cf_sprite_defaults", mrb_cf_sprite_defaults, MRB_ARGS_NONE());
+  mrb_define_module_function(mrb, mrb_cute_module, "cf_sprite_draw", mrb_cf_sprite_draw, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, mrb_cute_module, "cf_sprite_height", mrb_cf_sprite_height, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, mrb_cute_module, "cf_sprite_is_playing", mrb_cf_sprite_is_playing, MRB_ARGS_REQ(2));
+  mrb_define_module_function(mrb, mrb_cute_module, "cf_sprite_pause", mrb_cf_sprite_pause, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, mrb_cute_module, "cf_sprite_unpause", mrb_cf_sprite_unpause, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, mrb_cute_module, "cf_sprite_play", mrb_cf_sprite_play, MRB_ARGS_REQ(2));
+  mrb_define_module_function(mrb, mrb_cute_module, "cf_sprite_update", mrb_cf_sprite_update, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, mrb_cute_module, "cf_sprite_width", mrb_cf_sprite_width, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, mrb_cute_module, "cf_sprite_get_scale_x", mrb_cf_sprite_get_scale_x, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, mrb_cute_module, "cf_sprite_get_scale_y", mrb_cf_sprite_get_scale_y, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, mrb_cute_module, "cf_sprite_set_scale_x", mrb_cf_sprite_set_scale_x, MRB_ARGS_REQ(2));
+  mrb_define_module_function(mrb, mrb_cute_module, "cf_sprite_set_scale_y", mrb_cf_sprite_set_scale_y, MRB_ARGS_REQ(2));
 }

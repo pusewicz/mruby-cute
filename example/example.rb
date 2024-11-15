@@ -1,4 +1,4 @@
-#!../mruby/build/host/bin/mruby
+#!deps/mruby/bin/mruby
 
 include Cute
 
@@ -19,6 +19,11 @@ while cf_app_is_running
   cf_sprite_update(sprite)
   cf_sprite_draw(sprite)
   cf_app_draw_onto_screen
+
+  puts "W key pressed" if cf_key_just_pressed(CF_KEY_W)
+  puts "S key pressed" if cf_key_just_pressed(CF_KEY_S)
+  puts "A key pressed" if cf_key_just_pressed(CF_KEY_A)
+  puts "D key pressed" if cf_key_just_pressed(CF_KEY_D)
 end
 
 cf_app_destroy

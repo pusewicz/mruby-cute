@@ -41,16 +41,16 @@ static mrb_value mrb_cf_result_success(mrb_state* mrb, mrb_value self)
   return mrb_obj_value(Data_Wrap_Struct(mrb, cf_result_class, &mrb_cf_result_type, result_ptr));
 }
 
-void mrb_cute_result_init(mrb_state* mrb, struct RClass* cute_module)
+void mrb_cute_result_init(mrb_state* mrb, struct RClass* mrb_cute_module)
 {
   // CF_Result
-  struct RClass* cf_result_class = mrb_define_class_under(mrb, cute_module, "CF_Result", mrb->object_class);
+  struct RClass* cf_result_class = mrb_define_class_under(mrb, mrb_cute_module, "CF_Result", mrb->object_class);
   MRB_SET_INSTANCE_TT(cf_result_class, MRB_TT_DATA);
 
   mrb_define_method(mrb, cf_result_class, "initialize", mrb_cf_result_initialize, MRB_ARGS_NONE());
 
   // cute_result
-  mrb_define_module_function(mrb, cute_module, "cf_is_error", mrb_cf_is_error, MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, cute_module, "cf_result_error", mrb_cf_result_error, MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, cute_module, "cf_result_success", mrb_cf_result_success, MRB_ARGS_NONE());
+  mrb_define_module_function(mrb, mrb_cute_module, "cf_is_error", mrb_cf_is_error, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, mrb_cute_module, "cf_result_error", mrb_cf_result_error, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, mrb_cute_module, "cf_result_success", mrb_cf_result_success, MRB_ARGS_NONE());
 }
