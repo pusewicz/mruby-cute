@@ -12,7 +12,7 @@ MRuby::Gem::Specification.new("mruby-cute") do |spec|
   end
 
   # C flags
-  spec.cc.flags << "-std=c99"
+  spec.cc.flags << "-std=c2x"
   spec.cc.include_paths << File.expand_path("../cute_framework/include")
   spec.cc.include_paths << File.expand_path("../cute_framework/libraries")
 
