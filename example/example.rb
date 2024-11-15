@@ -11,13 +11,13 @@ if cf_is_error(result)
   exit(1)
 end
 
-sprite = Sprite.new(cf_make_demo_sprite)
-sprite.play("spin")
+sprite = cf_make_demo_sprite
+cf_sprite_play(sprite, "spin")
 
 while cf_app_is_running
   cf_app_update
-  sprite.update
-  sprite.draw
+  cf_sprite_update(sprite)
+  cf_sprite_draw(sprite)
   cf_app_draw_onto_screen
 end
 
