@@ -22,7 +22,7 @@ static mrb_value mrb_cf_sprite_initialize(mrb_state* mrb, mrb_value self)
   return self;
 }
 
-static mrb_value mrb_cf_sprite_inpsect(mrb_state* mrb, mrb_value self)
+static mrb_value mrb_cf_sprite_inspect(mrb_state* mrb, mrb_value self)
 {
   CF_Sprite* sprite;
 
@@ -229,7 +229,7 @@ void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* cute_module)
   cf_sprite_class = mrb_define_class_under(mrb, cute_module, "CF_Sprite", mrb->object_class);
   MRB_SET_INSTANCE_TT(cf_sprite_class, MRB_TT_CDATA);
   mrb_define_method(mrb, cf_sprite_class, "initialize", mrb_cf_sprite_initialize, MRB_ARGS_NONE());
-  mrb_define_method(mrb, cf_sprite_class, "inspect", mrb_cf_sprite_inpsect, MRB_ARGS_NONE());
+  mrb_define_method(mrb, cf_sprite_class, "inspect", mrb_cf_sprite_inspect, MRB_ARGS_NONE());
   mrb_define_method(mrb, cf_sprite_class, "w", mrb_cf_sprite_get_w, MRB_ARGS_NONE());
   mrb_define_method(mrb, cf_sprite_class, "w=", mrb_cf_sprite_set_w, MRB_ARGS_REQ(1));
   mrb_define_method(mrb, cf_sprite_class, "h", mrb_cf_sprite_get_h, MRB_ARGS_NONE());
