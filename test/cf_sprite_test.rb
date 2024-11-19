@@ -31,3 +31,11 @@ assert("Cute::CF_Sprite#inspect") do
   cf_sprite.h = 9
   assert_equal('#<Cute::CF_Sprite name:"" w:6 h:9 opacity:1.0>', cf_sprite.inspect)
 end
+
+assert("Cute::CF_Sprite#opacity") do
+  cf_sprite = Cute::CF_Sprite.new
+  assert_equal(1.0, cf_sprite.opacity)
+
+  cf_sprite.opacity = 0.5
+  assert_equal(0.5, cf_sprite.opacity)
+end

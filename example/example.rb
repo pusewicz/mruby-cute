@@ -20,6 +20,11 @@ while cf_app_is_running
   cf_sprite_draw(sprite)
   cf_app_draw_onto_screen
 
+  if cf_key_just_pressed(CF_KEY_5)
+    sprite.opacity = 0.5
+  end
+
+  puts sprite.inspect if cf_key_just_pressed(CF_KEY_SPACE)
   puts "W key pressed" if cf_key_just_pressed(CF_KEY_W)
   puts "S key pressed" if cf_key_just_pressed(CF_KEY_S)
   puts "A key pressed" if cf_key_just_pressed(CF_KEY_A)

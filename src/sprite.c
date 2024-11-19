@@ -103,6 +103,35 @@ static mrb_value mrb_cf_sprite_set_h(mrb_state* mrb, mrb_value self)
   return mrb_fixnum_value(sprite->h);
 }
 
+static mrb_value mrb_cf_sprite_get_opacity(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite;
+  sprite = (CF_Sprite*) mrb_data_get_ptr(mrb, self, &mrb_cf_sprite_type);
+
+  if (sprite == NULL) {
+    mrb_raise(mrb, E_RUNTIME_ERROR, "uninitialized data");
+  }
+
+  return mrb_float_value(mrb, sprite->opacity);
+}
+
+static mrb_value mrb_cf_sprite_set_opacity(mrb_state* mrb, mrb_value self)
+{
+  mrb_float opacity;
+  CF_Sprite* sprite;
+
+  sprite = (CF_Sprite*) mrb_data_get_ptr(mrb, self, &mrb_cf_sprite_type);
+  if (sprite == NULL) {
+    mrb_raise(mrb, E_RUNTIME_ERROR, "uninitialized data");
+  }
+
+  mrb_get_args(mrb, "f", &opacity);
+
+  sprite->opacity = opacity;
+
+  return mrb_float_value(mrb, sprite->opacity);
+}
+
 /*
  * cute_sprite
  */
@@ -234,6 +263,8 @@ void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* mrb_cute_module)
   mrb_define_method(mrb, cf_sprite_class, "w=", mrb_cf_sprite_set_w, MRB_ARGS_REQ(1));
   mrb_define_method(mrb, cf_sprite_class, "h", mrb_cf_sprite_get_h, MRB_ARGS_NONE());
   mrb_define_method(mrb, cf_sprite_class, "h=", mrb_cf_sprite_set_h, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, cf_sprite_class, "opacity", mrb_cf_sprite_get_opacity, MRB_ARGS_NONE());
+  mrb_define_method(mrb, cf_sprite_class, "opacity=", mrb_cf_sprite_set_opacity, MRB_ARGS_REQ(1));
 
   // cute_sprite
   mrb_define_module_function(mrb, mrb_cute_module, "cf_make_demo_sprite", mrb_cf_make_demo_sprite, MRB_ARGS_NONE());
