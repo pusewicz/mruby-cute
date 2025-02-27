@@ -22,6 +22,8 @@ void mrb_mruby_cute_gem_init(mrb_state* mrb)
   mrb_cute_result_init(mrb, mrb_cute_module);
   mrb_cute_sprite_init(mrb, mrb_cute_module);
   mrb_cute_input_init(mrb, mrb_cute_module);
+  mrb_cute_time_init(mrb, mrb_cute_module);
+  mrb_cute_stopwatch_init(mrb, mrb_cute_module);
 }
 
 void mrb_mruby_cute_gem_final(mrb_state* mrb)
