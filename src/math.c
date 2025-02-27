@@ -1,8 +1,4 @@
-#include "mruby-cute.h"
-#include <cute.h>
-#include <mruby.h>
-#include <mruby/class.h>
-#include <mruby/data.h>
+#include "mrb_cute.h"
 
 static mrb_value mrb_cf_v2_initialize(mrb_state* mrb, mrb_value self)
 {

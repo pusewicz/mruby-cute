@@ -1,5 +1,4 @@
-#include "mruby-cute.h"
-#include <cute_input.h>
+#include "mrb_cute.h"
 
 // cf_key_down
 static mrb_value mrb_cf_key_down(mrb_state* mrb, mrb_value self)

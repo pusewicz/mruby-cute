@@ -1,6 +1,4 @@
-#include "mruby-cute.h"
-#include <cute.h>
-#include <mruby.h>
+#include "mrb_cute.h"
 
 struct RClass* mrb_cute_module;
 

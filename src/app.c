@@ -1,10 +1,4 @@
-#include "mruby-cute.h"
-#include <cute.h>
-#include <mruby.h>
-#include <mruby/class.h>
-#include <mruby/data.h>
-#include <mruby/string.h>
-#include <mruby/variable.h>
+#include "mrb_cute.h"
 
 static mrb_value mrb_cf_make_app(mrb_state* mrb, mrb_value self)
 {

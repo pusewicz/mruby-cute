@@ -1,8 +1,4 @@
-#include "mruby-cute.h"
-#include <cute.h>
-#include <mruby.h>
-#include <mruby/class.h>
-#include <mruby/string.h>
+#include "mrb_cute.h"
 
 static const struct mrb_data_type mrb_cf_sprite_type = {"CF_Sprite", mrb_free};
 

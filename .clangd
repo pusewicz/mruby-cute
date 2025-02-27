@@ -1,5 +1,4 @@
 CompileFlags:
   Add:
-    - "--include-directory=include"
     - "--include-directory=deps/cute_framework/include"
     - "--include-directory=deps/cute_framework/libraries"

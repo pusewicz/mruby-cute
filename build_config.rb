@@ -1,8 +1,11 @@
 MRuby::Build.new do |conf|
   toolchain :clang
-  conf.gembox 'default'
-  conf.gem '../mruby-cute'
+  enable_debug
+
+  conf.gembox 'full-core'
+  conf.gem File.expand_path(File.dirname(__FILE__))
   conf.enable_test
+  conf.enable_bintest
 
   if ENV['DEBUG'] == 'true'
     conf.enable_debug

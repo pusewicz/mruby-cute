@@ -3,7 +3,7 @@ require 'rake/clean'
 
 ENV["CMAKE_GENERATOR"] ||= "Ninja"
 ENV["CMAKE_BUILD_PARALLEL_LEVEL"] ||= (Etc.nprocessors + 2).to_s
-MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || "cute_build_config.rb")
+MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || "build_config.rb")
 MRUBY_VERSION="3.3.0"
 CUTE_VERSION="master"
 DEPS_DIR=File.expand_path('deps')
@@ -82,4 +82,4 @@ task :example => :compile do
   exec "#{MRUBY_DEPS_DIR}/build/host/bin/mruby example/example.rb"
 end
 
-task :default => :compile
+task :default => :test
