@@ -234,6 +234,25 @@ static mrb_value mrb_cf_sprite_reset(mrb_state* mrb, mrb_value self)
   return mrb_nil_value();
 }
 
+static mrb_value mrb_cf_sprite_get_loop(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite = DATA_PTR(self);
+
+  return mrb_bool_value(cf_sprite_get_loop(sprite));
+}
+
+static mrb_value mrb_cf_sprite_set_loop(mrb_state* mrb, mrb_value self)
+{
+  mrb_bool loop;
+  CF_Sprite* sprite = DATA_PTR(self);
+
+  mrb_get_args(mrb, "b", &loop);
+
+  cf_sprite_set_loop(sprite, loop);
+
+  return mrb_bool_value(loop);
+}
+
 void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* mrb_cute_module)
 {
   struct RClass* sprite_class;
@@ -262,6 +281,8 @@ void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* mrb_cute_module)
   mrb_define_method(mrb, sprite_class, "unpause", mrb_cf_sprite_unpause, MRB_ARGS_NONE());
   mrb_define_method(mrb, sprite_class, "reload", mrb_cf_sprite_reload, MRB_ARGS_NONE());
   mrb_define_method(mrb, sprite_class, "reset", mrb_cf_sprite_reset, MRB_ARGS_NONE());
+  mrb_define_method(mrb, sprite_class, "loop", mrb_cf_sprite_get_loop, MRB_ARGS_NONE());
+  mrb_define_method(mrb, sprite_class, "loop=", mrb_cf_sprite_set_loop, MRB_ARGS_REQ(1));
 
   // cute_sprite
   mrb_define_module_function(mrb, mrb_cute_module, "cf_make_demo_sprite", mrb_cf_make_demo_sprite, MRB_ARGS_NONE());

@@ -73,3 +73,12 @@ assert("Cute::Sprite#draw") do
     assert_nil(sprite.draw)
   end
 end
+
+assert("Cute::Sprite#loop") do
+  sprite = Cute::Sprite.new
+  assert_true(sprite.loop)
+  sprite.loop = false
+  assert_false(sprite.loop)
+  sprite.loop = true
+  assert_true(sprite.loop)
+end

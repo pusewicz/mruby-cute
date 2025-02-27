@@ -24,5 +24,14 @@ module Cute
     # @param name [String] the name of the animation
     # @return [Boolean]
     def playing?(name); end
+    
+    # Returns whether animations will loop
+    # @return [Boolean] true if animations loop, false if they stop at the last frame
+    def loop; end
+    
+    # Sets whether animations will loop
+    # @param value [Boolean] true to make animations loop, false to make them stop at the last frame
+    # @return [Boolean] the new loop value
+    def loop=(value); end
   end
 end
