@@ -12,12 +12,14 @@ if cf_is_error(result)
 end
 
 sprite = cf_make_demo_sprite
-cf_sprite_play(sprite, "spin")
+sprite.play("spin")
 
 while cf_app_is_running
   cf_app_update
-  cf_sprite_update(sprite)
-  cf_sprite_draw(sprite)
+
+  sprite.update
+  sprite.draw
+
   cf_app_draw_onto_screen
 
   puts "W key pressed" if cf_key_just_pressed(CF_KEY_W)

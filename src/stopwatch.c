@@ -6,13 +6,13 @@ static const struct mrb_data_type mrb_stopwatch_type = {
 
 static mrb_value mrb_stopwatch_initialize(mrb_state *mrb, mrb_value self)
 {
-  CF_Stopwatch *sw = (CF_Stopwatch*)mrb_malloc(mrb, sizeof(CF_Stopwatch));
+  CF_Stopwatch *stopwatch = (CF_Stopwatch*)mrb_malloc(mrb, sizeof(CF_Stopwatch));
 
   // Initialize the stopwatch (assuming cf_make_stopwatch is available)
-  *sw = cf_make_stopwatch();
+  *stopwatch = cf_make_stopwatch();
 
   // Set the data pointer
-  DATA_PTR(self) = sw;
+  DATA_PTR(self) = stopwatch;
   DATA_TYPE(self) = &mrb_stopwatch_type;
 
   return self;

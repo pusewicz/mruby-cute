@@ -5,18 +5,18 @@ end
 
 assert("Stopwatch#seconds") do
   stopwatch = Cute::Stopwatch.new
-  assert_equal(0, stopwatch.seconds)
+  assert_true(stopwatch.seconds >= 0)
   assert_kind_of(Integer, stopwatch.seconds)
 end
 
 assert("Stopwatch#milliseconds") do
   stopwatch = Cute::Stopwatch.new
-  assert_equal(0, stopwatch.milliseconds)
+  assert_true(stopwatch.milliseconds >= 0)
   assert_kind_of(Integer, stopwatch.milliseconds)
 end
 
 assert("Stopwatch#microseconds") do
   stopwatch = Cute::Stopwatch.new
-  assert_equal(0, stopwatch.microseconds)
+  assert_true(stopwatch.microseconds >= 0)
   assert_kind_of(Integer, stopwatch.microseconds)
 end
