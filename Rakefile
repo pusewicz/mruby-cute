@@ -1,5 +1,11 @@
+require 'yard'
+require 'yard/rake/yardoc_task'
 require 'etc'
 require 'rake/clean'
+
+YARD::Rake::YardocTask.new do |t|
+  t.files = ['docstub/**/*.rb', 'mrblib/**/*.rb']
+end
 
 ENV["CMAKE_GENERATOR"] ||= "Ninja"
 ENV["CMAKE_BUILD_PARALLEL_LEVEL"] ||= (Etc.nprocessors + 2).to_s

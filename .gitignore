@@ -1,7 +1,9 @@
 /deps
+/doc
 /.cache
+/.yardoc
 
-cute_build_config.rb.lock
+build_config.rb.lock
 compile_commands.json
 
 *.a
