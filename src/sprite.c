@@ -43,7 +43,7 @@ static mrb_value mrb_cf_sprite_get_w(mrb_state* mrb, mrb_value self)
 {
   CF_Sprite* sprite = DATA_PTR(self);
 
-  return mrb_fixnum_value(sprite->w);
+  return mrb_fixnum_value(cf_sprite_width(sprite));
 }
 
 static mrb_value mrb_cf_sprite_set_w(mrb_state* mrb, mrb_value self)
@@ -55,14 +55,14 @@ static mrb_value mrb_cf_sprite_set_w(mrb_state* mrb, mrb_value self)
 
   sprite->w = w;
 
-  return mrb_fixnum_value(sprite->w);
+  return mrb_fixnum_value(w);
 }
 
 static mrb_value mrb_cf_sprite_get_h(mrb_state* mrb, mrb_value self)
 {
   CF_Sprite* sprite = DATA_PTR(self);
 
-  return mrb_fixnum_value(sprite->h);
+  return mrb_fixnum_value(cf_sprite_height(sprite));
 }
 
 static mrb_value mrb_cf_sprite_set_h(mrb_state* mrb, mrb_value self)
@@ -74,7 +74,64 @@ static mrb_value mrb_cf_sprite_set_h(mrb_state* mrb, mrb_value self)
 
   sprite->h = h;
 
-  return mrb_fixnum_value(sprite->h);
+  return mrb_fixnum_value(h);
+}
+
+static mrb_value mrb_cf_sprite_get_opacity(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite = DATA_PTR(self);
+
+  return mrb_float_value(mrb, cf_sprite_get_opacity(sprite));
+}
+
+static mrb_value mrb_cf_sprite_set_opacity(mrb_state* mrb, mrb_value self)
+{
+  mrb_float opacity;
+  CF_Sprite* sprite = DATA_PTR(self);
+
+  mrb_get_args(mrb, "f", &opacity);
+
+  cf_sprite_set_opacity(sprite, opacity);
+
+  return mrb_float_value(mrb, opacity);
+}
+
+static mrb_value mrb_cf_sprite_get_scale_x(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite = DATA_PTR(self);
+
+  return mrb_float_value(mrb, cf_sprite_get_scale_x(sprite));
+}
+
+static mrb_value mrb_cf_sprite_set_scale_x(mrb_state* mrb, mrb_value self)
+{
+  mrb_float scale_x;
+  CF_Sprite* sprite = DATA_PTR(self);
+
+  mrb_get_args(mrb, "f", &scale_x);
+
+  cf_sprite_set_scale_x(sprite, scale_x);
+
+  return mrb_float_value(mrb, scale_x);
+}
+
+static mrb_value mrb_cf_sprite_get_scale_y(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite* sprite = DATA_PTR(self);
+
+  return mrb_float_value(mrb, cf_sprite_get_scale_y(sprite));
+}
+
+static mrb_value mrb_cf_sprite_set_scale_y(mrb_state* mrb, mrb_value self)
+{
+  mrb_float scale_y;
+  CF_Sprite* sprite = DATA_PTR(self);
+
+  mrb_get_args(mrb, "f", &scale_y);
+
+  cf_sprite_set_scale_y(sprite, scale_y);
+
+  return mrb_float_value(mrb, scale_y);
 }
 
 static mrb_value mrb_cf_make_demo_sprite(mrb_state* mrb, mrb_value self)
@@ -157,48 +214,22 @@ static mrb_value mrb_cf_sprite_update(mrb_state* mrb, mrb_value self)
   return mrb_nil_value();
 }
 
-// float cf_sprite_get_scale_x
-static mrb_value mrb_cf_sprite_get_scale_x(mrb_state* mrb, mrb_value self)
+// CF_API CF_Sprite CF_CALL cf_sprite_reload(const CF_Sprite* sprite);
+static mrb_value mrb_cf_sprite_reload(mrb_state* mrb, mrb_value self)
 {
-  CF_Sprite* sprite;
+  CF_Sprite* sprite = DATA_PTR(self);
 
-  mrb_get_args(mrb, "d", &sprite, &mrb_cf_sprite_type);
+  *sprite = cf_sprite_reload(sprite);
 
-  return mrb_float_value(mrb, cf_sprite_get_scale_x(sprite));
+  return self;
 }
 
-// float cf_sprite_get_scale_y
-static mrb_value mrb_cf_sprite_get_scale_y(mrb_state* mrb, mrb_value self)
+// CF_INLINE void cf_sprite_reset(CF_Sprite* sprite)
+static mrb_value mrb_cf_sprite_reset(mrb_state* mrb, mrb_value self)
 {
-  CF_Sprite* sprite;
+  CF_Sprite* sprite = DATA_PTR(self);
 
-  mrb_get_args(mrb, "d", &sprite, &mrb_cf_sprite_type);
-
-  return mrb_float_value(mrb, cf_sprite_get_scale_y(sprite));
-}
-
-// void cf_sprite_set_scale_x
-static mrb_value mrb_cf_sprite_set_scale_x(mrb_state* mrb, mrb_value self)
-{
-  CF_Sprite* sprite;
-  mrb_float scale_x;
-
-  mrb_get_args(mrb, "df", &sprite, &mrb_cf_sprite_type, &scale_x);
-
-  cf_sprite_set_scale_x(sprite, scale_x);
-
-  return mrb_nil_value();
-}
-
-// void cf_sprite_set_scale_y
-static mrb_value mrb_cf_sprite_set_scale_y(mrb_state* mrb, mrb_value self)
-{
-  CF_Sprite* sprite;
-  mrb_float scale_y;
-
-  mrb_get_args(mrb, "df", &sprite, &mrb_cf_sprite_type, &scale_y);
-
-  cf_sprite_set_scale_y(sprite, scale_y);
+  cf_sprite_reset(sprite);
 
   return mrb_nil_value();
 }
@@ -217,12 +248,20 @@ void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* mrb_cute_module)
   mrb_define_method(mrb, sprite_class, "w=", mrb_cf_sprite_set_w, MRB_ARGS_REQ(1));
   mrb_define_method(mrb, sprite_class, "h", mrb_cf_sprite_get_h, MRB_ARGS_NONE());
   mrb_define_method(mrb, sprite_class, "h=", mrb_cf_sprite_set_h, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, sprite_class, "scale_x", mrb_cf_sprite_get_scale_x, MRB_ARGS_NONE());
+  mrb_define_method(mrb, sprite_class, "scale_x=", mrb_cf_sprite_set_scale_x, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, sprite_class, "scale_y", mrb_cf_sprite_get_scale_y, MRB_ARGS_NONE());
+  mrb_define_method(mrb, sprite_class, "scale_y=", mrb_cf_sprite_set_scale_y, MRB_ARGS_REQ(1));
+  mrb_define_method(mrb, sprite_class, "opacity", mrb_cf_sprite_get_opacity, MRB_ARGS_NONE());
+  mrb_define_method(mrb, sprite_class, "opacity=", mrb_cf_sprite_set_opacity, MRB_ARGS_REQ(1));
   mrb_define_method(mrb, sprite_class, "draw", mrb_cf_sprite_draw, MRB_ARGS_NONE());
   mrb_define_method(mrb, sprite_class, "update", mrb_cf_sprite_update, MRB_ARGS_NONE());
   mrb_define_method(mrb, sprite_class, "play", mrb_cf_sprite_play, MRB_ARGS_REQ(1));
   mrb_define_method(mrb, sprite_class, "playing?", mrb_cf_sprite_is_playing, MRB_ARGS_REQ(1));
   mrb_define_method(mrb, sprite_class, "pause", mrb_cf_sprite_pause, MRB_ARGS_NONE());
   mrb_define_method(mrb, sprite_class, "unpause", mrb_cf_sprite_unpause, MRB_ARGS_NONE());
+  mrb_define_method(mrb, sprite_class, "reload", mrb_cf_sprite_reload, MRB_ARGS_NONE());
+  mrb_define_method(mrb, sprite_class, "reset", mrb_cf_sprite_reset, MRB_ARGS_NONE());
 
   // cute_sprite
   mrb_define_module_function(mrb, mrb_cute_module, "cf_make_demo_sprite", mrb_cf_make_demo_sprite, MRB_ARGS_NONE());

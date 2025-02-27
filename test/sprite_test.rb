@@ -33,6 +33,31 @@ assert("Cute::Sprite#h=") do
   assert_equal(10, sprite.h)
 end
 
+assert("Cute::Sprite#opacity") do
+  sprite = Cute::Sprite.new
+  sprite.opacity = 0.5
+  assert_equal(0.5, sprite.opacity)
+end
+
+assert("Cute::Sprite#scale_x") do
+  sprite = Cute::Sprite.new
+  sprite.scale_x = 1.5
+  assert_equal(1.5, sprite.scale_x)
+end
+
+assert("Cute::Sprite#scale_y") do
+  sprite = Cute::Sprite.new
+  sprite.scale_y = 1.5
+  assert_equal(1.5, sprite.scale_y)
+end
+
+assert("Cute::Sprite#reset") do
+  within_app do
+    sprite = Cute.cf_make_demo_sprite
+    assert_nil(sprite.reset)
+  end
+end
+
 assert("Cute::Sprite#inspect") do
   sprite = Cute::Sprite.new
   sprite.w = 6
