@@ -11,6 +11,8 @@ if cf_is_error(result)
   exit(1)
 end
 
+puts result.inspect
+
 sprite = cf_make_demo_sprite
 sprite.play("spin")
 

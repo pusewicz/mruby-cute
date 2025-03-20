@@ -1,31 +1,26 @@
-#include "mrb_cute.h"
+// Include CuteFramework headers
+#include <cute_app.h>
+#include <cute_color.h>
+#include <cute_math.h>
 
-struct RClass* mrb_cute_module;
+#include "cute.h"
 
-static mrb_value mrb_cf_version_string_linked(mrb_state* mrb, mrb_value self)
+// Class/module definitions
+static struct RClass *mCute;
+
+// Initialize the module
+void mrb_mruby_cute_gem_init(mrb_state *mrb)
 {
-  return mrb_str_new_cstr(mrb, cf_version_string_linked());
+  // Create Cute module
+  mCute = mrb_define_module(mrb, "Cute");
+
+  // Initialize submodules
+  void mrb_mruby_cute_cute_app_gem_init(mrb_state *mrb, struct RClass *mCute);
+  void mrb_mruby_cute_cute_color_gem_init(mrb_state *mrb, struct RClass *mCute);
+  void mrb_mruby_cute_cute_math_gem_init(mrb_state *mrb, struct RClass *mCute);
 }
 
-static void mrb_cute_init(mrb_state* mrb, struct RClass* mrb_cute_module)
-{
-  mrb_define_module_function(mrb, mrb_cute_module, "cf_version_string_linked", mrb_cf_version_string_linked, MRB_ARGS_NONE());
-}
-
-void mrb_mruby_cute_gem_init(mrb_state* mrb)
-{
-  struct RClass* mrb_cute_module = mrb_define_module(mrb, "Cute");
-
-  mrb_cute_init(mrb, mrb_cute_module);
-  mrb_cute_math_init(mrb, mrb_cute_module);
-  mrb_cute_app_init(mrb, mrb_cute_module);
-  mrb_cute_result_init(mrb, mrb_cute_module);
-  mrb_cute_sprite_init(mrb, mrb_cute_module);
-  mrb_cute_input_init(mrb, mrb_cute_module);
-  mrb_cute_time_init(mrb, mrb_cute_module);
-  mrb_cute_stopwatch_init(mrb, mrb_cute_module);
-}
-
-void mrb_mruby_cute_gem_final(mrb_state* mrb)
-{
+// Cleanup
+void mrb_mruby_cute_gem_final(mrb_state *mrb) {
+  // Nothing to clean up
 }
