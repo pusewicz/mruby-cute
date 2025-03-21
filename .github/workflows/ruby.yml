@@ -49,7 +49,9 @@ jobs:
           libxinerama-dev \
           libxi-dev \
           libxext-dev \
-          libxfixes-dev
+          libxfixes-dev \
+          libc++-dev \
+          libc++abi-dev
       - name: Setup Ninja
         uses: seanmiddleditch/gha-setup-ninja@master
       - name: Cache dependencies

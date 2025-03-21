@@ -1,2 +1,3 @@
 -Ideps/mruby/build/host/include
 -Ideps/cute_framework/include
+-Ideps/cute_framework/libraries
