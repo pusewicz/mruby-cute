@@ -11,10 +11,6 @@
 #include <mruby/data.h>
 #include <mruby/class.h>
 #include <mruby/string.h>
-// #include <mruby/array.h>
-// #include <mruby/hash.h>
-// #include <mruby/numeric.h>
-// #include <mruby/throw.h>
 
 static const struct mrb_data_type mrb_cf_result_type = {"CF_Result", mrb_free};
 static const struct mrb_data_type mrb_cf_v2_type = {"CF_V2", mrb_free};

@@ -5,6 +5,7 @@ MRuby::Gem::Specification.new("mruby-cute") do |spec|
   spec.authors = "pusewicz"
   spec.summary = "mruby bindings for the Cute game library"
   spec.version = Cute::VERSION
+  spec.add_dependency "mruby-sprintf"
 
   if ENV['DEBUG']
     # Debug flags

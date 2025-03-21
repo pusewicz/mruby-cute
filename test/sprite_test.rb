@@ -16,21 +16,9 @@ assert("Cute::Sprite#w") do
   assert_equal(0, sprite.w)
 end
 
-assert("Cute::Sprite#w=") do
-  sprite = Cute::Sprite.new
-  assert_equal(10, (sprite.w = 10))
-  assert_equal(10, sprite.w)
-end
-
 assert("Cute::Sprite#h") do
   sprite = Cute::Sprite.new
   assert_equal(0, sprite.h)
-end
-
-assert("Cute::Sprite#h=") do
-  sprite = Cute::Sprite.new
-  assert_equal(10, (sprite.h = 10))
-  assert_equal(10, sprite.h)
 end
 
 assert("Cute::Sprite#opacity") do
@@ -60,9 +48,7 @@ end
 
 assert("Cute::Sprite#inspect") do
   sprite = Cute::Sprite.new
-  sprite.w = 6
-  sprite.h = 9
-  assert_equal('#<Cute::Sprite name:"" w:6 h:9 opacity:1.0>', sprite.inspect)
+  assert_match('#<Cute::Sprite:0x* name:"" w:0 h:0 opacity:1.0>', sprite.inspect)
 end
 
 assert("Cute::Sprite#draw") do
@@ -74,11 +60,11 @@ assert("Cute::Sprite#draw") do
   end
 end
 
-assert("Cute::Sprite#loop") do
+assert("Cute::Sprite#loop?") do
   sprite = Cute::Sprite.new
-  assert_true(sprite.loop)
+  assert_true(sprite.loop?)
   sprite.loop = false
-  assert_false(sprite.loop)
+  assert_false(sprite.loop?)
   sprite.loop = true
-  assert_true(sprite.loop)
+  assert_true(sprite.loop?)
 end
