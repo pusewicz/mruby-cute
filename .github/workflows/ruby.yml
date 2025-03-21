@@ -52,6 +52,12 @@ jobs:
           libxfixes-dev
       - name: Setup Ninja
         uses: seanmiddleditch/gha-setup-ninja@master
+      - name: Cache dependencies
+        id: cache-deps
+        uses: actions/cache@v4
+        with:
+          path: deps
+          key: ${{ runner.os }}-deps-${{ hashFiles('**/Rakefile') }}
       - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true

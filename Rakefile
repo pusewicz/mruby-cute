@@ -11,7 +11,7 @@ ENV["CMAKE_GENERATOR"] ||= "Ninja"
 ENV["CMAKE_BUILD_PARALLEL_LEVEL"] ||= (Etc.nprocessors + 2).to_s
 MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || "build_config.rb")
 MRUBY_VERSION="3.3.0"
-CUTE_VERSION="master"
+CUTE_VERSION="1.1.0"
 DEPS_DIR=File.expand_path('deps')
 MRUBY_DEPS_DIR=File.join(DEPS_DIR, 'mruby')
 MRUBY_ARCHIVE=File.join(DEPS_DIR, "mruby-#{MRUBY_VERSION}.zip")
@@ -38,7 +38,7 @@ end
 
 desc "Download Cute"
 file CUTE_ARCHIVE => [DEPS_DIR] do
-  url = "https://github.com/RandyGaul/cute_framework/archive/refs/heads/#{CUTE_VERSION}.zip"
+  url = "https://github.com/RandyGaul/cute_framework/archive/refs/tags/#{CUTE_VERSION}.zip"
   sh "curl -L #{url} -o #{CUTE_ARCHIVE}"
 end
 
