@@ -1,7 +1,5 @@
 #include "mrb_cute.h"
 
-struct RClass* mCute;
-
 static mrb_value mrb_cf_version_string_linked(mrb_state* mrb, mrb_value self)
 {
   return mrb_str_new_cstr(mrb, cf_version_string_linked());
