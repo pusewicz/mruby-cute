@@ -51,30 +51,15 @@ static mrb_value mrb_cf_app_draw_onto_screen(mrb_state* mrb, mrb_value self)
   return mrb_nil_value();
 }
 
-static void define_constants(mrb_state* mrb, struct RClass* mCute)
-{
-  mrb_define_const(mrb, mCute, "CF_APP_OPTIONS_NO_GFX_BIT", mrb_fixnum_value(CF_APP_OPTIONS_NO_GFX_BIT));
-  mrb_define_const(mrb, mCute, "CF_APP_OPTIONS_FULLSCREEN_BIT", mrb_fixnum_value(CF_APP_OPTIONS_FULLSCREEN_BIT));
-  mrb_define_const(mrb, mCute, "CF_APP_OPTIONS_RESIZABLE_BIT", mrb_fixnum_value(CF_APP_OPTIONS_RESIZABLE_BIT));
-  mrb_define_const(mrb, mCute, "CF_APP_OPTIONS_HIDDEN_BIT", mrb_fixnum_value(CF_APP_OPTIONS_HIDDEN_BIT));
-  mrb_define_const(mrb, mCute, "CF_APP_OPTIONS_WINDOW_POS_CENTERED_BIT",
-                   mrb_fixnum_value(CF_APP_OPTIONS_WINDOW_POS_CENTERED_BIT));
-  mrb_define_const(mrb, mCute, "CF_APP_OPTIONS_FILE_SYSTEM_DONT_DEFAULT_MOUNT_BIT",
-                   mrb_fixnum_value(CF_APP_OPTIONS_FILE_SYSTEM_DONT_DEFAULT_MOUNT_BIT));
-  mrb_define_const(mrb, mCute, "CF_APP_OPTIONS_NO_AUDIO_BIT", mrb_fixnum_value(CF_APP_OPTIONS_NO_AUDIO_BIT));
-  mrb_define_const(mrb, mCute, "CF_APP_OPTIONS_GFX_D3D11_BIT", mrb_fixnum_value(CF_APP_OPTIONS_GFX_D3D11_BIT));
-  mrb_define_const(mrb, mCute, "CF_APP_OPTIONS_GFX_D3D12_BIT", mrb_fixnum_value(CF_APP_OPTIONS_GFX_D3D12_BIT));
-  mrb_define_const(mrb, mCute, "CF_APP_OPTIONS_GFX_METAL_BIT", mrb_fixnum_value(CF_APP_OPTIONS_GFX_METAL_BIT));
-  mrb_define_const(mrb, mCute, "CF_APP_OPTIONS_GFX_VULKAN_BIT", mrb_fixnum_value(CF_APP_OPTIONS_GFX_VULKAN_BIT));
-}
-
 void mrb_cute_app_init(mrb_state* mrb, struct RClass* mCute)
 {
+  #define CF_ENUM(K, V) mrb_define_const(mrb, mCute, "CF_" #K, mrb_fixnum_value(V));
+  CF_APP_OPTION_DEFS
+  #undef CF_ENUM
   mrb_define_module_function(mrb, mCute, "cf_make_app", mrb_cf_make_app, MRB_ARGS_REQ(7));
   mrb_define_module_function(mrb, mCute, "cf_app_is_running", mrb_cf_app_is_running, MRB_ARGS_NONE());
   mrb_define_module_function(mrb, mCute, "cf_app_destroy", mrb_cf_app_destroy, MRB_ARGS_NONE());
   mrb_define_module_function(mrb, mCute, "cf_app_update", mrb_cf_app_update, MRB_ARGS_NONE());
   mrb_define_module_function(mrb, mCute, "cf_default_display", mrb_cf_default_display, MRB_ARGS_NONE());
   mrb_define_module_function(mrb, mCute, "cf_app_draw_onto_screen", mrb_cf_app_draw_onto_screen, MRB_ARGS_OPT(1));
-  define_constants(mrb, mCute);
 }
