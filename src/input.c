@@ -71,20 +71,20 @@ static mrb_value mrb_cf_clear_key_states(mrb_state* mrb, mrb_value self)
   return mrb_nil_value();
 }
 
-void mrb_cute_input_init(mrb_state* mrb, struct RClass* mrb_cute_module)
+void mrb_cute_input_init(mrb_state* mrb, struct RClass* mCute)
 {
-  #define CF_ENUM(K, V) mrb_define_const(mrb, mrb_cute_module, "CF_"#K, mrb_fixnum_value(V));
+  #define CF_ENUM(K, V) mrb_define_const(mrb, mCute, "CF_"#K, mrb_fixnum_value(V));
   CF_KEY_BUTTON_DEFS
   #undef CF_ENUM
 
-  mrb_define_module_function(mrb, mrb_cute_module, "cf_key_down", mrb_cf_key_down, MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, mrb_cute_module, "cf_key_up", mrb_cf_key_up, MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, mrb_cute_module, "cf_key_just_pressed", mrb_cf_key_just_pressed, MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, mrb_cute_module, "cf_key_just_released", mrb_cf_key_just_released, MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, mrb_cute_module, "cf_key_repeating", mrb_cf_key_repeating, MRB_ARGS_REQ(1));
-  mrb_define_module_function(mrb, mrb_cute_module, "cf_key_ctrl", mrb_cf_key_ctrl, MRB_ARGS_NONE());
-  mrb_define_module_function(mrb, mrb_cute_module, "cf_key_shift", mrb_cf_key_shift, MRB_ARGS_NONE());
-  mrb_define_module_function(mrb, mrb_cute_module, "cf_key_alt", mrb_cf_key_alt, MRB_ARGS_NONE());
-  mrb_define_module_function(mrb, mrb_cute_module, "cf_key_gui", mrb_cf_key_gui, MRB_ARGS_NONE());
-  mrb_define_module_function(mrb, mrb_cute_module, "cf_clear_key_states", mrb_cf_clear_key_states, MRB_ARGS_NONE());
+  mrb_define_module_function(mrb, mCute, "cf_key_down", mrb_cf_key_down, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, mCute, "cf_key_up", mrb_cf_key_up, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, mCute, "cf_key_just_pressed", mrb_cf_key_just_pressed, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, mCute, "cf_key_just_released", mrb_cf_key_just_released, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, mCute, "cf_key_repeating", mrb_cf_key_repeating, MRB_ARGS_REQ(1));
+  mrb_define_module_function(mrb, mCute, "cf_key_ctrl", mrb_cf_key_ctrl, MRB_ARGS_NONE());
+  mrb_define_module_function(mrb, mCute, "cf_key_shift", mrb_cf_key_shift, MRB_ARGS_NONE());
+  mrb_define_module_function(mrb, mCute, "cf_key_alt", mrb_cf_key_alt, MRB_ARGS_NONE());
+  mrb_define_module_function(mrb, mCute, "cf_key_gui", mrb_cf_key_gui, MRB_ARGS_NONE());
+  mrb_define_module_function(mrb, mCute, "cf_clear_key_states", mrb_cf_clear_key_states, MRB_ARGS_NONE());
 }

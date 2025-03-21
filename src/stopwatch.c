@@ -36,12 +36,12 @@ static mrb_value mrb_stopwatch_microseconds(mrb_state *mrb, mrb_value self)
   return mrb_fixnum_value(cf_stopwatch_microseconds(*stopwatch));
 }
 
-void mrb_cute_stopwatch_init(mrb_state* mrb, struct RClass* mrb_cute_module)
+void mrb_cute_stopwatch_init(mrb_state* mrb, struct RClass* mCute)
 {
   struct RClass *stopwatch_class;
 
   // Create Stopwatch class
-  stopwatch_class = mrb_define_class_under(mrb, mrb_cute_module, "Stopwatch", mrb->object_class);
+  stopwatch_class = mrb_define_class_under(mrb, mCute, "Stopwatch", mrb->object_class);
   MRB_SET_INSTANCE_TT(stopwatch_class, MRB_TT_DATA);
 
   mrb_define_method(mrb, stopwatch_class, "initialize", mrb_stopwatch_initialize, MRB_ARGS_NONE());
