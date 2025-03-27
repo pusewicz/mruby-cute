@@ -21,7 +21,6 @@ CUTE_ARCHIVE=File.join(DEPS_DIR, "cute_framework-#{CUTE_VERSION}.zip")
 
 directory DEPS_DIR
 
-CLEAN.include(CUTE_BUILD_DIR)
 CLOBBER.include(MRUBY_DEPS_DIR)
 
 desc "Download MRuby"
