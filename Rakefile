@@ -75,6 +75,11 @@ task :test => [CUTE_BUILD_DIR, MRUBY_DEPS_DIR] do
   end
 end
 
+desc "REPL"
+task :repl => :compile do
+  exec "#{MRUBY_DEPS_DIR}/build/host/bin/mirb"
+end
+
 task :deep_clean do
   if File.directory?(MRUBY_DEPS_DIR)
     cd MRUBY_DEPS_DIR do
