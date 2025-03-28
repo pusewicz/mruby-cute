@@ -1,4 +1,5 @@
 #include "mrb_cute.h"
+#include "transform.h"
 
 static const struct mrb_data_type mrb_cf_sprite_type = {
   "CF_Sprite", mrb_free
@@ -290,6 +291,13 @@ static mrb_value mrb_cf_sprite_current_frame(mrb_state* mrb, mrb_value self)
   return mrb_fixnum_value(cf_sprite_current_frame(sprite));
 }
 
+static mrb_value mrb_cf_sprite_get_transform(mrb_state* mrb, mrb_value self)
+{
+  CF_Sprite *sprite = DATA_PTR(self);
+
+  return mrb_cf_transform_wrap(mrb, sprite->transform);
+}
+
 void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* mCute)
 {
   struct RClass* cSprite;
@@ -331,6 +339,7 @@ void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* mCute)
   mrb_define_method(mrb, cSprite, "flip_y!", mrb_cf_sprite_flip_y, MRB_ARGS_NONE());
   mrb_define_method(mrb, cSprite, "frame_count", mrb_cf_sprite_frame_count, MRB_ARGS_NONE());
   mrb_define_method(mrb, cSprite, "current_frame", mrb_cf_sprite_current_frame, MRB_ARGS_NONE());
+  mrb_define_method(mrb, cSprite, "transform", mrb_cf_sprite_get_transform, MRB_ARGS_NONE());
 
   // cute_sprite
   mrb_define_module_function(mrb, mCute, "cf_make_demo_sprite", mrb_cf_make_demo_sprite, MRB_ARGS_NONE());

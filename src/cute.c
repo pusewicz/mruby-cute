@@ -1,5 +1,6 @@
 #include "mrb_cute.h"
 #include "vector.h"
+#include "transform.h"
 #include "sincos.h"
 
 static mrb_value mrb_cf_version_string_linked(mrb_state* mrb, mrb_value self)
@@ -19,6 +20,7 @@ void mrb_mruby_cute_gem_init(mrb_state* mrb)
   mrb_cute_init(mrb, mCute);
   mrb_cute_v2_init(mrb, mCute);
   mrb_cute_sincos_init(mrb, mCute);
+  mrb_cute_transform_init(mrb, mCute);
   mrb_cute_app_init(mrb, mCute);
   mrb_cute_result_init(mrb, mCute);
   mrb_cute_sprite_init(mrb, mCute);

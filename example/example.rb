@@ -17,15 +17,37 @@ sprite.play("spin")
 while cf_app_is_running
   cf_app_update
 
+  if cf_key_just_pressed(CF_KEY_W)
+    puts "Key W pressed"
+    sprite.transform.p.y += 8
+  end
+
+  if cf_key_just_pressed(CF_KEY_S)
+    puts "Key S pressed"
+    sprite.transform.p.y -= 8
+  end
+
+  if cf_key_just_pressed(CF_KEY_A)
+    puts "Key A pressed"
+    sprite.transform.p.x -= 8
+  end
+
+  if cf_key_just_pressed(CF_KEY_D)
+    puts "Key D pressed"
+    sprite.transform.p.x += 8
+  end
+
+  if cf_key_just_pressed(CF_KEY_SPACE)
+    puts sprite.inspect
+    puts "Sprite position: #{sprite.transform.p.x}, #{sprite.transform.p.y}"
+    puts "Transform: #{sprite.transform.inspect}"
+    puts "Position: #{sprite.transform.p.inspect}"
+  end
+
   sprite.update
   sprite.draw
 
   cf_app_draw_onto_screen
-
-  puts "W key pressed" if cf_key_just_pressed(CF_KEY_W)
-  puts "S key pressed" if cf_key_just_pressed(CF_KEY_S)
-  puts "A key pressed" if cf_key_just_pressed(CF_KEY_A)
-  puts "D key pressed" if cf_key_just_pressed(CF_KEY_D)
 end
 
 cf_app_destroy
