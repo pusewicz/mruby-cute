@@ -14,34 +14,42 @@ end
 sprite = cf_make_demo_sprite
 sprite.play("spin")
 
+def puts_sprite(sprite)
+  puts sprite.inspect
+  puts "Sprite position: #{sprite.transform.p.x}, #{sprite.transform.p.y}"
+  puts "Transform: #{sprite.transform.inspect}"
+  puts "Position: #{sprite.transform.p.inspect}"
+end
+
 while cf_app_is_running
   cf_app_update
 
   if cf_key_just_pressed(CF_KEY_W)
     puts "Key W pressed"
     sprite.transform.p.y += 8
+    puts_sprite(sprite)
   end
 
   if cf_key_just_pressed(CF_KEY_S)
     puts "Key S pressed"
     sprite.transform.p.y -= 8
+    puts_sprite(sprite)
   end
 
   if cf_key_just_pressed(CF_KEY_A)
     puts "Key A pressed"
     sprite.transform.p.x -= 8
+    puts_sprite(sprite)
   end
 
   if cf_key_just_pressed(CF_KEY_D)
     puts "Key D pressed"
     sprite.transform.p.x += 8
+    puts_sprite(sprite)
   end
 
   if cf_key_just_pressed(CF_KEY_SPACE)
-    puts sprite.inspect
-    puts "Sprite position: #{sprite.transform.p.x}, #{sprite.transform.p.y}"
-    puts "Transform: #{sprite.transform.inspect}"
-    puts "Position: #{sprite.transform.p.inspect}"
+    puts_sprite(sprite)
   end
 
   sprite.update

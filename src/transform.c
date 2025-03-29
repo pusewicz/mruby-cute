@@ -1,38 +1,35 @@
-#include "cute_math.h"
+#include "mrb_cute.h"
 #include "vector.h"
 #include "sincos.h"
 
 extern struct RClass *cTransform;
 
 static void mrb_cf_transform_free(mrb_state *mrb, void *p) {
-  mrb_free(mrb, p);
+  CF_Transform *data = (CF_Transform *)p;
+  mrb_free(mrb, data);
 }
 
 struct mrb_data_type const mrb_cf_transform_data_type = {
-  "mrb_cf_transform_t",
+  "CF_Transform",
   mrb_cf_transform_free,
 };
 
-typedef struct {
-  CF_Transform transform;
-} mrb_cf_transform_t;
-
 static mrb_value mrb_cf_transform_initialize(mrb_state *mrb, mrb_value self) {
-  mrb_cf_transform_t *data;
+  CF_Transform *data;
 
   mrb_value p = mrb_nil_value();
   mrb_float r;
 
   mrb_get_args(mrb, "|of", &p, &r);
 
-  data = (mrb_cf_transform_t *)mrb_malloc(mrb, sizeof(mrb_cf_transform_t));
+  data = (CF_Transform *)mrb_malloc(mrb, sizeof(CF_Transform));
 
   if (!mrb_nil_p(p) && r >= 0.0f) {
-    CF_V2 v2 = mrb_cf_v2_unwrap(mrb, p);
+    CF_V2 *v2 = mrb_cf_v2_unwrap(mrb, p);
 
-    data->transform = cf_make_transform_TR(v2, r);
+    *data = cf_make_transform_TR(*v2, r);
   } else {
-    data->transform = cf_make_transform();
+    *data = cf_make_transform();
   }
 
   DATA_PTR(self) = data;
@@ -41,67 +38,68 @@ static mrb_value mrb_cf_transform_initialize(mrb_state *mrb, mrb_value self) {
   return self;
 }
 
-mrb_value mrb_cf_transform_wrap(mrb_state *mrb, CF_Transform transform) {
-  mrb_cf_transform_t *data;
-  mrb_value obj;
-
-  data = (mrb_cf_transform_t *)mrb_malloc(mrb, sizeof(mrb_cf_transform_t));
-  data->transform = transform;
-
-  obj = mrb_obj_value(Data_Wrap_Struct(mrb, cTransform, &mrb_cf_transform_data_type, data));
-
-  return obj;
+mrb_value mrb_cf_transform_wrap(mrb_state *mrb, CF_Transform *transform) {
+  return mrb_obj_value(Data_Wrap_Struct(mrb, cTransform, &mrb_cf_transform_data_type, transform));
 }
 
-// Get p as a V2
 static mrb_value mrb_cf_transform_get_p(mrb_state *mrb, mrb_value self) {
-  mrb_cf_transform_t *data = DATA_PTR(self);
-
-  return mrb_cf_v2_wrap(mrb, data->transform.p);
+  CF_Transform *data = DATA_PTR(self);
+  return mrb_cf_v2_wrap(mrb, &data->p);
 }
 
-// Set p as a V2
 static mrb_value mrb_cf_transform_set_p(mrb_state *mrb, mrb_value self) {
-  mrb_cf_transform_t *data = DATA_PTR(self);
+  CF_Transform *data = (CF_Transform*)DATA_PTR(self);
   mrb_value p;
   mrb_get_args(mrb, "o", &p);
 
-  data->transform.p = *DATA_GET_PTR(mrb, p, &mrb_cf_v2_data_type, CF_V2);
+  data->p = *DATA_GET_PTR(mrb, p, &mrb_cf_v2_data_type, CF_V2);
 
-  return mrb_cf_v2_wrap(mrb, data->transform.p);
+  return p;
 }
 
 // Get r as SinCos
 static mrb_value mrb_cf_transform_get_r(mrb_state *mrb, mrb_value self) {
-  mrb_cf_transform_t *data = DATA_PTR(self);
+  CF_Transform *data = DATA_PTR(self);
 
-  return mrb_cf_sincos_wrap(mrb, data->transform.r);
+  // Check if the SinCos object is already set
+  mrb_sym iv_name = mrb_intern_lit(mrb, "r");
+  mrb_value r_obj = mrb_iv_get(mrb, self, iv_name);
+  if (!mrb_nil_p(r_obj)) {
+    return r_obj;
+  }
+
+  // Create a new SinCos object
+  r_obj = mrb_cf_sincos_wrap(mrb, &data->r);
+  mrb_iv_set(mrb, self, iv_name, r_obj);
+  return r_obj;
 }
 
 // Set r as SinCos
 static mrb_value mrb_cf_transform_set_r(mrb_state *mrb, mrb_value self) {
-  mrb_cf_transform_t *data = DATA_PTR(self);
+  CF_Transform *data = (CF_Transform*)DATA_PTR(self);
   mrb_value r;
   mrb_get_args(mrb, "o", &r);
 
-  data->transform.r = *DATA_GET_PTR(mrb, r, &mrb_cf_sincos_data_type, CF_SinCos);
+  data->r = *DATA_GET_PTR(mrb, r, &mrb_cf_sincos_data_type, CF_SinCos);
 
-  return mrb_cf_sincos_wrap(mrb, data->transform.r);
+  return r;
 }
 
 static mrb_value mrb_cf_transform_factory(mrb_state *mrb, mrb_value self) {
   mrb_value p = mrb_nil_value();
   mrb_float r;
-  CF_Transform transform;
+  CF_Transform *transform;
 
   mrb_get_args(mrb, "|of", &p, &r);
 
-  if (!mrb_nil_p(p) && r >= 0.0f) {
-    CF_V2 v2 = mrb_cf_v2_unwrap(mrb, p);
+  transform = (CF_Transform *)mrb_malloc(mrb, sizeof(CF_Transform));
 
-    transform = cf_make_transform_TR(v2, r);
+  if (!mrb_nil_p(p) && r >= 0.0f) {
+    CF_V2 *v2 = mrb_cf_v2_unwrap(mrb, p);
+
+    *transform = cf_make_transform_TR(*v2, r);
   } else {
-    transform = cf_make_transform();
+    *transform = cf_make_transform();
   }
 
   return mrb_cf_transform_wrap(mrb, transform);

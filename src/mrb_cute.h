@@ -13,11 +13,9 @@
 #include <mruby/string.h>
 
 static const struct mrb_data_type mrb_cf_result_type = {"CF_Result", mrb_free};
-static const struct mrb_data_type mrb_cf_v2_type = {"CF_V2", mrb_free};
 
 void mrb_cute_app_init(mrb_state* mrb, struct RClass* mCute);
 void mrb_cute_result_init(mrb_state* mrb, struct RClass* mCute);
-void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* mCute);
 void mrb_cute_input_init(mrb_state* mrb, struct RClass* mCute);
 void mrb_cute_time_init(mrb_state* mrb, struct RClass* mCute);
 void mrb_cute_stopwatch_init(mrb_state* mrb, struct RClass* mCute);

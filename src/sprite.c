@@ -1,8 +1,17 @@
 #include "mrb_cute.h"
+#include "sprite.h"
 #include "transform.h"
 
+extern struct RClass* cSprite;
+
+static void mrb_cf_sprite_free(mrb_state* mrb, void* p)
+{
+  CF_Sprite* sprite = (CF_Sprite*) p;
+  mrb_free(mrb, sprite);
+}
+
 static const struct mrb_data_type mrb_cf_sprite_type = {
-  "CF_Sprite", mrb_free
+  "CF_Sprite", mrb_cf_sprite_free
 };
 
 static mrb_value mrb_cf_sprite_initialize(mrb_state* mrb, mrb_value self)
@@ -15,6 +24,11 @@ static mrb_value mrb_cf_sprite_initialize(mrb_state* mrb, mrb_value self)
   DATA_TYPE(self) = &mrb_cf_sprite_type;
 
   return self;
+}
+
+static mrb_value mrb_cf_sprite_wrap(mrb_state* mrb, CF_Sprite* sprite)
+{
+  return mrb_obj_value(Data_Wrap_Struct(mrb, cSprite, &mrb_cf_sprite_type, sprite));
 }
 
 static mrb_value mrb_cf_sprite_name(mrb_state* mrb, mrb_value self)
@@ -139,9 +153,7 @@ static mrb_value mrb_cf_make_demo_sprite(mrb_state* mrb, mrb_value self)
 
   *sprite = cf_make_demo_sprite();
 
-  struct RClass* cSprite = mrb_class_get_under(mrb, mrb_module_get(mrb, "Cute"), "Sprite");
-
-  return mrb_obj_value(Data_Wrap_Struct(mrb, cSprite, &mrb_cf_sprite_type, sprite));
+  return mrb_cf_sprite_wrap(mrb, sprite);
 }
 
 static mrb_value mrb_cf_sprite_defaults(mrb_state* mrb, mrb_value self)
@@ -150,9 +162,7 @@ static mrb_value mrb_cf_sprite_defaults(mrb_state* mrb, mrb_value self)
 
   *sprite = cf_sprite_defaults();
 
-  struct RClass* cSprite = mrb_class_get_under(mrb, mrb_module_get(mrb, "Cute"), "Sprite");
-
-  return mrb_obj_value(Data_Wrap_Struct(mrb, cSprite, &mrb_cf_sprite_type, sprite));
+  return mrb_cf_sprite_wrap(mrb, sprite);
 }
 
 static mrb_value mrb_cf_sprite_draw(mrb_state* mrb, mrb_value self)
@@ -293,15 +303,24 @@ static mrb_value mrb_cf_sprite_current_frame(mrb_state* mrb, mrb_value self)
 
 static mrb_value mrb_cf_sprite_get_transform(mrb_state* mrb, mrb_value self)
 {
-  CF_Sprite *sprite = DATA_PTR(self);
+  CF_Sprite* sprite = DATA_PTR(self);
 
-  return mrb_cf_transform_wrap(mrb, sprite->transform);
+  // Check if the transform is already set
+  mrb_sym iv_name = mrb_intern_lit(mrb, "transform");
+  mrb_value transform_obj = mrb_iv_get(mrb, self, iv_name);
+  if (!mrb_nil_p(transform_obj)) {
+    return transform_obj;
+  }
+
+  // Create a new transform object
+  transform_obj = mrb_cf_transform_wrap(mrb, &sprite->transform);
+  mrb_iv_set(mrb, self, iv_name, transform_obj);
+
+  return transform_obj;
 }
 
 void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* mCute)
 {
-  struct RClass* cSprite;
-
   // Create Sprite class
   cSprite = mrb_define_class_under(mrb, mCute, "Sprite", mrb->object_class);
   MRB_SET_INSTANCE_TT(cSprite, MRB_TT_CDATA);

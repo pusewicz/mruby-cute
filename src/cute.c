@@ -2,6 +2,7 @@
 #include "vector.h"
 #include "transform.h"
 #include "sincos.h"
+#include "sprite.h"
 
 static mrb_value mrb_cf_version_string_linked(mrb_state* mrb, mrb_value self)
 {
