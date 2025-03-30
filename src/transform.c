@@ -9,9 +9,18 @@ static void mrb_cf_transform_free(mrb_state *mrb, void *p) {
   mrb_free(mrb, data);
 }
 
+static void mrb_cf_transform_free_noop(mrb_state *mrb, void *p) {
+  // No-op free function
+}
+
 struct mrb_data_type const mrb_cf_transform_data_type = {
   "CF_Transform",
   mrb_cf_transform_free,
+};
+
+struct mrb_data_type const mrb_cf_transform_nested_data_type = {
+  "CF_Transform",
+  mrb_cf_transform_free_noop,
 };
 
 static mrb_value mrb_cf_transform_initialize(mrb_state *mrb, mrb_value self) {
@@ -42,6 +51,10 @@ mrb_value mrb_cf_transform_wrap(mrb_state *mrb, CF_Transform *transform) {
   return mrb_obj_value(Data_Wrap_Struct(mrb, cTransform, &mrb_cf_transform_data_type, transform));
 }
 
+mrb_value mrb_cf_transform_wrap_nested(mrb_state *mrb, CF_Transform *transform) {
+  return mrb_obj_value(Data_Wrap_Struct(mrb, cTransform, &mrb_cf_transform_nested_data_type, transform));
+}
+
 static mrb_value mrb_cf_transform_get_p(mrb_state *mrb, mrb_value self) {
   CF_Transform *data = DATA_PTR(self);
   return mrb_cf_v2_wrap(mrb, &data->p);
@@ -69,7 +82,7 @@ static mrb_value mrb_cf_transform_get_r(mrb_state *mrb, mrb_value self) {
   }
 
   // Create a new SinCos object
-  r_obj = mrb_cf_sincos_wrap(mrb, &data->r);
+  r_obj = mrb_cf_sincos_wrap_nested(mrb, &data->r);
   mrb_iv_set(mrb, self, iv_name, r_obj);
   return r_obj;
 }

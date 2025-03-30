@@ -3,15 +3,27 @@
 extern struct RClass *cSinCos;
 
 static void mrb_cf_sincos_free(mrb_state *mrb, void *p) {
-  // TODO: We should only free if the CF_SinCos was created as a new object
-  // and not part of a transform struct as it's not dynamically allocated.
   CF_SinCos *data = (CF_SinCos *)p;
   mrb_free(mrb, data);
+}
+
+static void mrb_cf_sincos_free_noop(mrb_state *mrb, void *p) {
+  // No-op free function
 }
 
 struct mrb_data_type const mrb_cf_sincos_data_type = {
   "CF_SinCos",
   mrb_cf_sincos_free,
+};
+
+/*
+ * This is a no-op free function for nested SinCos objects.
+ * It is used to prevent double-free errors when wrapping
+ * nested SinCos objects in the transform.
+ */
+struct mrb_data_type const mrb_cf_sincos_nested_data_type = {
+  "CF_SinCos",
+  mrb_cf_sincos_free_noop,
 };
 
 static mrb_value mrb_cf_sincos_initialize(mrb_state *mrb, mrb_value self) {
@@ -81,6 +93,10 @@ static mrb_value mrb_cf_sincos_inspect(mrb_state* mrb, mrb_value self) {
 
 mrb_value mrb_cf_sincos_wrap(mrb_state *mrb, CF_SinCos *sincos) {
   return mrb_obj_value(Data_Wrap_Struct(mrb, cSinCos, &mrb_cf_sincos_data_type, sincos));
+}
+
+mrb_value mrb_cf_sincos_wrap_nested(mrb_state *mrb, CF_SinCos *sincos) {
+  return mrb_obj_value(Data_Wrap_Struct(mrb, cSinCos, &mrb_cf_sincos_nested_data_type, sincos));
 }
 
 static mrb_value mrb_cf_sincos_factory(mrb_state *mrb, mrb_value self) {
