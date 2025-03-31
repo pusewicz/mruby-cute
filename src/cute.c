@@ -1,4 +1,5 @@
 #include "mrb_cute.h"
+#include "draw.h"
 #include "sincos.h"
 #include "sprite.h"
 #include "transform.h"
@@ -19,6 +20,7 @@ void mrb_mruby_cute_gem_init(mrb_state* mrb)
     struct RClass* mCute = mrb_define_module(mrb, "Cute");
 
     mrb_cute_init(mrb, mCute);
+    mrb_cute_draw_init(mrb, mCute);
     mrb_cute_v2_init(mrb, mCute);
     mrb_cute_sincos_init(mrb, mCute);
     mrb_cute_transform_init(mrb, mCute);
