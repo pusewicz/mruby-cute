@@ -82,6 +82,60 @@ static mrb_value mrb_cf_app_draw_onto_screen(mrb_state* mrb, mrb_value self)
     return mrb_nil_value();
 }
 
+// cf_app_get_framerate
+static mrb_value mrb_cf_app_get_framerate(mrb_state* mrb, mrb_value self)
+{
+    return mrb_float_value(mrb, cf_app_get_framerate());
+}
+
+// cf_app_get_smoothed_framerate
+static mrb_value mrb_cf_app_get_smoothed_framerate(mrb_state* mrb, mrb_value self)
+{
+    return mrb_float_value(mrb, cf_app_get_smoothed_framerate());
+}
+
+// cf_app_set_title
+static mrb_value mrb_cf_app_set_title(mrb_state* mrb, mrb_value self)
+{
+    char* title;
+    mrb_get_args(mrb, "z", &title);
+    cf_app_set_title(title);
+    return mrb_nil_value();
+}
+
+// cf_app_get_vsync
+static mrb_value mrb_cf_app_get_vsync(mrb_state* mrb, mrb_value self)
+{
+    return mrb_bool_value(cf_app_get_vsync());
+}
+
+// cf_app_set_vsync
+static mrb_value mrb_cf_app_set_vsync(mrb_state* mrb, mrb_value self)
+{
+    mrb_bool vsync;
+    mrb_get_args(mrb, "b", &vsync);
+    cf_app_set_vsync(vsync);
+    return mrb_nil_value();
+}
+
+// cf_app_get_dpi_scale
+static mrb_value mrb_cf_app_get_dpi_scale(mrb_state* mrb, mrb_value self)
+{
+    return mrb_float_value(mrb, cf_app_get_dpi_scale());
+}
+
+// cf_app_get_width
+static mrb_value mrb_cf_app_get_width(mrb_state* mrb, mrb_value self)
+{
+    return mrb_fixnum_value(cf_app_get_width());
+}
+
+// cf_app_get_height
+static mrb_value mrb_cf_app_get_height(mrb_state* mrb, mrb_value self)
+{
+    return mrb_fixnum_value(cf_app_get_height());
+}
+
 void mrb_cute_app_init(mrb_state* mrb, struct RClass* mCute)
 {
 #define CF_ENUM(K, V) mrb_define_const(mrb, mCute, "CF_" #K, mrb_fixnum_value(V));
@@ -93,4 +147,12 @@ void mrb_cute_app_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_module_function(mrb, mCute, "cf_app_update", mrb_cf_app_update, MRB_ARGS_OPT(1));
     mrb_define_module_function(mrb, mCute, "cf_default_display", mrb_cf_default_display, MRB_ARGS_NONE());
     mrb_define_module_function(mrb, mCute, "cf_app_draw_onto_screen", mrb_cf_app_draw_onto_screen, MRB_ARGS_OPT(1));
+    mrb_define_module_function(mrb, mCute, "cf_app_get_framerate", mrb_cf_app_get_framerate, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_app_get_smoothed_framerate", mrb_cf_app_get_smoothed_framerate, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_app_set_title", mrb_cf_app_set_title, MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, mCute, "cf_app_get_vsync", mrb_cf_app_get_vsync, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_app_set_vsync", mrb_cf_app_set_vsync, MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, mCute, "cf_app_get_dpi_scale", mrb_cf_app_get_dpi_scale, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_app_get_width", mrb_cf_app_get_width, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_app_get_height", mrb_cf_app_get_height, MRB_ARGS_NONE());
 }
