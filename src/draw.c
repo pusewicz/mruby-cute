@@ -40,7 +40,6 @@ static mrb_value mrb_cf_draw_scale(mrb_state* mrb, mrb_value self)
 static mrb_value mrb_cf_draw_scale_v2(mrb_state* mrb, mrb_value self)
 {
     mrb_value obj;
-    CF_V2 v2;
 
     mrb_get_args(mrb, "o", &obj);
 
