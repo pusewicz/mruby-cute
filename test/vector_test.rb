@@ -32,5 +32,5 @@ end
 assert("V2 to_s and inspect") do
   v = Cute::V2.new(3.0, 4.0)
   assert_equal("V2(3.000, 4.000)", v.to_s)
-  assert_match('#<Cute::V2:0x* x=3.000 y=4.000>', v.inspect)
+  assert_match("#<Cute::V2:0x* x=3.000 y=4.000>", v.inspect)
 end
