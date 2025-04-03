@@ -106,3 +106,83 @@ assert('Cute::cf_draw_circle2') do
     end
   end
 end
+
+assert('Cute::cf_make_font') do
+  within_app do
+    # Just test that the function exists and doesn't crash
+    assert_nothing_raised do
+      Cute::cf_make_font("font.ttf", "test_font")
+    end
+  end
+end
+
+assert('Cute::cf_push_font and cf_pop_font') do
+  within_app do
+    # Just test that the functions exist and don't crash
+    assert_nothing_raised do
+      Cute::cf_push_font("default")
+      Cute::cf_pop_font()
+    end
+  end
+end
+
+assert('Cute::cf_push_font_size and cf_pop_font_size') do
+  within_app do
+    # Just test that the functions exist and don't crash
+    assert_nothing_raised do
+      Cute::cf_push_font_size(16.0)
+      Cute::cf_pop_font_size()
+    end
+  end
+end
+
+assert('Cute::cf_draw_text') do
+  within_app do
+    # Create a position for the text
+    position = Cute::V2.new(100.0, 100.0)
+    
+    # Just test that the function exists and doesn't crash
+    assert_nothing_raised do
+      Cute::cf_draw_text("Hello, world!", position)
+    end
+  end
+end
+
+assert('Cute::cf_draw_text with num_chars') do
+  within_app do
+    # Create a position for the text
+    position = Cute::V2.new(100.0, 100.0)
+    
+    # Just test that the function exists and doesn't crash
+    assert_nothing_raised do
+      Cute::cf_draw_text("Hello, world!", position, 5)  # Draw only "Hello"
+    end
+  end
+end
+
+assert('Cute::cf_text_width') do
+  within_app do
+    # Just test that the function exists and doesn't crash
+    assert_nothing_raised do
+      Cute::cf_text_width("Hello, world!")
+    end
+  end
+end
+
+assert('Cute::cf_text_height') do
+  within_app do
+    # Just test that the function exists and doesn't crash
+    assert_nothing_raised do
+      Cute::cf_text_height("Hello, world!")
+    end
+  end
+end
+
+assert('Cute::cf_text_size') do
+  within_app do
+    # Just test that the function exists and doesn't crash
+    assert_nothing_raised do
+      Cute::cf_text_size("Hello, world!")
+    end
+  end
+end

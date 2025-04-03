@@ -24,6 +24,8 @@ end
 while cf_app_is_running
   cf_app_update
 
+  cf_draw_text("Hello, world!", sprite.transform.p)
+
   if cf_key_just_pressed(CF_KEY_W)
     puts "Key W pressed"
     sprite.transform.p.y += 8
