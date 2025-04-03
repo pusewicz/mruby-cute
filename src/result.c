@@ -1,10 +1,15 @@
-#include "mrb_cute.h"
+#include "result.h"
+
+static const struct mrb_data_type mrb_cf_result_type = { "CF_Result", mrb_free };
+
+mrb_value mrb_cf_result_wrap(mrb_state* mrb, CF_Result* result)
+{
+    struct RClass* cResult = mrb_class_get_under(mrb, mrb_module_get(mrb, "Cute"), "CF_Result");
+    return mrb_obj_value(Data_Wrap_Struct(mrb, cResult, &mrb_cf_result_type, result));
+}
 
 static mrb_value mrb_cf_result_initialize(mrb_state* mrb, mrb_value self)
 {
-    CF_Result* result_ptr = (CF_Result*)DATA_PTR(self);
-    if (result_ptr)
-        mrb_free(mrb, result_ptr);
     DATA_TYPE(self) = &mrb_cf_result_type;
     DATA_PTR(self) = mrb_malloc(mrb, sizeof(CF_Result));
     return self;
@@ -25,16 +30,14 @@ static mrb_value mrb_cf_result_error(mrb_state* mrb, mrb_value self)
     mrb_get_args(mrb, "z", &details);
     CF_Result* result_ptr = (CF_Result*)mrb_malloc(mrb, sizeof(CF_Result));
     *result_ptr = cf_result_error(details);
-    struct RClass* cf_result_class = mrb_class_get_under(mrb, mrb_module_get(mrb, "Cute"), "CF_Result");
-    return mrb_obj_value(Data_Wrap_Struct(mrb, cf_result_class, &mrb_cf_result_type, result_ptr));
+    return mrb_cf_result_wrap(mrb, result_ptr);
 }
 
 static mrb_value mrb_cf_result_success(mrb_state* mrb, mrb_value self)
 {
     CF_Result* result_ptr = (CF_Result*)mrb_malloc(mrb, sizeof(CF_Result));
     *result_ptr = cf_result_success();
-    struct RClass* cf_result_class = mrb_class_get_under(mrb, mrb_module_get(mrb, "Cute"), "CF_Result");
-    return mrb_obj_value(Data_Wrap_Struct(mrb, cf_result_class, &mrb_cf_result_type, result_ptr));
+    return mrb_cf_result_wrap(mrb, result_ptr);
 }
 
 void mrb_cute_result_init(mrb_state* mrb, struct RClass* mCute)
