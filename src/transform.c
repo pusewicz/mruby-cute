@@ -62,8 +62,19 @@ mrb_value mrb_cf_transform_wrap_nested(mrb_state* mrb, CF_Transform* transform)
 
 static mrb_value mrb_cf_transform_get_p(mrb_state* mrb, mrb_value self)
 {
-    CF_Transform* data = DATA_PTR(self);
-    return mrb_cf_v2_wrap(mrb, &data->p);
+    CF_Transform* transform = DATA_PTR(self);
+
+    // Check if the V2 object is already set
+    mrb_sym iv_name = mrb_intern_lit(mrb, "p");
+    mrb_value p_obj = mrb_iv_get(mrb, self, iv_name);
+    if (!mrb_nil_p(p_obj)) {
+        return p_obj;
+    }
+
+    // Create a new V2 object
+    p_obj = mrb_cf_v2_wrap_nested(mrb, &transform->p);
+    mrb_iv_set(mrb, self, iv_name, p_obj);
+    return p_obj;
 }
 
 static mrb_value mrb_cf_transform_set_p(mrb_state* mrb, mrb_value self)
@@ -72,7 +83,8 @@ static mrb_value mrb_cf_transform_set_p(mrb_state* mrb, mrb_value self)
     mrb_value p;
     mrb_get_args(mrb, "o", &p);
 
-    data->p = *DATA_GET_PTR(mrb, p, &mrb_cf_v2_data_type, CF_V2);
+    CF_V2* v2 = mrb_cf_v2_unwrap(mrb, p);
+    data->p = *v2;
 
     return p;
 }
