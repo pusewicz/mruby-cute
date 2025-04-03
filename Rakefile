@@ -3,12 +3,10 @@ require 'yard/rake/yardoc_task'
 require 'etc'
 require 'rake/clean'
 
-YARD::Rake::YardocTask.new do |t|
-  t.files = ['docstub/**/*.rb', 'mrblib/**/*.rb']
-end
-
 ENV["CMAKE_GENERATOR"] ||= "Ninja"
 ENV["CMAKE_BUILD_PARALLEL_LEVEL"] ||= (Etc.nprocessors + 2).to_s
+ENV["DEBUG"] ||= "true"
+
 MRUBY_CONFIG=File.expand_path(ENV["MRUBY_CONFIG"] || "build_config.rb")
 MRUBY_VERSION="3.3.0"
 CUTE_VERSION="1.1.0"
@@ -22,6 +20,10 @@ CUTE_ARCHIVE=File.join(DEPS_DIR, "cute_framework-#{CUTE_VERSION}.zip")
 directory DEPS_DIR
 
 CLOBBER.include(MRUBY_DEPS_DIR)
+
+YARD::Rake::YardocTask.new do |t|
+  t.files = ['docstub/**/*.rb', 'mrblib/**/*.rb']
+end
 
 desc "Download MRuby"
 file MRUBY_ARCHIVE => [DEPS_DIR] do
@@ -63,14 +65,14 @@ end
 desc "compile binary"
 task :compile => [CUTE_BUILD_DIR, MRUBY_DEPS_DIR] do
   cd MRUBY_DEPS_DIR do
-    sh "env MRUBY_CONFIG=#{MRUBY_CONFIG} DEBUG=true rake all"
+    sh "env MRUBY_CONFIG=#{MRUBY_CONFIG} rake all"
   end
 end
 
 desc "test"
 task :test => [CUTE_BUILD_DIR, MRUBY_DEPS_DIR] do
   cd MRUBY_DEPS_DIR do
-    sh "env MRUBY_CONFIG=#{MRUBY_CONFIG} DEBUG=true rake all test"
+    sh "env MRUBY_CONFIG=#{MRUBY_CONFIG} rake all test"
   end
 end
 
