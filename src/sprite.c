@@ -1,5 +1,4 @@
 #include "sprite.h"
-#include "mrb_cute.h"
 #include "transform.h"
 
 extern struct RClass* cSprite;
