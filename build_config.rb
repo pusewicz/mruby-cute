@@ -1,7 +1,7 @@
 MRuby::Build.new do |conf|
   toolchain :clang
 
-  conf.gembox "full-core"
+  conf.gembox "default"
 
   conf.gem __dir__
   conf.gem core: "mruby-sprintf" # Not sure why this is necessary as it's already in the full-core gembox
@@ -19,10 +19,11 @@ MRuby::Build.new do |conf|
       c.flags << "-g"
       c.flags << "-g3"
       c.flags << "-glldb"
+      c.flags << "-fno-omit-frame-pointer"
     end
   elsif ENV["RELEASE"] == "true"
     # Release flags
-    spec.compilers.each do |c|
+    conf.compilers.each do |c|
       c.flags << "-O3"
       c.flags << "-DNDEBUG"
     end

@@ -16,6 +16,7 @@ MRuby::Gem::Specification.new("mruby-cute") do |spec|
       c.flags << "-g"
       c.flags << "-g3"
       c.flags << "-glldb"
+      c.flags << "-fno-omit-frame-pointer"
     end
   elsif ENV["RELEASE"] == "true"
     # Release flags
