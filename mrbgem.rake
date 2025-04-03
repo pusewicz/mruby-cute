@@ -10,7 +10,13 @@ MRuby::Gem::Specification.new("mruby-cute") do |spec|
 
   if ENV['DEBUG']
     # Debug flags
-    spec.cc.flags << "-g3"
+    spec.compilers.each do |c|
+      c.defines += %w(MRB_USE_DEBUG_HOOK)
+      c.flags << "-O0"
+      c.flags << "-g"
+      c.flags << "-g3"
+      c.flags << "-glldb"
+    end
   end
 
   # C flags

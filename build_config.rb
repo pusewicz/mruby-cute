@@ -14,6 +14,10 @@ MRuby::Build.new do |conf|
     conf.enable_debug
     conf.compilers.each do |c|
       c.defines += %w(MRB_USE_DEBUG_HOOK)
+      c.flags << "-O0"
+      c.flags << "-g"
+      c.flags << "-g3"
+      c.flags << "-glldb"
     end
   end
 end
