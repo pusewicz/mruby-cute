@@ -48,6 +48,16 @@ static mrb_value mrb_cf_draw_scale_v2(mrb_state* mrb, mrb_value self)
     return mrb_nil_value();
 }
 
+static mrb_value mrb_cf_draw_rotate(mrb_state* mrb, mrb_value self)
+{
+    mrb_float radians;
+
+    mrb_get_args(mrb, "f", &radians);
+    cf_draw_rotate((float)radians);
+
+    return mrb_nil_value();
+}
+
 static mrb_value mrb_cf_draw_line(mrb_state* mrb, mrb_value self)
 {
     mrb_value p0_obj, p1_obj;
@@ -68,6 +78,7 @@ void mrb_cute_draw_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_module_function(mrb, mCute, "cf_draw_sprite", mrb_cf_draw_sprite, MRB_ARGS_REQ(1));
     mrb_define_module_function(mrb, mCute, "cf_draw_scale", mrb_cf_draw_scale, MRB_ARGS_REQ(2));
     mrb_define_module_function(mrb, mCute, "cf_draw_scale_v2", mrb_cf_draw_scale_v2, MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, mCute, "cf_draw_rotate", mrb_cf_draw_rotate, MRB_ARGS_REQ(1));
     mrb_define_module_function(mrb, mCute, "cf_draw_push", mrb_cf_draw_push, MRB_ARGS_NONE());
     mrb_define_module_function(mrb, mCute, "cf_draw_pop", mrb_cf_draw_pop, MRB_ARGS_NONE());
     mrb_define_module_function(mrb, mCute, "cf_draw_line", mrb_cf_draw_line, MRB_ARGS_REQ(3));
