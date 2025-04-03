@@ -7,3 +7,5 @@ source "https://rubygems.org"
 gem "yard", "~> 0.9.37"
 
 gem "rake", "~> 13.2"
+
+gem "standard", "~> 1.47"
