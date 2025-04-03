@@ -1,6 +1,7 @@
 #include "draw.h"
 #include "sprite.h"
 #include "vector.h"
+#include "aabb.h"
 
 static mrb_value mrb_cf_draw_sprite(mrb_state* mrb, mrb_value self)
 {
@@ -73,6 +74,37 @@ static mrb_value mrb_cf_draw_line(mrb_state* mrb, mrb_value self)
     return mrb_nil_value();
 }
 
+static mrb_value mrb_cf_draw_quad(mrb_state* mrb, mrb_value self)
+{
+    mrb_value bb_obj;
+    mrb_float thickness, chubbiness;
+
+    mrb_get_args(mrb, "off", &bb_obj, &thickness, &chubbiness);
+
+    CF_Aabb* bb = mrb_cf_aabb_unwrap(mrb, bb_obj);
+
+    cf_draw_quad(*bb, (float)thickness, (float)chubbiness);
+
+    return mrb_nil_value();
+}
+
+static mrb_value mrb_cf_draw_quad2(mrb_state* mrb, mrb_value self)
+{
+    mrb_value p0_obj, p1_obj, p2_obj, p3_obj;
+    mrb_float thickness, chubbiness;
+
+    mrb_get_args(mrb, "ooooff", &p0_obj, &p1_obj, &p2_obj, &p3_obj, &thickness, &chubbiness);
+
+    CF_V2* p0 = mrb_cf_v2_unwrap(mrb, p0_obj);
+    CF_V2* p1 = mrb_cf_v2_unwrap(mrb, p1_obj);
+    CF_V2* p2 = mrb_cf_v2_unwrap(mrb, p2_obj);
+    CF_V2* p3 = mrb_cf_v2_unwrap(mrb, p3_obj);
+
+    cf_draw_quad2(*p0, *p1, *p2, *p3, (float)thickness, (float)chubbiness);
+
+    return mrb_nil_value();
+}
+
 void mrb_cute_draw_init(mrb_state* mrb, struct RClass* mCute)
 {
     mrb_define_module_function(mrb, mCute, "cf_draw_sprite", mrb_cf_draw_sprite, MRB_ARGS_REQ(1));
@@ -82,4 +114,6 @@ void mrb_cute_draw_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_module_function(mrb, mCute, "cf_draw_push", mrb_cf_draw_push, MRB_ARGS_NONE());
     mrb_define_module_function(mrb, mCute, "cf_draw_pop", mrb_cf_draw_pop, MRB_ARGS_NONE());
     mrb_define_module_function(mrb, mCute, "cf_draw_line", mrb_cf_draw_line, MRB_ARGS_REQ(3));
+    mrb_define_module_function(mrb, mCute, "cf_draw_quad", mrb_cf_draw_quad, MRB_ARGS_REQ(3));
+    mrb_define_module_function(mrb, mCute, "cf_draw_quad2", mrb_cf_draw_quad2, MRB_ARGS_REQ(6));
 }
