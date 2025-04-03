@@ -2,6 +2,7 @@
 #include "sprite.h"
 #include "vector.h"
 #include "aabb.h"
+#include "circle.h"
 
 static mrb_value mrb_cf_draw_sprite(mrb_state* mrb, mrb_value self)
 {
@@ -126,6 +127,34 @@ static mrb_value mrb_cf_draw_quad2(mrb_state* mrb, mrb_value self)
     return mrb_nil_value();
 }
 
+static mrb_value mrb_cf_draw_circle(mrb_state* mrb, mrb_value self)
+{
+    mrb_value circle_obj;
+    mrb_float thickness;
+
+    mrb_get_args(mrb, "of", &circle_obj, &thickness);
+
+    CF_Circle* circle = mrb_cf_circle_unwrap(mrb, circle_obj);
+
+    cf_draw_circle(*circle, (float)thickness);
+
+    return mrb_nil_value();
+}
+
+static mrb_value mrb_cf_draw_circle2(mrb_state* mrb, mrb_value self)
+{
+    mrb_value position_obj;
+    mrb_float radius, thickness;
+
+    mrb_get_args(mrb, "off", &position_obj, &radius, &thickness);
+
+    CF_V2* position = mrb_cf_v2_unwrap(mrb, position_obj);
+
+    cf_draw_circle2(*position, (float)radius, (float)thickness);
+
+    return mrb_nil_value();
+}
+
 void mrb_cute_draw_init(mrb_state* mrb, struct RClass* mCute)
 {
     mrb_define_module_function(mrb, mCute, "cf_draw_sprite", mrb_cf_draw_sprite, MRB_ARGS_REQ(1));
@@ -139,4 +168,6 @@ void mrb_cute_draw_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_module_function(mrb, mCute, "cf_draw_line", mrb_cf_draw_line, MRB_ARGS_REQ(3));
     mrb_define_module_function(mrb, mCute, "cf_draw_quad", mrb_cf_draw_quad, MRB_ARGS_REQ(3));
     mrb_define_module_function(mrb, mCute, "cf_draw_quad2", mrb_cf_draw_quad2, MRB_ARGS_REQ(6));
+    mrb_define_module_function(mrb, mCute, "cf_draw_circle", mrb_cf_draw_circle, MRB_ARGS_REQ(2));
+    mrb_define_module_function(mrb, mCute, "cf_draw_circle2", mrb_cf_draw_circle2, MRB_ARGS_REQ(3));
 }

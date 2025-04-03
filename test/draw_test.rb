@@ -79,3 +79,30 @@ assert('Cute::cf_draw_translate_v2') do
     end
   end
 end
+
+assert('Cute::cf_draw_circle') do
+  within_app do
+    # Create a position for the circle
+    position = Cute::V2.new(100.0, 100.0)
+    
+    # Create a circle with radius 50
+    circle = Cute::Circle.new(position, 50.0)
+    
+    # This should not raise an error
+    assert_nothing_raised do
+      Cute::cf_draw_circle(circle, 2.0)
+    end
+  end
+end
+
+assert('Cute::cf_draw_circle2') do
+  within_app do
+    # Create a position for the circle
+    position = Cute::V2.new(100.0, 100.0)
+    
+    # This should not raise an error
+    assert_nothing_raised do
+      Cute::cf_draw_circle2(position, 50.0, 2.0)
+    end
+  end
+end

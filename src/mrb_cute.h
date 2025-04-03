@@ -17,6 +17,7 @@ void mrb_cute_result_init(mrb_state* mrb, struct RClass* mCute);
 void mrb_cute_input_init(mrb_state* mrb, struct RClass* mCute);
 void mrb_cute_time_init(mrb_state* mrb, struct RClass* mCute);
 void mrb_cute_stopwatch_init(mrb_state* mrb, struct RClass* mCute);
+void mrb_cute_circle_init(mrb_state* mrb, struct RClass* mCute);
 void mrb_cute_color_init(mrb_state* mrb, struct RClass* mCute);
 
 mrb_value mrb_cf_result_from_cf_result(mrb_state* mrb, CF_Result result);

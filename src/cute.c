@@ -1,5 +1,6 @@
 #include "mrb_cute.h"
 #include "aabb.h"
+#include "circle.h"
 #include "color.h"
 #include "draw.h"
 #include "sincos.h"
@@ -33,6 +34,7 @@ void mrb_mruby_cute_gem_init(mrb_state* mrb)
     mrb_cute_time_init(mrb, mCute);
     mrb_cute_stopwatch_init(mrb, mCute);
     mrb_cute_aabb_init(mrb, mCute);
+    mrb_cute_circle_init(mrb, mCute);
     mrb_cute_color_init(mrb, mCute);
 }
 
