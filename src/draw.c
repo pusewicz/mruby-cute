@@ -48,6 +48,21 @@ static mrb_value mrb_cf_draw_scale_v2(mrb_state* mrb, mrb_value self)
     return mrb_nil_value();
 }
 
+static mrb_value mrb_cf_draw_line(mrb_state* mrb, mrb_value self)
+{
+    mrb_value p0_obj, p1_obj;
+    mrb_float thickness;
+
+    mrb_get_args(mrb, "oof", &p0_obj, &p1_obj, &thickness);
+
+    CF_V2* p0 = mrb_cf_v2_unwrap(mrb, p0_obj);
+    CF_V2* p1 = mrb_cf_v2_unwrap(mrb, p1_obj);
+
+    cf_draw_line(*p0, *p1, (float)thickness);
+
+    return mrb_nil_value();
+}
+
 void mrb_cute_draw_init(mrb_state* mrb, struct RClass* mCute)
 {
     mrb_define_module_function(mrb, mCute, "cf_draw_sprite", mrb_cf_draw_sprite, MRB_ARGS_REQ(1));
@@ -55,4 +70,5 @@ void mrb_cute_draw_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_module_function(mrb, mCute, "cf_draw_scale_v2", mrb_cf_draw_scale_v2, MRB_ARGS_REQ(1));
     mrb_define_module_function(mrb, mCute, "cf_draw_push", mrb_cf_draw_push, MRB_ARGS_NONE());
     mrb_define_module_function(mrb, mCute, "cf_draw_pop", mrb_cf_draw_pop, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_draw_line", mrb_cf_draw_line, MRB_ARGS_REQ(3));
 }
