@@ -12,8 +12,6 @@
 #include <mruby/string.h>
 #include <mruby/variable.h>
 
-static const struct mrb_data_type mrb_cf_result_type = { "CF_Result", mrb_free };
-
 void mrb_cute_app_init(mrb_state* mrb, struct RClass* mCute);
 void mrb_cute_result_init(mrb_state* mrb, struct RClass* mCute);
 void mrb_cute_input_init(mrb_state* mrb, struct RClass* mCute);

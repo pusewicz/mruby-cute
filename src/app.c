@@ -1,4 +1,5 @@
-#include "mrb_cute.h"
+#include "app.h"
+#include "result.h"
 
 static mrb_value mrb_cf_make_app(mrb_state* mrb, mrb_value self)
 {
@@ -13,10 +14,10 @@ static mrb_value mrb_cf_make_app(mrb_state* mrb, mrb_value self)
 
     mrb_get_args(mrb, "ziiiiiiz", &window_title, &display_id, &x, &y, &w, &h, &options, &argv0);
 
-    CF_Result* result_ptr = (CF_Result*)mrb_malloc(mrb, sizeof(CF_Result));
-    *result_ptr = cf_make_app(window_title, display_id, x, y, w, h, options, argv0);
-    struct RClass* cf_result_class = mrb_class_get_under(mrb, mrb_module_get(mrb, "Cute"), "CF_Result");
-    return mrb_obj_value(Data_Wrap_Struct(mrb, cf_result_class, &mrb_cf_result_type, result_ptr));
+    CF_Result* result = (CF_Result*)mrb_malloc(mrb, sizeof(CF_Result));
+    *result = cf_make_app(window_title, display_id, x, y, w, h, options, argv0);
+
+    return mrb_cf_result_wrap(mrb, result);
 }
 
 static mrb_value mrb_cf_app_is_running(mrb_state* mrb, mrb_value self)
