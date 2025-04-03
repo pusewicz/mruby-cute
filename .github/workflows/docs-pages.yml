@@ -36,7 +36,8 @@ jobs:
         run: bin/rake yard
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
-        path: doc/
+        with:
+          path: doc/
 
   # Deployment job
   deploy:
