@@ -16,7 +16,7 @@ static mrb_value mrb_cf_color_initialize(mrb_state* mrb, mrb_value self)
 {
     CF_Color* data;
     mrb_float r = 0.0f, g = 0.0f, b = 0.0f, a = 1.0f;
-    mrb_int argc = mrb_get_args(mrb, "|ffff", &r, &g, &b, &a);
+    mrb_get_args(mrb, "|ffff", &r, &g, &b, &a);
 
     data = (CF_Color*)mrb_malloc(mrb, sizeof(CF_Color));
     *data = cf_make_color_rgba_f(r, g, b, a);
@@ -101,8 +101,8 @@ static mrb_value mrb_cf_color_inspect(mrb_state* mrb, mrb_value self)
     CF_Color* data = (CF_Color*)DATA_PTR(self);
     char buf[100];
 
-    snprintf(buf, sizeof(buf), "#<Cute::Color:0x%lx r=%.3f g=%.3f b=%.3f a=%.3f>", 
-             (unsigned long)data, data->r, data->g, data->b, data->a);
+    snprintf(buf, sizeof(buf), "#<Cute::Color:0x%lx r=%.3f g=%.3f b=%.3f a=%.3f>",
+        (unsigned long)data, data->r, data->g, data->b, data->a);
     return mrb_str_new_cstr(mrb, buf);
 }
 
@@ -289,10 +289,10 @@ static mrb_value mrb_cf_color_mul(mrb_state* mrb, mrb_value self)
     mrb_float s;
 
     mrb_get_args(mrb, "f", &s);
-    
+
     result = (CF_Color*)mrb_malloc(mrb, sizeof(CF_Color));
     *result = cf_mul_color(*data, s);
-    
+
     return mrb_cf_color_wrap(mrb, result);
 }
 
@@ -305,10 +305,10 @@ static mrb_value mrb_cf_color_add(mrb_state* mrb, mrb_value self)
 
     mrb_get_args(mrb, "o", &other_obj);
     other = mrb_cf_color_unwrap(mrb, other_obj);
-    
+
     result = (CF_Color*)mrb_malloc(mrb, sizeof(CF_Color));
     *result = cf_add_color(*data, *other);
-    
+
     return mrb_cf_color_wrap(mrb, result);
 }
 
@@ -321,10 +321,10 @@ static mrb_value mrb_cf_color_sub(mrb_state* mrb, mrb_value self)
 
     mrb_get_args(mrb, "o", &other_obj);
     other = mrb_cf_color_unwrap(mrb, other_obj);
-    
+
     result = (CF_Color*)mrb_malloc(mrb, sizeof(CF_Color));
     *result = cf_sub_color(*data, *other);
-    
+
     return mrb_cf_color_wrap(mrb, result);
 }
 
@@ -341,7 +341,7 @@ static mrb_value mrb_cf_pixel_initialize(mrb_state* mrb, mrb_value self)
 {
     CF_Pixel* data;
     mrb_int r = 0, g = 0, b = 0, a = 255;
-    mrb_int argc = mrb_get_args(mrb, "|iiii", &r, &g, &b, &a);
+    mrb_get_args(mrb, "|iiii", &r, &g, &b, &a);
 
     data = (CF_Pixel*)mrb_malloc(mrb, sizeof(CF_Pixel));
     *data = cf_make_pixel_rgba((uint8_t)r, (uint8_t)g, (uint8_t)b, (uint8_t)a);
@@ -417,8 +417,8 @@ static mrb_value mrb_cf_pixel_to_s(mrb_state* mrb, mrb_value self)
     CF_Pixel* data = (CF_Pixel*)DATA_PTR(self);
     char buf[64];
 
-    snprintf(buf, sizeof(buf), "Pixel(%d, %d, %d, %d)", 
-             data->colors.r, data->colors.g, data->colors.b, data->colors.a);
+    snprintf(buf, sizeof(buf), "Pixel(%d, %d, %d, %d)",
+        data->colors.r, data->colors.g, data->colors.b, data->colors.a);
     return mrb_str_new_cstr(mrb, buf);
 }
 
@@ -427,8 +427,8 @@ static mrb_value mrb_cf_pixel_inspect(mrb_state* mrb, mrb_value self)
     CF_Pixel* data = (CF_Pixel*)DATA_PTR(self);
     char buf[100];
 
-    snprintf(buf, sizeof(buf), "#<Cute::Pixel:0x%lx r=%d g=%d b=%d a=%d>", 
-             (unsigned long)data, data->colors.r, data->colors.g, data->colors.b, data->colors.a);
+    snprintf(buf, sizeof(buf), "#<Cute::Pixel:0x%lx r=%d g=%d b=%d a=%d>",
+        (unsigned long)data, data->colors.r, data->colors.g, data->colors.b, data->colors.a);
     return mrb_str_new_cstr(mrb, buf);
 }
 
@@ -494,9 +494,9 @@ static mrb_value mrb_cf_color_to_pixel(mrb_state* mrb, mrb_value self)
 {
     CF_Color* color = mrb_cf_color_unwrap(mrb, self);
     CF_Pixel* pixel = (CF_Pixel*)mrb_malloc(mrb, sizeof(CF_Pixel));
-    
+
     *pixel = cf_color_to_pixel(*color);
-    
+
     return mrb_cf_pixel_wrap(mrb, pixel);
 }
 
@@ -504,9 +504,9 @@ static mrb_value mrb_cf_pixel_to_color(mrb_state* mrb, mrb_value self)
 {
     CF_Pixel* pixel = mrb_cf_pixel_unwrap(mrb, self);
     CF_Color* color = (CF_Color*)mrb_malloc(mrb, sizeof(CF_Color));
-    
+
     *color = cf_pixel_to_color(*pixel);
-    
+
     return mrb_cf_color_wrap(mrb, color);
 }
 
@@ -528,20 +528,20 @@ void mrb_cute_color_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_method(mrb, cColor, "a=", mrb_cf_color_set_a, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, cColor, "to_s", mrb_cf_color_to_s, MRB_ARGS_NONE());
     mrb_define_method(mrb, cColor, "inspect", mrb_cf_color_inspect, MRB_ARGS_NONE());
-    
+
     // Color operations
     mrb_define_method(mrb, cColor, "mul", mrb_cf_color_mul, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, cColor, "add", mrb_cf_color_add, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, cColor, "sub", mrb_cf_color_sub, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, cColor, "to_pixel", mrb_cf_color_to_pixel, MRB_ARGS_NONE());
-    
+
     // Factory methods for Color
     mrb_define_module_function(mrb, mCute, "rgb_f", mrb_cf_color_rgb_f, MRB_ARGS_REQ(3));
     mrb_define_module_function(mrb, mCute, "rgba_f", mrb_cf_color_rgba_f, MRB_ARGS_REQ(4));
     mrb_define_module_function(mrb, mCute, "rgb", mrb_cf_color_rgb, MRB_ARGS_REQ(3));
     mrb_define_module_function(mrb, mCute, "rgba", mrb_cf_color_rgba, MRB_ARGS_REQ(4));
     mrb_define_module_function(mrb, mCute, "color_hex", mrb_cf_color_hex, MRB_ARGS_REQ(1));
-    
+
     // Predefined colors
     mrb_define_module_function(mrb, mCute, "color_clear", mrb_cf_color_clear, MRB_ARGS_NONE());
     mrb_define_module_function(mrb, mCute, "color_black", mrb_cf_color_black, MRB_ARGS_NONE());
@@ -556,7 +556,7 @@ void mrb_cute_color_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_module_function(mrb, mCute, "color_orange", mrb_cf_color_orange, MRB_ARGS_NONE());
     mrb_define_module_function(mrb, mCute, "color_purple", mrb_cf_color_purple, MRB_ARGS_NONE());
     mrb_define_module_function(mrb, mCute, "color_brown", mrb_cf_color_brown, MRB_ARGS_NONE());
-    
+
     // Pixel class
     cPixel = mrb_define_class_under(mrb, mCute, "Pixel", mrb->object_class);
     MRB_SET_INSTANCE_TT(cPixel, MRB_TT_DATA);
@@ -573,7 +573,7 @@ void mrb_cute_color_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_method(mrb, cPixel, "to_s", mrb_cf_pixel_to_s, MRB_ARGS_NONE());
     mrb_define_method(mrb, cPixel, "inspect", mrb_cf_pixel_inspect, MRB_ARGS_NONE());
     mrb_define_method(mrb, cPixel, "to_color", mrb_cf_pixel_to_color, MRB_ARGS_NONE());
-    
+
     // Factory methods for Pixel
     mrb_define_module_function(mrb, mCute, "pixel_rgb", mrb_cf_pixel_rgb, MRB_ARGS_REQ(3));
     mrb_define_module_function(mrb, mCute, "pixel_rgba", mrb_cf_pixel_rgba, MRB_ARGS_REQ(4));

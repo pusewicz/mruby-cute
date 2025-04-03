@@ -79,8 +79,8 @@ static mrb_value mrb_cf_circle_inspect(mrb_state* mrb, mrb_value self)
     CF_Circle* data = (CF_Circle*)DATA_PTR(self);
     char buf[100];
 
-    snprintf(buf, sizeof(buf), "#<Cute::Circle:0x%lx position=(%.3f, %.3f) radius=%.3f>", 
-             (unsigned long)data, data->p.x, data->p.y, data->r);
+    snprintf(buf, sizeof(buf), "#<Cute::Circle:0x%lx position=(%.3f, %.3f) radius=%.3f>",
+        (unsigned long)data, data->p.x, data->p.y, data->r);
     return mrb_str_new_cstr(mrb, buf);
 }
 
@@ -128,6 +128,6 @@ void mrb_cute_circle_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_method(mrb, cCircle, "radius=", mrb_cf_circle_set_radius, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, cCircle, "to_s", mrb_cf_circle_to_s, MRB_ARGS_NONE());
     mrb_define_method(mrb, cCircle, "inspect", mrb_cf_circle_inspect, MRB_ARGS_NONE());
-    
+
     mrb_define_module_function(mrb, mCute, "Circle", mrb_cf_circle_factory, MRB_ARGS_REQ(2));
 }

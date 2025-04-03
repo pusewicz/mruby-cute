@@ -43,10 +43,10 @@ static mrb_value mrb_cf_aabb_set_min(mrb_state* mrb, mrb_value self)
     CF_Aabb* data = (CF_Aabb*)DATA_PTR(self);
     mrb_value min_obj;
     mrb_get_args(mrb, "o", &min_obj);
-    
+
     CF_V2* min = mrb_cf_v2_unwrap(mrb, min_obj);
     data->min = *min;
-    
+
     return min_obj;
 }
 
@@ -63,10 +63,10 @@ static mrb_value mrb_cf_aabb_set_max(mrb_state* mrb, mrb_value self)
     CF_Aabb* data = (CF_Aabb*)DATA_PTR(self);
     mrb_value max_obj;
     mrb_get_args(mrb, "o", &max_obj);
-    
+
     CF_V2* max = mrb_cf_v2_unwrap(mrb, max_obj);
     data->max = *max;
-    
+
     return max_obj;
 }
 
@@ -75,8 +75,8 @@ static mrb_value mrb_cf_aabb_to_s(mrb_state* mrb, mrb_value self)
     CF_Aabb* data = (CF_Aabb*)DATA_PTR(self);
     char buf[128];
 
-    snprintf(buf, sizeof(buf), "Aabb(min=(%.3f, %.3f), max=(%.3f, %.3f))", 
-             data->min.x, data->min.y, data->max.x, data->max.y);
+    snprintf(buf, sizeof(buf), "Aabb(min=(%.3f, %.3f), max=(%.3f, %.3f))",
+        data->min.x, data->min.y, data->max.x, data->max.y);
     return mrb_str_new_cstr(mrb, buf);
 }
 
@@ -85,8 +85,8 @@ static mrb_value mrb_cf_aabb_inspect(mrb_state* mrb, mrb_value self)
     CF_Aabb* data = (CF_Aabb*)DATA_PTR(self);
     char buf[128];
 
-    snprintf(buf, sizeof(buf), "#<Cute::Aabb:0x%lx min=(%.3f, %.3f) max=(%.3f, %.3f)>", 
-             (unsigned long)data, data->min.x, data->min.y, data->max.x, data->max.y);
+    snprintf(buf, sizeof(buf), "#<Cute::Aabb:0x%lx min=(%.3f, %.3f) max=(%.3f, %.3f)>",
+        (unsigned long)data, data->min.x, data->min.y, data->max.x, data->max.y);
     return mrb_str_new_cstr(mrb, buf);
 }
 

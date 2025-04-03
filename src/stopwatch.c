@@ -1,7 +1,13 @@
 #include "mrb_cute.h"
 
+static void mrb_cf_stopwatch_free(mrb_state* mrb, void* p)
+{
+    CF_Stopwatch* stopwatch = (CF_Stopwatch*)p;
+    mrb_free(mrb, stopwatch);
+}
+
 static const struct mrb_data_type mrb_stopwatch_type = {
-    "CF_Stopwatch", mrb_free
+    "CF_Stopwatch", mrb_cf_stopwatch_free
 };
 
 static mrb_value mrb_stopwatch_initialize(mrb_state* mrb, mrb_value self)
