@@ -8,7 +8,7 @@ MRuby::Gem::Specification.new("mruby-cute") do |spec|
   spec.add_dependency "mruby-sprintf"
   spec.add_dependency "mruby-math"
 
-  if ENV['DEBUG']
+  if ENV['DEBUG'] == 'true'
     # Debug flags
     spec.compilers.each do |c|
       c.defines += %w(MRB_USE_DEBUG_HOOK)
@@ -17,19 +17,28 @@ MRuby::Gem::Specification.new("mruby-cute") do |spec|
       c.flags << "-g3"
       c.flags << "-glldb"
     end
+  elsif ENV['RELEASE'] == 'true'
+    # Release flags
+    spec.compilers.each do |c|
+      c.flags << "-O3"
+      c.flags << "-DNDEBUG"
+    end
+  end
+
+  # General flags
+  spec.compilers.each do |c|
+    c.include_paths << File.expand_path("../cute_framework/include")
+    c.include_paths << File.expand_path("../cute_framework/libraries")
   end
 
   # C flags
   spec.cc.flags << "-std=c2x"
-  spec.cc.include_paths << File.expand_path("../cute_framework/include")
-  spec.cc.include_paths << File.expand_path("../cute_framework/libraries")
 
   # C++ flags
   spec.cxx.flags << "-std=c++17"
-  spec.cxx.include_paths << File.expand_path("../cute_framework/include")
 
   # Linker flags
-  static_libs = Dir.glob(File.expand_path("../cute_framework/build/**/*.a"))
+  static_libs = Dir.glob(File.expand_path("../cute_framework/build*/**/*.a"))
 
   spec.linker.flags += static_libs.map { |lib| "-Wl,-rpath,#{File.dirname(lib)}" }.uniq
   spec.linker.library_paths += static_libs.map { |lib| File.dirname(lib) }.uniq

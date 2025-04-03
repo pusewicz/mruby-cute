@@ -14,7 +14,7 @@ DEPS_DIR=File.expand_path('deps')
 MRUBY_DEPS_DIR=File.join(DEPS_DIR, 'mruby')
 MRUBY_ARCHIVE=File.join(DEPS_DIR, "mruby-#{MRUBY_VERSION}.zip")
 CUTE_DEPS_DIR=File.join(DEPS_DIR, 'cute_framework')
-CUTE_BUILD_DIR=File.join(CUTE_DEPS_DIR, 'build')
+CUTE_BUILD_DIR=File.join(CUTE_DEPS_DIR, ['build', ENV["CMAKE_GENERATOR"], ENV["RELEASE"] ? "release" : "debug"].join("_"))
 CUTE_ARCHIVE=File.join(DEPS_DIR, "cute_framework-#{CUTE_VERSION}.zip")
 
 directory DEPS_DIR
@@ -52,7 +52,14 @@ end
 file CUTE_BUILD_DIR => CUTE_DEPS_DIR do
   mkdir_p CUTE_BUILD_DIR
   cd CUTE_BUILD_DIR do
-    sh "cmake -G Ninja -DCF_FRAMEWORK_BUILD_SAMPLES=OFF -DCF_FRAMEWORK_BUILD_TESTS=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .. && cmake --build ."
+    cmake_flags = {
+      "CMAKE_BUILD_TYPE" => ENV["RELEASE"] ? "Release" : "Debug",
+      "CF_FRAMEWORK_BUILD_SAMPLES" => "OFF",
+      "CF_FRAMEWORK_BUILD_TESTS" => "OFF",
+      "CMAKE_EXPORT_COMPILE_COMMANDS" => "ON",
+    }
+    sh "cmake #{cmake_flags.map { |k, v| "-D#{k}=#{v}"}.join(' ')} .."
+    sh "cmake --build ."
   end
 end
 
