@@ -8,6 +8,12 @@ MRuby bindings for the [Cutest Framework](https://randygaul.github.io/cute_frame
 $ rake test
 ```
 
+## Build release type
+
+```bash
+$ env RELEASE=true rake
+```
+
 ## Compilation Commands
 
 Prerequisite: [Bear](https://github.com/rizsotto/Bear)

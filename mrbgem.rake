@@ -8,16 +8,16 @@ MRuby::Gem::Specification.new("mruby-cute") do |spec|
   spec.add_dependency "mruby-sprintf"
   spec.add_dependency "mruby-math"
 
-  if ENV['DEBUG'] == 'true'
+  if ENV["DEBUG"] == "true"
     # Debug flags
     spec.compilers.each do |c|
-      c.defines += %w(MRB_USE_DEBUG_HOOK)
+      c.defines += %w[MRB_USE_DEBUG_HOOK]
       c.flags << "-O0"
       c.flags << "-g"
       c.flags << "-g3"
       c.flags << "-glldb"
     end
-  elsif ENV['RELEASE'] == 'true'
+  elsif ENV["RELEASE"] == "true"
     # Release flags
     spec.compilers.each do |c|
       c.flags << "-O3"
@@ -45,7 +45,7 @@ MRuby::Gem::Specification.new("mruby-cute") do |spec|
   spec.linker.libraries.push("c++")
   spec.linker.libraries += static_libs.map { |lib| File.basename(lib, ".a").sub(/^lib/, "") }
 
-  if /darwin/ =~ RUBY_PLATFORM
+  if /darwin/.match?(RUBY_PLATFORM)
     spec.linker.libraries.unshift("objc")
     %w[
       AVFoundation
