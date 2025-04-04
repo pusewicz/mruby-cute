@@ -3,7 +3,7 @@
 // cf_key_down
 static mrb_value mrb_cf_key_down(mrb_state* mrb, mrb_value self)
 {
-    int key;
+    mrb_int key;
     mrb_get_args(mrb, "i", &key);
     return mrb_bool_value(cf_key_down(key));
 }
@@ -11,7 +11,7 @@ static mrb_value mrb_cf_key_down(mrb_state* mrb, mrb_value self)
 // cf_key_up
 static mrb_value mrb_cf_key_up(mrb_state* mrb, mrb_value self)
 {
-    int key;
+    mrb_int key;
     mrb_get_args(mrb, "i", &key);
     return mrb_bool_value(cf_key_up(key));
 }
@@ -19,7 +19,7 @@ static mrb_value mrb_cf_key_up(mrb_state* mrb, mrb_value self)
 // cf_key_just_pressed
 static mrb_value mrb_cf_key_just_pressed(mrb_state* mrb, mrb_value self)
 {
-    int key;
+    mrb_int key;
     mrb_get_args(mrb, "i", &key);
     return mrb_bool_value(cf_key_just_pressed(key));
 }
@@ -27,7 +27,7 @@ static mrb_value mrb_cf_key_just_pressed(mrb_state* mrb, mrb_value self)
 // cf_key_just_released
 static mrb_value mrb_cf_key_just_released(mrb_state* mrb, mrb_value self)
 {
-    int key;
+    mrb_int key;
     mrb_get_args(mrb, "i", &key);
     return mrb_bool_value(cf_key_just_released(key));
 }
@@ -35,7 +35,7 @@ static mrb_value mrb_cf_key_just_released(mrb_state* mrb, mrb_value self)
 // cf_key_repeating
 static mrb_value mrb_cf_key_repeating(mrb_state* mrb, mrb_value self)
 {
-    int key;
+    mrb_int key;
     mrb_get_args(mrb, "i", &key);
     return mrb_bool_value(cf_key_repeating(key));
 }
