@@ -7,7 +7,7 @@ def within_app(&block)
 end
 
 within_app do
-  assert("Cute::cf_draw_*") do
+  assert("Cute::cf_draw_line") do
     # Create two vectors
     v1 = Cute::V2.new(10, 10)
     v2 = Cute::V2.new(100, 100)
