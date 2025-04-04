@@ -6,8 +6,8 @@ def within_app(&block)
   Cute.cf_app_destroy
 end
 
-assert("Cute::cf_draw_line") do
-  within_app do
+within_app do
+  assert("Cute::cf_draw_*") do
     # Create two vectors
     v1 = Cute::V2.new(10, 10)
     v2 = Cute::V2.new(100, 100)
@@ -17,10 +17,8 @@ assert("Cute::cf_draw_line") do
       Cute.cf_draw_line(v1, v2, 2.0)
     end
   end
-end
 
-assert("Cute::cf_draw_quad") do
-  within_app do
+  assert("Cute::cf_draw_quad") do
     # Create min and max points for AABB
     min = Cute::V2.new(10, 10)
     max = Cute::V2.new(100, 100)
@@ -33,10 +31,8 @@ assert("Cute::cf_draw_quad") do
       Cute.cf_draw_quad(bb, 2.0, 0.0)
     end
   end
-end
 
-assert("Cute::cf_draw_quad2") do
-  within_app do
+  assert("Cute::cf_draw_quad2") do
     # Create four points for quad
     p0 = Cute::V2.new(10, 10)
     p1 = Cute::V2.new(100, 10)
@@ -48,28 +44,22 @@ assert("Cute::cf_draw_quad2") do
       Cute.cf_draw_quad2(p0, p1, p2, p3, 2.0, 0.0)
     end
   end
-end
 
-assert("Cute::cf_draw_rotate") do
-  within_app do
+  assert("Cute::cf_draw_rotate") do
     # This should not raise an error
     assert_nothing_raised do
       Cute.cf_draw_rotate(Math::PI / 4.0)  # 45 degrees in radians
     end
   end
-end
 
-assert("Cute::cf_draw_translate") do
-  within_app do
+  assert("Cute::cf_draw_translate") do
     # This should not raise an error
     assert_nothing_raised do
       Cute.cf_draw_translate(50.0, 75.0)
     end
   end
-end
 
-assert("Cute::cf_draw_translate_v2") do
-  within_app do
+  assert("Cute::cf_draw_translate_v2") do
     # Create a vector for translation
     position = Cute::V2.new(50.0, 75.0)
 
@@ -78,10 +68,8 @@ assert("Cute::cf_draw_translate_v2") do
       Cute.cf_draw_translate_v2(position)
     end
   end
-end
 
-assert("Cute::cf_draw_circle") do
-  within_app do
+  assert("Cute::cf_draw_circle") do
     # Create a position for the circle
     position = Cute::V2.new(100.0, 100.0)
 
@@ -93,10 +81,8 @@ assert("Cute::cf_draw_circle") do
       Cute.cf_draw_circle(circle, 2.0)
     end
   end
-end
 
-assert("Cute::cf_draw_circle2") do
-  within_app do
+  assert("Cute::cf_draw_circle2") do
     # Create a position for the circle
     position = Cute::V2.new(100.0, 100.0)
 
@@ -105,39 +91,31 @@ assert("Cute::cf_draw_circle2") do
       Cute.cf_draw_circle2(position, 50.0, 2.0)
     end
   end
-end
 
-assert("Cute::cf_make_font") do
-  within_app do
+  assert("Cute::cf_make_font") do
     # Just test that the function exists and doesn't crash
     assert_nothing_raised do
       Cute.cf_make_font("font.ttf", "test_font")
     end
   end
-end
 
-assert("Cute::cf_push_font and cf_pop_font") do
-  within_app do
+  assert("Cute::cf_push_font and cf_pop_font") do
     # Just test that the functions exist and don't crash
     assert_nothing_raised do
       Cute.cf_push_font("default")
       Cute.cf_pop_font
     end
   end
-end
 
-assert("Cute::cf_push_font_size and cf_pop_font_size") do
-  within_app do
+  assert("Cute::cf_push_font_size and cf_pop_font_size") do
     # Just test that the functions exist and don't crash
     assert_nothing_raised do
       Cute.cf_push_font_size(16.0)
       Cute.cf_pop_font_size
     end
   end
-end
 
-assert("Cute::cf_draw_text") do
-  within_app do
+  assert("Cute::cf_draw_text") do
     # Create a position for the text
     position = Cute::V2.new(100.0, 100.0)
 
@@ -146,10 +124,8 @@ assert("Cute::cf_draw_text") do
       Cute.cf_draw_text("Hello, world!", position)
     end
   end
-end
 
-assert("Cute::cf_draw_text with num_chars") do
-  within_app do
+  assert("Cute::cf_draw_text with num_chars") do
     # Create a position for the text
     position = Cute::V2.new(100.0, 100.0)
 
@@ -158,28 +134,22 @@ assert("Cute::cf_draw_text with num_chars") do
       Cute.cf_draw_text("Hello, world!", position, 5)  # Draw only "Hello"
     end
   end
-end
 
-assert("Cute::cf_text_width") do
-  within_app do
+  assert("Cute::cf_text_width") do
     # Just test that the function exists and doesn't crash
     assert_nothing_raised do
       Cute.cf_text_width("Hello, world!")
     end
   end
-end
 
-assert("Cute::cf_text_height") do
-  within_app do
+  assert("Cute::cf_text_height") do
     # Just test that the function exists and doesn't crash
     assert_nothing_raised do
       Cute.cf_text_height("Hello, world!")
     end
   end
-end
 
-assert("Cute::cf_text_size") do
-  within_app do
+  assert("Cute::cf_text_size") do
     # Just test that the function exists and doesn't crash
     assert_nothing_raised do
       Cute.cf_text_size("Hello, world!")
