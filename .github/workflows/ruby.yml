@@ -72,3 +72,4 @@ jobs:
           CMAKE_CXX_COMPILER: ${{ matrix.config.cxx }}
           CMAKE_GENERATOR: ${{ matrix.config.generator }}
           CMAKE_MAKE_PROGRAM: ninja
+          ASAN: true
