@@ -11,6 +11,7 @@ MRuby::Build.new do |conf|
   end
 
   if ENV["DEBUG"] == "true"
+    enable_sanitizer "address,undefined" if ENV["ASAN"] == "true"
     conf.enable_test
     conf.enable_debug
     conf.compilers.each do |c|
