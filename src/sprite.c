@@ -314,6 +314,7 @@ static mrb_value mrb_cf_sprite_get_transform(mrb_state* mrb, mrb_value self)
     // Create a new transform object
     transform_obj = mrb_cf_transform_wrap_nested(mrb, &sprite->transform);
     mrb_iv_set(mrb, self, iv_name, transform_obj);
+    mrb_iv_set(mrb, transform_obj, mrb_intern_lit(mrb, "sprite"), self);
 
     return transform_obj;
 }

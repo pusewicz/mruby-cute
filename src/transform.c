@@ -74,6 +74,8 @@ static mrb_value mrb_cf_transform_get_p(mrb_state* mrb, mrb_value self)
     // Create a new V2 object
     p_obj = mrb_cf_v2_wrap_nested(mrb, &transform->p);
     mrb_iv_set(mrb, self, iv_name, p_obj);
+    mrb_iv_set(mrb, p_obj, mrb_intern_lit(mrb, "transform"), self);
+
     return p_obj;
 }
 
@@ -104,6 +106,8 @@ static mrb_value mrb_cf_transform_get_r(mrb_state* mrb, mrb_value self)
     // Create a new SinCos object
     r_obj = mrb_cf_sincos_wrap_nested(mrb, &data->r);
     mrb_iv_set(mrb, self, iv_name, r_obj);
+    mrb_iv_set(mrb, r_obj, mrb_intern_lit(mrb, "transform"), self);
+
     return r_obj;
 }
 
