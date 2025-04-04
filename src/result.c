@@ -58,6 +58,13 @@ static mrb_value mrb_cf_result_success(mrb_state* mrb, mrb_value self)
     return mrb_cf_result_wrap(mrb, result_ptr);
 }
 
+mrb_value mrb_cf_result_from_cf_result(mrb_state* mrb, CF_Result result)
+{
+    CF_Result* result_ptr = (CF_Result*)mrb_malloc(mrb, sizeof(CF_Result));
+    *result_ptr = result;
+    return mrb_cf_result_wrap(mrb, result_ptr);
+}
+
 void mrb_cute_result_init(mrb_state* mrb, struct RClass* mCute)
 {
     // CF_Result

@@ -5,6 +5,7 @@
 #include "mrb_cute.h"
 #include "sincos.h"
 #include "sprite.h"
+#include "text.h"
 #include "transform.h"
 #include "vector.h"
 
@@ -36,6 +37,7 @@ void mrb_mruby_cute_gem_init(mrb_state* mrb)
     mrb_cute_aabb_init(mrb, mCute);
     mrb_cute_circle_init(mrb, mCute);
     mrb_cute_color_init(mrb, mCute);
+    mrb_cute_text_init(mrb, mCute);
 }
 
 void mrb_mruby_cute_gem_final(mrb_state* mrb)
