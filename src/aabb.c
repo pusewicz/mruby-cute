@@ -1,7 +1,10 @@
 #include "aabb.h"
 #include "vector.h"
 
-extern struct RClass* cAabb;
+#include <mruby/class.h>
+#include <mruby/variable.h>
+
+static struct RClass* cAabb;
 
 static void mrb_cf_aabb_free(mrb_state* mrb, void* p)
 {
@@ -33,9 +36,20 @@ static mrb_value mrb_cf_aabb_initialize(mrb_state* mrb, mrb_value self)
 static mrb_value mrb_cf_aabb_get_min(mrb_state* mrb, mrb_value self)
 {
     CF_Aabb* data = DATA_PTR(self);
-    CF_V2* min = (CF_V2*)mrb_malloc(mrb, sizeof(CF_V2));
-    *min = data->min;
-    return mrb_cf_v2_wrap(mrb, min);
+
+    // Check if min iv is set
+    mrb_sym iv_name = mrb_intern_lit(mrb, "min");
+    mrb_value min_obj = mrb_iv_get(mrb, self, iv_name);
+    if (!mrb_nil_p(min_obj)) {
+        return min_obj;
+    }
+
+    // Create and reference a new min object
+    min_obj = mrb_cf_v2_wrap_nested(mrb, &data->min);
+    mrb_iv_set(mrb, self, iv_name, min_obj);
+    mrb_iv_set(mrb, min_obj, mrb_intern_lit(mrb, "aabb"), self);
+
+    return min_obj;
 }
 
 static mrb_value mrb_cf_aabb_set_min(mrb_state* mrb, mrb_value self)
@@ -52,10 +66,21 @@ static mrb_value mrb_cf_aabb_set_min(mrb_state* mrb, mrb_value self)
 
 static mrb_value mrb_cf_aabb_get_max(mrb_state* mrb, mrb_value self)
 {
-    CF_Aabb* data = (CF_Aabb*)DATA_PTR(self);
-    CF_V2* max = (CF_V2*)mrb_malloc(mrb, sizeof(CF_V2));
-    *max = data->max;
-    return mrb_cf_v2_wrap(mrb, max);
+    CF_Aabb* data = DATA_PTR(self);
+
+    // Check if max iv is set
+    mrb_sym iv_name = mrb_intern_lit(mrb, "max");
+    mrb_value max_obj = mrb_iv_get(mrb, self, iv_name);
+    if (!mrb_nil_p(max_obj)) {
+        return max_obj;
+    }
+
+    // Create and reference a new max object
+    max_obj = mrb_cf_v2_wrap_nested(mrb, &data->max);
+    mrb_iv_set(mrb, self, iv_name, max_obj);
+    mrb_iv_set(mrb, max_obj, mrb_intern_lit(mrb, "aabb"), self);
+
+    return max_obj;
 }
 
 static mrb_value mrb_cf_aabb_set_max(mrb_state* mrb, mrb_value self)
