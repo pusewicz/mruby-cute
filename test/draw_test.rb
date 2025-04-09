@@ -92,6 +92,29 @@ within_app do
     end
   end
 
+  assert("Cute::cf_draw_circle_fill") do
+    # Create a position for the circle
+    position = Cute::V2.new(100.0, 100.0)
+
+    # Create a circle with radius 50
+    circle = Cute::Circle.new(position, 50.0)
+
+    # This should not raise an error
+    assert_nothing_raised do
+      Cute.cf_draw_circle_fill(circle)
+    end
+  end
+
+  assert("Cute::cf_draw_circle_fill2") do
+    # Create a position for the circle
+    position = Cute::V2.new(100.0, 100.0)
+
+    # This should not raise an error
+    assert_nothing_raised do
+      Cute.cf_draw_circle_fill2(position, 50.0)
+    end
+  end
+
   assert("Cute::cf_make_font") do
     # Just test that the function exists and doesn't crash
     assert_nothing_raised do

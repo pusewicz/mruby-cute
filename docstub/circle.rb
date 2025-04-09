@@ -73,4 +73,19 @@ module Cute
   # @return [nil]
   def self.cf_draw_circle2(position, radius, thickness)
   end
+
+  # @method cf_draw_circle_fill
+  # @brief Draws a filled circle
+  # @param [Circle] circle The circle to draw as filled
+  # @return [nil]
+  def self.cf_draw_circle_fill(circle)
+  end
+
+  # @method cf_draw_circle_fill2
+  # @brief Draws a filled circle with the specified position and radius
+  # @param [V2] position The position vector for the center of the circle
+  # @param [Float] radius The radius of the circle
+  # @return [nil]
+  def self.cf_draw_circle_fill2(position, radius)
+  end
 end
