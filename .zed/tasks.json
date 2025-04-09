@@ -1,0 +1,13 @@
+[
+  {
+    "label": "rake test",
+    "command": "rake test",
+    "env": { "ASAN": "true" },
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "reveal_target": "dock",
+    "hide": "on_success",
+    "shell": "system"
+  }
+]
