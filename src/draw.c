@@ -156,6 +156,33 @@ static mrb_value mrb_cf_draw_circle2(mrb_state* mrb, mrb_value self)
     return mrb_nil_value();
 }
 
+static mrb_value mrb_cf_draw_circle_fill(mrb_state* mrb, mrb_value self)
+{
+    mrb_value circle_obj;
+
+    mrb_get_args(mrb, "o", &circle_obj);
+
+    CF_Circle* circle = mrb_cf_circle_unwrap(mrb, circle_obj);
+
+    cf_draw_circle_fill(*circle);
+
+    return mrb_nil_value();
+}
+
+static mrb_value mrb_cf_draw_circle_fill2(mrb_state* mrb, mrb_value self)
+{
+    mrb_value position_obj;
+    mrb_float radius;
+
+    mrb_get_args(mrb, "of", &position_obj, &radius);
+
+    CF_V2* position = mrb_cf_v2_unwrap(mrb, position_obj);
+
+    cf_draw_circle_fill2(*position, (float)radius);
+
+    return mrb_nil_value();
+}
+
 static mrb_value mrb_cf_draw_text(mrb_state* mrb, mrb_value self)
 {
     mrb_value position_obj;
@@ -268,6 +295,8 @@ void mrb_cute_draw_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_module_function(mrb, mCute, "cf_draw_quad2", mrb_cf_draw_quad2, MRB_ARGS_REQ(6));
     mrb_define_module_function(mrb, mCute, "cf_draw_circle", mrb_cf_draw_circle, MRB_ARGS_REQ(2));
     mrb_define_module_function(mrb, mCute, "cf_draw_circle2", mrb_cf_draw_circle2, MRB_ARGS_REQ(3));
+    mrb_define_module_function(mrb, mCute, "cf_draw_circle_fill", mrb_cf_draw_circle_fill, MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, mCute, "cf_draw_circle_fill2", mrb_cf_draw_circle_fill2, MRB_ARGS_REQ(2));
     mrb_define_module_function(mrb, mCute, "cf_draw_text", mrb_cf_draw_text, MRB_ARGS_ARG(2, 1));
 
     // Font functions
