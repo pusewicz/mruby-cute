@@ -16,13 +16,8 @@ class Game
     cf_set_target_framerate(60)
     cf_set_fixed_timestep(60)
     cf_set_fixed_timestep_max_updates(1)
-    @sprites = Array.new(5000) do
-      cf_make_demo_sprite.tap do |s|
-        s.transform.p.x = rand(800) - 400
-        s.transform.p.y = rand(600) - 300
-        s.play("spin")
-      end
-    end
+
+    @sprites = []
 
     @sprite = cf_make_demo_sprite
     @sprite.play("spin")
@@ -41,17 +36,6 @@ class Game
 
   def update
     cf_app_set_title("Example App - FPS:#{"%.2f" % cf_app_get_smoothed_framerate} DPI:#{cf_app_get_dpi_scale} - #{cf_app_get_width}x#{cf_app_get_height} Sprites:#{@sprites.size}")
-
-    if cf_app_get_smoothed_framerate > 58
-      10.times do
-        cf_make_demo_sprite.tap do |s|
-          s.play("spin")
-          s.transform.p.x = rand(800) - 400
-          s.transform.p.y = rand(600) - 300
-          @sprites << s
-        end
-      end
-    end
 
     if cf_key_just_pressed(CF_KEY_W)
       puts "Key W pressed"
@@ -75,29 +59,10 @@ class Game
 
     @sprite.update
 
-    i = 0
-    scount = @sprites.size
-    while i < scount
-      s = @sprites[i]
-      p = s.transform.p
-      p.x -= 1
-      p.y -= 1
-      if p.x < -400
-        p.x = 400
-      end
-
-      if p.y < -300
-        p.y = 300
-      end
-      s.update
-      s.draw
-      i += 1
-    end
-
     cf_draw_push
     cf_draw_scale(4.0, 4.0)
+    cf_draw_circle_fill2(V2(0, 0), 32)
     @sprite.draw
-    cf_draw_text("Hello, world!", @sprite.transform.p)
     cf_draw_pop
   end
 end
