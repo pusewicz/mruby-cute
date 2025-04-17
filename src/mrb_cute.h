@@ -12,6 +12,9 @@
 #include <mruby/string.h>
 #include <mruby/variable.h>
 
+// No-op free function for nested Data objects
+void mrb_free_noop(mrb_state* mrb, void* p);
+
 void mrb_cute_app_init(mrb_state* mrb, struct RClass* mCute);
 void mrb_cute_result_init(mrb_state* mrb, struct RClass* mCute);
 void mrb_cute_input_init(mrb_state* mrb, struct RClass* mCute);

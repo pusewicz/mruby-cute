@@ -1,4 +1,5 @@
 #include "vector.h"
+#include "mrb_cute.h"  // for shared no-op free
 
 extern struct RClass* cSinCos;
 
@@ -8,10 +9,6 @@ static void mrb_cf_sincos_free(mrb_state* mrb, void* p)
     mrb_free(mrb, data);
 }
 
-static void mrb_cf_sincos_free_noop(mrb_state* mrb, void* p)
-{
-    // No-op free function
-}
 
 struct mrb_data_type const mrb_cf_sincos_data_type = {
     "CF_SinCos",
@@ -23,9 +20,10 @@ struct mrb_data_type const mrb_cf_sincos_data_type = {
  * It is used to prevent double-free errors when wrapping
  * nested SinCos objects in the transform.
  */
+// Nested SinCos data uses shared no-op free function
 struct mrb_data_type const mrb_cf_sincos_nested_data_type = {
     "CF_SinCos",
-    mrb_cf_sincos_free_noop,
+    mrb_free_noop,
 };
 
 static mrb_value mrb_cf_sincos_initialize(mrb_state* mrb, mrb_value self)

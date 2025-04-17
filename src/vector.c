@@ -1,4 +1,5 @@
 #include "vector.h"
+#include "mrb_cute.h"  // for mrb_free_noop
 
 static struct RClass* cV2;
 
@@ -8,13 +9,10 @@ static void mrb_cf_v2_free(mrb_state* mrb, void* p)
     mrb_free(mrb, data);
 }
 
-static void mrb_cf_v2_free_noop(mrb_state* mrb, void* p)
-{
-    // No-op free function
-}
 
 const struct mrb_data_type mrb_cf_v2_data_type = { "CF_V2", mrb_cf_v2_free };
-const struct mrb_data_type mrb_cf_v2_nested_data_type = { "CF_V2", mrb_cf_v2_free_noop };
+// Nested data (no free) reuses shared mrb_free_noop
+const struct mrb_data_type mrb_cf_v2_nested_data_type = { "CF_V2", mrb_free_noop };
 
 static mrb_value mrb_cf_v2_initialize(mrb_state* mrb, mrb_value self)
 {

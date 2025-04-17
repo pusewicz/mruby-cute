@@ -10,19 +10,16 @@ static void mrb_cf_transform_free(mrb_state* mrb, void* p)
     mrb_free(mrb, data);
 }
 
-static void mrb_cf_transform_free_noop(mrb_state* mrb, void* p)
-{
-    // No-op free function
-}
 
 struct mrb_data_type const mrb_cf_transform_data_type = {
     "CF_Transform",
     mrb_cf_transform_free,
 };
 
+// Nested CF_Transform data uses shared no-op free function
 struct mrb_data_type const mrb_cf_transform_nested_data_type = {
     "CF_Transform",
-    mrb_cf_transform_free_noop,
+    mrb_free_noop,
 };
 
 static mrb_value mrb_cf_transform_initialize(mrb_state* mrb, mrb_value self)
