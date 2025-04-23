@@ -1,7 +1,6 @@
 #include "color.h"
-
-struct RClass* cColor;
-struct RClass* cPixel;
+#include <mruby/class.h>
+#include <mruby/data.h>
 
 // Color implementation
 static void mrb_cf_color_free(mrb_state* mrb, void* p)

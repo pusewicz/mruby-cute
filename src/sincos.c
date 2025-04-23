@@ -1,4 +1,6 @@
 #include "vector.h"
+#include <mruby/class.h>
+#include <mruby/data.h>
 
 extern struct RClass* cSinCos;
 
@@ -108,6 +110,13 @@ mrb_value mrb_cf_sincos_wrap(mrb_state* mrb, CF_SinCos* sincos)
 mrb_value mrb_cf_sincos_wrap_nested(mrb_state* mrb, CF_SinCos* sincos)
 {
     return mrb_obj_value(Data_Wrap_Struct(mrb, cSinCos, &mrb_cf_sincos_nested_data_type, sincos));
+}
+
+CF_SinCos* mrb_cf_sincos_unwrap(mrb_state* mrb, mrb_value self)
+{
+    CF_SinCos* data;
+    data = (CF_SinCos*)DATA_PTR(self);
+    return data;
 }
 
 static mrb_value mrb_cf_sincos_factory(mrb_state* mrb, mrb_value self)

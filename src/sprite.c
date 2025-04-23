@@ -1,5 +1,8 @@
 #include "sprite.h"
 #include "transform.h"
+#include <mruby/class.h>
+#include <mruby/data.h>
+#include <mruby/variable.h>
 
 extern struct RClass* cSprite;
 

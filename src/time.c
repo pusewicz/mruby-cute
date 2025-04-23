@@ -1,4 +1,5 @@
-#include "mrb_cute.h"
+#include "time.h"
+#include <mruby/class.h>
 
 // CF_DELTA_TIME
 static mrb_value mrb_cf_delta_time(mrb_state* mrb, mrb_value self)

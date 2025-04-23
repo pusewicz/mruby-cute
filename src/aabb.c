@@ -2,6 +2,7 @@
 #include "vector.h"
 
 #include <mruby/class.h>
+#include <mruby/data.h>
 #include <mruby/variable.h>
 
 static struct RClass* cAabb;

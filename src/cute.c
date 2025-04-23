@@ -1,12 +1,20 @@
+#include "app.h"
 #include "aabb.h"
 #include "circle.h"
 #include "color.h"
 #include "draw.h"
-#include "mrb_cute.h"
+#include "input.h"
+#include "result.h"
 #include "sincos.h"
 #include "sprite.h"
+#include "stopwatch.h"
+#include "time.h"
 #include "transform.h"
 #include "vector.h"
+
+#if MRB_INT_BIT < 64
+#error "need 64 bit mruby"
+#endif
 
 static mrb_value mrb_cf_version_string_linked(mrb_state* mrb, mrb_value self)
 {

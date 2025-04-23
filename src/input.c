@@ -1,4 +1,4 @@
-#include "mrb_cute.h"
+#include "input.h"
 
 // cf_key_down
 static mrb_value mrb_cf_key_down(mrb_state* mrb, mrb_value self)

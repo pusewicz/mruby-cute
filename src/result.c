@@ -1,4 +1,6 @@
 #include "result.h"
+#include <mruby/data.h>
+#include <mruby/class.h>
 
 void mrb_cf_result_free(mrb_state* mrb, void* p)
 {

@@ -1,5 +1,7 @@
 #include "circle.h"
 #include "vector.h"
+#include <mruby/class.h>
+#include <mruby/data.h>
 
 struct RClass* cCircle;
 

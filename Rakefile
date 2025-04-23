@@ -98,6 +98,7 @@ end
 Rake::Task[:clean].enhance [:deep_clean]
 
 task example: :compile do
+  ENV["MTL_HUD_ENABLED"] = "1"
   exec "#{MRUBY_DEPS_DIR}/build/host/bin/mruby example/example.rb"
 end
 

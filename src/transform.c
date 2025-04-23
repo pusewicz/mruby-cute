@@ -1,6 +1,9 @@
-#include "mrb_cute.h"
+#include "transform.h"
 #include "sincos.h"
 #include "vector.h"
+#include <mruby/data.h>
+#include <mruby/class.h>
+#include <mruby/variable.h>
 
 extern struct RClass* cTransform;
 
@@ -118,7 +121,7 @@ static mrb_value mrb_cf_transform_set_r(mrb_state* mrb, mrb_value self)
     mrb_value r;
     mrb_get_args(mrb, "o", &r);
 
-    data->r = *DATA_GET_PTR(mrb, r, &mrb_cf_sincos_data_type, CF_SinCos);
+    data->r = *mrb_cf_sincos_unwrap(mrb, r);
 
     return r;
 }

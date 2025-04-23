@@ -1,9 +1,9 @@
-#include "draw.h"
 #include "aabb.h"
 #include "circle.h"
+#include "draw.h"
 #include "result.h"
-#include "sprite.h"
 #include "vector.h"
+#include <mruby/data.h>
 
 static mrb_value mrb_cf_draw_sprite(mrb_state* mrb, mrb_value self)
 {

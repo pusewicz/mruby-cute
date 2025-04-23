@@ -1,4 +1,6 @@
-#include "mrb_cute.h"
+#include "stopwatch.h"
+#include <mruby/class.h>
+#include <mruby/data.h>
 
 static void mrb_cf_stopwatch_free(mrb_state* mrb, void* p)
 {

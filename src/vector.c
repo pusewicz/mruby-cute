@@ -1,4 +1,6 @@
 #include "vector.h"
+#include <mruby/data.h>
+#include <mruby/class.h>
 
 static struct RClass* cV2;
 
