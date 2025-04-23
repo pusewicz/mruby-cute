@@ -2,6 +2,7 @@
 #include "vector.h"
 #include <mruby/class.h>
 #include <mruby/data.h>
+#include <mruby/presym.h>
 
 struct RClass* cCircle;
 
@@ -123,13 +124,13 @@ void mrb_cute_circle_init(mrb_state* mrb, struct RClass* mCute)
     cCircle = mrb_define_class_under(mrb, mCute, "Circle", mrb->object_class);
     MRB_SET_INSTANCE_TT(cCircle, MRB_TT_DATA);
 
-    mrb_define_method(mrb, cCircle, "initialize", mrb_cf_circle_initialize, MRB_ARGS_REQ(2));
-    mrb_define_method(mrb, cCircle, "position", mrb_cf_circle_get_position, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cCircle, "position=", mrb_cf_circle_set_position, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cCircle, "radius", mrb_cf_circle_get_radius, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cCircle, "radius=", mrb_cf_circle_set_radius, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cCircle, "to_s", mrb_cf_circle_to_s, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cCircle, "inspect", mrb_cf_circle_inspect, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cCircle, MRB_SYM(initialize), mrb_cf_circle_initialize, MRB_ARGS_REQ(2));
+    mrb_define_method_id(mrb, cCircle, MRB_SYM(position), mrb_cf_circle_get_position, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cCircle, MRB_SYM_E(position), mrb_cf_circle_set_position, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cCircle, MRB_SYM(radius), mrb_cf_circle_get_radius, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cCircle, MRB_SYM_E(radius), mrb_cf_circle_set_radius, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cCircle, MRB_SYM(to_s), mrb_cf_circle_to_s, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cCircle, MRB_SYM(inspect), mrb_cf_circle_inspect, MRB_ARGS_NONE());
 
-    mrb_define_module_function(mrb, mCute, "Circle", mrb_cf_circle_factory, MRB_ARGS_REQ(2));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(Circle), mrb_cf_circle_factory, MRB_ARGS_REQ(2));
 }

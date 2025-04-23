@@ -4,6 +4,7 @@
 #include "result.h"
 #include "vector.h"
 #include <mruby/data.h>
+#include <mruby/presym.h>
 
 static mrb_value mrb_cf_draw_sprite(mrb_state* mrb, mrb_value self)
 {
@@ -282,32 +283,32 @@ static mrb_value mrb_cf_text_size(mrb_state* mrb, mrb_value self)
 
 void mrb_cute_draw_init(mrb_state* mrb, struct RClass* mCute)
 {
-    mrb_define_module_function(mrb, mCute, "cf_draw_sprite", mrb_cf_draw_sprite, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_draw_scale", mrb_cf_draw_scale, MRB_ARGS_REQ(2));
-    mrb_define_module_function(mrb, mCute, "cf_draw_scale_v2", mrb_cf_draw_scale_v2, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_draw_translate", mrb_cf_draw_translate, MRB_ARGS_REQ(2));
-    mrb_define_module_function(mrb, mCute, "cf_draw_translate_v2", mrb_cf_draw_translate_v2, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_draw_rotate", mrb_cf_draw_rotate, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_draw_push", mrb_cf_draw_push, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_draw_pop", mrb_cf_draw_pop, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_draw_line", mrb_cf_draw_line, MRB_ARGS_REQ(3));
-    mrb_define_module_function(mrb, mCute, "cf_draw_quad", mrb_cf_draw_quad, MRB_ARGS_REQ(3));
-    mrb_define_module_function(mrb, mCute, "cf_draw_quad2", mrb_cf_draw_quad2, MRB_ARGS_REQ(6));
-    mrb_define_module_function(mrb, mCute, "cf_draw_circle", mrb_cf_draw_circle, MRB_ARGS_REQ(2));
-    mrb_define_module_function(mrb, mCute, "cf_draw_circle2", mrb_cf_draw_circle2, MRB_ARGS_REQ(3));
-    mrb_define_module_function(mrb, mCute, "cf_draw_circle_fill", mrb_cf_draw_circle_fill, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_draw_circle_fill2", mrb_cf_draw_circle_fill2, MRB_ARGS_REQ(2));
-    mrb_define_module_function(mrb, mCute, "cf_draw_text", mrb_cf_draw_text, MRB_ARGS_ARG(2, 1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_draw_sprite), mrb_cf_draw_sprite, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_draw_scale), mrb_cf_draw_scale, MRB_ARGS_REQ(2));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_draw_scale_v2), mrb_cf_draw_scale_v2, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_draw_translate), mrb_cf_draw_translate, MRB_ARGS_REQ(2));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_draw_translate_v2), mrb_cf_draw_translate_v2, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_draw_rotate), mrb_cf_draw_rotate, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_draw_push), mrb_cf_draw_push, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_draw_pop), mrb_cf_draw_pop, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_draw_line), mrb_cf_draw_line, MRB_ARGS_REQ(3));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_draw_quad), mrb_cf_draw_quad, MRB_ARGS_REQ(3));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_draw_quad2), mrb_cf_draw_quad2, MRB_ARGS_REQ(6));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_draw_circle), mrb_cf_draw_circle, MRB_ARGS_REQ(2));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_draw_circle2), mrb_cf_draw_circle2, MRB_ARGS_REQ(3));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_draw_circle_fill), mrb_cf_draw_circle_fill, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_draw_circle_fill2), mrb_cf_draw_circle_fill2, MRB_ARGS_REQ(2));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_draw_text), mrb_cf_draw_text, MRB_ARGS_ARG(2, 1));
 
     // Font functions
-    mrb_define_module_function(mrb, mCute, "cf_make_font", mrb_cf_make_font, MRB_ARGS_REQ(2));
-    mrb_define_module_function(mrb, mCute, "cf_push_font", mrb_cf_push_font, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_pop_font", mrb_cf_pop_font, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_push_font_size", mrb_cf_push_font_size, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_pop_font_size", mrb_cf_pop_font_size, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_make_font), mrb_cf_make_font, MRB_ARGS_REQ(2));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_push_font), mrb_cf_push_font, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_pop_font), mrb_cf_pop_font, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_push_font_size), mrb_cf_push_font_size, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_pop_font_size), mrb_cf_pop_font_size, MRB_ARGS_NONE());
 
     // Text measurement functions
-    mrb_define_module_function(mrb, mCute, "cf_text_width", mrb_cf_text_width, MRB_ARGS_ARG(1, 1));
-    mrb_define_module_function(mrb, mCute, "cf_text_height", mrb_cf_text_height, MRB_ARGS_ARG(1, 1));
-    mrb_define_module_function(mrb, mCute, "cf_text_size", mrb_cf_text_size, MRB_ARGS_ARG(1, 1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_text_width), mrb_cf_text_width, MRB_ARGS_ARG(1, 1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_text_height), mrb_cf_text_height, MRB_ARGS_ARG(1, 1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_text_size), mrb_cf_text_size, MRB_ARGS_ARG(1, 1));
 }

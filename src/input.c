@@ -1,4 +1,5 @@
 #include "input.h"
+#include <mruby/presym.h>
 
 // cf_key_down
 static mrb_value mrb_cf_key_down(mrb_state* mrb, mrb_value self)
@@ -73,18 +74,18 @@ static mrb_value mrb_cf_clear_key_states(mrb_state* mrb, mrb_value self)
 
 void mrb_cute_input_init(mrb_state* mrb, struct RClass* mCute)
 {
-#define CF_ENUM(K, V) mrb_define_const(mrb, mCute, "CF_" #K, mrb_fixnum_value(V));
+#define CF_ENUM(K, V) mrb_define_const_id(mrb, mCute, MRB_SYM(CF_##K), mrb_fixnum_value(V));
     CF_KEY_BUTTON_DEFS
 #undef CF_ENUM
 
-    mrb_define_module_function(mrb, mCute, "cf_key_down", mrb_cf_key_down, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_key_up", mrb_cf_key_up, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_key_just_pressed", mrb_cf_key_just_pressed, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_key_just_released", mrb_cf_key_just_released, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_key_repeating", mrb_cf_key_repeating, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_key_ctrl", mrb_cf_key_ctrl, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_key_shift", mrb_cf_key_shift, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_key_alt", mrb_cf_key_alt, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_key_gui", mrb_cf_key_gui, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_clear_key_states", mrb_cf_clear_key_states, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_key_down), mrb_cf_key_down, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_key_up), mrb_cf_key_up, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_key_just_pressed), mrb_cf_key_just_pressed, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_key_just_released), mrb_cf_key_just_released, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_key_repeating), mrb_cf_key_repeating, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_key_ctrl), mrb_cf_key_ctrl, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_key_shift), mrb_cf_key_shift, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_key_alt), mrb_cf_key_alt, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_key_gui), mrb_cf_key_gui, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_clear_key_states), mrb_cf_clear_key_states, MRB_ARGS_NONE());
 }

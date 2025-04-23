@@ -1,5 +1,6 @@
 #include "time.h"
 #include <mruby/class.h>
+#include <mruby/presym.h>
 
 // CF_DELTA_TIME
 static mrb_value mrb_cf_delta_time(mrb_state* mrb, mrb_value self)
@@ -152,25 +153,25 @@ static mrb_value mrb_cf_sleep(mrb_state* mrb, mrb_value self)
 
 void mrb_cute_time_init(mrb_state* mrb, struct RClass* mCute)
 {
-    mrb_define_module_function(mrb, mCute, "CF_DELTA_TIME", mrb_cf_delta_time, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "CF_DELTA_TIME_FIXED", mrb_cf_delta_time_fixed, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "CF_DELTA_TIME_INTERPOLANT", mrb_cf_delta_time_interpolant, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "CF_SECONDS", mrb_cf_seconds, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "CF_PREV_SECONDS", mrb_cf_prev_seconds, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "CF_TICKS", mrb_cf_ticks, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "CF_PREV_TICKS", mrb_cf_prev_ticks, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "CF_PAUSE_TIME_LEFT", mrb_cf_pause_time_left, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(CF_DELTA_TIME), mrb_cf_delta_time, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(CF_DELTA_TIME_FIXED), mrb_cf_delta_time_fixed, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(CF_DELTA_TIME_INTERPOLANT), mrb_cf_delta_time_interpolant, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(CF_SECONDS), mrb_cf_seconds, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(CF_PREV_SECONDS), mrb_cf_prev_seconds, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(CF_TICKS), mrb_cf_ticks, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(CF_PREV_TICKS), mrb_cf_prev_ticks, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(CF_PAUSE_TIME_LEFT), mrb_cf_pause_time_left, MRB_ARGS_NONE());
 
-    mrb_define_module_function(mrb, mCute, "cf_set_fixed_timestep", mrb_cf_set_fixed_timestep, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_set_fixed_timestep_max_updates", mrb_cf_set_fixed_timestep_max_updates, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_set_target_framerate", mrb_cf_set_target_framerate, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_pause_for", mrb_cf_pause_for, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_pause_for_ticks", mrb_cf_pause_for_ticks, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_on_interval", mrb_cf_on_interval, MRB_ARGS_REQ(2));
-    mrb_define_module_function(mrb, mCute, "cf_between_interval", mrb_cf_between_interval, MRB_ARGS_REQ(2));
-    mrb_define_module_function(mrb, mCute, "cf_on_timestamp", mrb_cf_on_timestamp, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_is_paused", mrb_cf_is_paused, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_get_ticks", mrb_cf_get_ticks, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_get_tick_frequency", mrb_cf_get_tick_frequency, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_sleep", mrb_cf_sleep, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_set_fixed_timestep), mrb_cf_set_fixed_timestep, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_set_fixed_timestep_max_updates), mrb_cf_set_fixed_timestep_max_updates, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_set_target_framerate), mrb_cf_set_target_framerate, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_pause_for), mrb_cf_pause_for, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_pause_for_ticks), mrb_cf_pause_for_ticks, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_on_interval), mrb_cf_on_interval, MRB_ARGS_REQ(2));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_between_interval), mrb_cf_between_interval, MRB_ARGS_REQ(2));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_on_timestamp), mrb_cf_on_timestamp, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_is_paused), mrb_cf_is_paused, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_get_ticks), mrb_cf_get_ticks, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_get_tick_frequency), mrb_cf_get_tick_frequency, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_sleep), mrb_cf_sleep, MRB_ARGS_REQ(1));
 }

@@ -11,6 +11,7 @@
 #include "time.h"
 #include "transform.h"
 #include "vector.h"
+#include <mruby/presym.h>
 
 #if MRB_INT_BIT < 64
 #error "need 64 bit mruby"
@@ -23,12 +24,12 @@ static mrb_value mrb_cf_version_string_linked(mrb_state* mrb, mrb_value self)
 
 static void mrb_cute_init(mrb_state* mrb, struct RClass* mCute)
 {
-    mrb_define_module_function(mrb, mCute, "cf_version_string_linked", mrb_cf_version_string_linked, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_version_string_linked), mrb_cf_version_string_linked, MRB_ARGS_NONE());
 }
 
 void mrb_mruby_cute_gem_init(mrb_state* mrb)
 {
-    struct RClass* mCute = mrb_define_module(mrb, "Cute");
+    struct RClass* mCute = mrb_define_module_id(mrb, MRB_SYM(Cute));
 
     mrb_cute_init(mrb, mCute);
     mrb_cute_draw_init(mrb, mCute);

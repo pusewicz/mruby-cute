@@ -1,5 +1,6 @@
 #include "app.h"
 #include "result.h"
+#include <mruby/presym.h>
 
 static mrb_value mrb_cf_make_app(mrb_state* mrb, mrb_value self)
 {
@@ -139,21 +140,21 @@ static mrb_value mrb_cf_app_get_height(mrb_state* mrb, mrb_value self)
 
 void mrb_cute_app_init(mrb_state* mrb, struct RClass* mCute)
 {
-#define CF_ENUM(K, V) mrb_define_const(mrb, mCute, "CF_" #K, mrb_fixnum_value(V));
+#define CF_ENUM(K, V) mrb_define_const_id(mrb, mCute, MRB_SYM(CF_##K), mrb_fixnum_value(V));
     CF_APP_OPTION_DEFS
 #undef CF_ENUM
-    mrb_define_module_function(mrb, mCute, "cf_make_app", mrb_cf_make_app, MRB_ARGS_REQ(7));
-    mrb_define_module_function(mrb, mCute, "cf_app_is_running", mrb_cf_app_is_running, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_app_destroy", mrb_cf_app_destroy, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_app_update", mrb_cf_app_update, MRB_ARGS_OPT(1));
-    mrb_define_module_function(mrb, mCute, "cf_default_display", mrb_cf_default_display, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_app_draw_onto_screen", mrb_cf_app_draw_onto_screen, MRB_ARGS_OPT(1));
-    mrb_define_module_function(mrb, mCute, "cf_app_get_framerate", mrb_cf_app_get_framerate, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_app_get_smoothed_framerate", mrb_cf_app_get_smoothed_framerate, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_app_set_title", mrb_cf_app_set_title, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_app_get_vsync", mrb_cf_app_get_vsync, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_app_set_vsync", mrb_cf_app_set_vsync, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "cf_app_get_dpi_scale", mrb_cf_app_get_dpi_scale, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_app_get_width", mrb_cf_app_get_width, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_app_get_height", mrb_cf_app_get_height, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_make_app), mrb_cf_make_app, MRB_ARGS_REQ(7));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_app_is_running), mrb_cf_app_is_running, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_app_destroy), mrb_cf_app_destroy, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_app_update), mrb_cf_app_update, MRB_ARGS_OPT(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_default_display), mrb_cf_default_display, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_app_draw_onto_screen), mrb_cf_app_draw_onto_screen, MRB_ARGS_OPT(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_app_get_framerate), mrb_cf_app_get_framerate, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_app_get_smoothed_framerate), mrb_cf_app_get_smoothed_framerate, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_app_set_title), mrb_cf_app_set_title, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_app_get_vsync), mrb_cf_app_get_vsync, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_app_set_vsync), mrb_cf_app_set_vsync, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_app_get_dpi_scale), mrb_cf_app_get_dpi_scale, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_app_get_width), mrb_cf_app_get_width, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_app_get_height), mrb_cf_app_get_height, MRB_ARGS_NONE());
 }

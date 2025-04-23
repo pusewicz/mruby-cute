@@ -1,6 +1,7 @@
 #include "color.h"
 #include <mruby/class.h>
 #include <mruby/data.h>
+#include <mruby/presym.h>
 
 // Color implementation
 static void mrb_cf_color_free(mrb_state* mrb, void* p)
@@ -513,28 +514,30 @@ static mrb_value mrb_cf_pixel_to_color(mrb_state* mrb, mrb_value self)
 void mrb_cute_color_init(mrb_state* mrb, struct RClass* mCute)
 {
     // Color class
-    cColor = mrb_define_class_under(mrb, mCute, "Color", mrb->object_class);
+    cColor = mrb_define_class_under_id(mrb, mCute, MRB_SYM(Color), mrb->object_class);
     MRB_SET_INSTANCE_TT(cColor, MRB_TT_DATA);
 
-    mrb_define_method(mrb, cColor, "initialize", mrb_cf_color_initialize, MRB_ARGS_OPT(4));
-    mrb_define_method(mrb, cColor, "r", mrb_cf_color_get_r, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cColor, "r=", mrb_cf_color_set_r, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cColor, "g", mrb_cf_color_get_g, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cColor, "g=", mrb_cf_color_set_g, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cColor, "b", mrb_cf_color_get_b, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cColor, "b=", mrb_cf_color_set_b, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cColor, "a", mrb_cf_color_get_a, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cColor, "a=", mrb_cf_color_set_a, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cColor, "to_s", mrb_cf_color_to_s, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cColor, "inspect", mrb_cf_color_inspect, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cColor, MRB_SYM(initialize), mrb_cf_color_initialize, MRB_ARGS_OPT(4));
+    mrb_define_method_id(mrb, cColor, MRB_SYM(r), mrb_cf_color_get_r, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cColor, MRB_SYM_E(r), mrb_cf_color_set_r, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cColor, MRB_SYM(g), mrb_cf_color_get_g, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cColor, MRB_SYM_E(g), mrb_cf_color_set_g, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cColor, MRB_SYM(b), mrb_cf_color_get_b, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cColor, MRB_SYM_E(b), mrb_cf_color_set_b, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cColor, MRB_SYM(a), mrb_cf_color_get_a, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cColor, MRB_SYM_E(a), mrb_cf_color_set_a, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cColor, MRB_SYM(to_s), mrb_cf_color_to_s, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cColor, MRB_SYM(inspect), mrb_cf_color_inspect, MRB_ARGS_NONE());
 
     // Color operations
+    // TODO: Convert these to proper object operators
     mrb_define_method(mrb, cColor, "mul", mrb_cf_color_mul, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, cColor, "add", mrb_cf_color_add, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, cColor, "sub", mrb_cf_color_sub, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, cColor, "to_pixel", mrb_cf_color_to_pixel, MRB_ARGS_NONE());
 
     // Factory methods for Color
+    // TODO: Rename these to match CF
     mrb_define_module_function(mrb, mCute, "rgb_f", mrb_cf_color_rgb_f, MRB_ARGS_REQ(3));
     mrb_define_module_function(mrb, mCute, "rgba_f", mrb_cf_color_rgba_f, MRB_ARGS_REQ(4));
     mrb_define_module_function(mrb, mCute, "rgb", mrb_cf_color_rgb, MRB_ARGS_REQ(3));
@@ -542,6 +545,7 @@ void mrb_cute_color_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_module_function(mrb, mCute, "color_hex", mrb_cf_color_hex, MRB_ARGS_REQ(1));
 
     // Predefined colors
+    // TODO: Rename these to match CF
     mrb_define_module_function(mrb, mCute, "color_clear", mrb_cf_color_clear, MRB_ARGS_NONE());
     mrb_define_module_function(mrb, mCute, "color_black", mrb_cf_color_black, MRB_ARGS_NONE());
     mrb_define_module_function(mrb, mCute, "color_white", mrb_cf_color_white, MRB_ARGS_NONE());

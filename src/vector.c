@@ -1,6 +1,7 @@
 #include "vector.h"
 #include <mruby/data.h>
 #include <mruby/class.h>
+#include <mruby/presym.h>
 
 static struct RClass* cV2;
 
@@ -119,15 +120,15 @@ static mrb_value mrb_cf_v2_factory(mrb_state* mrb, mrb_value self)
 
 void mrb_cute_v2_init(mrb_state* mrb, struct RClass* mCute)
 {
-    cV2 = mrb_define_class_under(mrb, mCute, "V2", mrb->object_class);
+    cV2 = mrb_define_class_under_id(mrb, mCute, MRB_SYM(V2), mrb->object_class);
     MRB_SET_INSTANCE_TT(cV2, MRB_TT_DATA);
 
-    mrb_define_method(mrb, cV2, "initialize", mrb_cf_v2_initialize, MRB_ARGS_OPT(2));
-    mrb_define_method(mrb, cV2, "x", mrb_cf_v2_get_x, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cV2, "x=", mrb_cf_v2_set_x, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cV2, "y", mrb_cf_v2_get_y, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cV2, "y=", mrb_cf_v2_set_y, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cV2, "to_s", mrb_cf_v2_to_s, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cV2, "inspect", mrb_cf_v2_inspect, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "V2", mrb_cf_v2_factory, MRB_ARGS_REQ(2));
+    mrb_define_method_id(mrb, cV2, MRB_SYM(initialize), mrb_cf_v2_initialize, MRB_ARGS_OPT(2));
+    mrb_define_method_id(mrb, cV2, MRB_SYM(x), mrb_cf_v2_get_x, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cV2, MRB_SYM_E(x), mrb_cf_v2_set_x, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cV2, MRB_SYM(y), mrb_cf_v2_get_y, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cV2, MRB_SYM_E(y), mrb_cf_v2_set_y, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cV2, MRB_SYM(to_s), mrb_cf_v2_to_s, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cV2, MRB_SYM(inspect), mrb_cf_v2_inspect, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(V2), mrb_cf_v2_factory, MRB_ARGS_REQ(2));
 }

@@ -3,6 +3,7 @@
 #include "vector.h"
 #include <mruby/data.h>
 #include <mruby/class.h>
+#include <mruby/presym.h>
 #include <mruby/variable.h>
 
 extern struct RClass* cTransform;
@@ -149,13 +150,13 @@ static mrb_value mrb_cf_transform_factory(mrb_state* mrb, mrb_value self)
 
 void mrb_cute_transform_init(mrb_state* mrb, struct RClass* mCute)
 {
-    cTransform = mrb_define_class_under(mrb, mCute, "Transform", mrb->object_class);
+    cTransform = mrb_define_class_under_id(mrb, mCute, MRB_SYM(Transform), mrb->object_class);
     MRB_SET_INSTANCE_TT(cTransform, MRB_TT_DATA);
 
-    mrb_define_method(mrb, cTransform, "initialize", mrb_cf_transform_initialize, MRB_ARGS_OPT(2));
-    mrb_define_method(mrb, cTransform, "p", mrb_cf_transform_get_p, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cTransform, "p=", mrb_cf_transform_set_p, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cTransform, "r", mrb_cf_transform_get_r, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cTransform, "r=", mrb_cf_transform_set_r, MRB_ARGS_REQ(1));
-    mrb_define_module_function(mrb, mCute, "Transform", mrb_cf_transform_factory, MRB_ARGS_OPT(2));
+    mrb_define_method_id(mrb, cTransform, MRB_SYM(initialize), mrb_cf_transform_initialize, MRB_ARGS_OPT(2));
+    mrb_define_method_id(mrb, cTransform, MRB_SYM(p), mrb_cf_transform_get_p, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cTransform, MRB_SYM_E(p), mrb_cf_transform_set_p, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cTransform, MRB_SYM(r), mrb_cf_transform_get_r, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cTransform, MRB_SYM_E(r), mrb_cf_transform_set_r, MRB_ARGS_REQ(1));
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(Transform), mrb_cf_transform_factory, MRB_ARGS_OPT(2));
 }

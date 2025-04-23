@@ -3,6 +3,7 @@
 #include <mruby/class.h>
 #include <mruby/data.h>
 #include <mruby/variable.h>
+#include <mruby/presym.h>
 
 extern struct RClass* cSprite;
 
@@ -325,45 +326,45 @@ static mrb_value mrb_cf_sprite_get_transform(mrb_state* mrb, mrb_value self)
 void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* mCute)
 {
     // Create Sprite class
-    cSprite = mrb_define_class_under(mrb, mCute, "Sprite", mrb->object_class);
+    cSprite = mrb_define_class_under_id(mrb, mCute, MRB_SYM(Sprite), mrb->object_class);
     MRB_SET_INSTANCE_TT(cSprite, MRB_TT_CDATA);
 
-    mrb_define_method(mrb, cSprite, "initialize", mrb_cf_sprite_initialize, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "name", mrb_cf_sprite_name, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "w", mrb_cf_sprite_get_w, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "h", mrb_cf_sprite_get_h, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "scale_x", mrb_cf_sprite_get_scale_x, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "scale_x=", mrb_cf_sprite_set_scale_x, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cSprite, "scale_y", mrb_cf_sprite_get_scale_y, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "scale_y=", mrb_cf_sprite_set_scale_y, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cSprite, "opacity", mrb_cf_sprite_get_opacity, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "opacity=", mrb_cf_sprite_set_opacity, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cSprite, "draw", mrb_cf_sprite_draw, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "update", mrb_cf_sprite_update, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "play", mrb_cf_sprite_play, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cSprite, "playing?", mrb_cf_sprite_is_playing, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cSprite, "pause", mrb_cf_sprite_pause, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "unpause", mrb_cf_sprite_unpause, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "toggle_pause!", mrb_cf_sprite_toggle_pause, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "reload", mrb_cf_sprite_reload, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "reset", mrb_cf_sprite_reset, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "loop?", mrb_cf_sprite_get_loop, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "loop=", mrb_cf_sprite_set_loop, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cSprite, "scale_x", mrb_cf_sprite_get_scale_x, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "scale_y", mrb_cf_sprite_get_scale_y, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "scale_x=", mrb_cf_sprite_set_scale_x, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cSprite, "scale_y=", mrb_cf_sprite_set_scale_y, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cSprite, "offset_x", mrb_cf_sprite_get_offset_x, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "offset_y", mrb_cf_sprite_get_offset_y, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "offset_x=", mrb_cf_sprite_set_offset_x, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cSprite, "offset_y=", mrb_cf_sprite_set_offset_y, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cSprite, "flip_x!", mrb_cf_sprite_flip_x, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "flip_y!", mrb_cf_sprite_flip_y, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "frame_count", mrb_cf_sprite_frame_count, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "current_frame", mrb_cf_sprite_current_frame, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSprite, "transform", mrb_cf_sprite_get_transform, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(initialize), mrb_cf_sprite_initialize, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(name), mrb_cf_sprite_name, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(w), mrb_cf_sprite_get_w, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(h), mrb_cf_sprite_get_h, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(scale_x), mrb_cf_sprite_get_scale_x, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM_E(scale_x), mrb_cf_sprite_set_scale_x, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(scale_y), mrb_cf_sprite_get_scale_y, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM_E(scale_y), mrb_cf_sprite_set_scale_y, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(opacity), mrb_cf_sprite_get_opacity, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM_E(opacity), mrb_cf_sprite_set_opacity, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(draw), mrb_cf_sprite_draw, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(update), mrb_cf_sprite_update, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(play), mrb_cf_sprite_play, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cSprite, MRB_SYM_Q(playing), mrb_cf_sprite_is_playing, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(pause), mrb_cf_sprite_pause, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(unpause), mrb_cf_sprite_unpause, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM_B(toggle_pause), mrb_cf_sprite_toggle_pause, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(reload), mrb_cf_sprite_reload, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(reset), mrb_cf_sprite_reset, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM_Q(loop), mrb_cf_sprite_get_loop, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM_E(loop), mrb_cf_sprite_set_loop, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(scale_x), mrb_cf_sprite_get_scale_x, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(scale_y), mrb_cf_sprite_get_scale_y, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM_E(scale_x), mrb_cf_sprite_set_scale_x, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cSprite, MRB_SYM_E(scale_y), mrb_cf_sprite_set_scale_y, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(offset_x), mrb_cf_sprite_get_offset_x, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(offset_y), mrb_cf_sprite_get_offset_y, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM_E(offset_x), mrb_cf_sprite_set_offset_x, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cSprite, MRB_SYM_E(offset_y), mrb_cf_sprite_set_offset_y, MRB_ARGS_REQ(1));
+    mrb_define_method_id(mrb, cSprite, MRB_SYM_B(flip_x), mrb_cf_sprite_flip_x, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM_B(flip_y), mrb_cf_sprite_flip_y, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(frame_count), mrb_cf_sprite_frame_count, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(current_frame), mrb_cf_sprite_current_frame, MRB_ARGS_NONE());
+    mrb_define_method_id(mrb, cSprite, MRB_SYM(transform), mrb_cf_sprite_get_transform, MRB_ARGS_NONE());
 
     // cute_sprite
-    mrb_define_module_function(mrb, mCute, "cf_make_demo_sprite", mrb_cf_make_demo_sprite, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "cf_sprite_defaults", mrb_cf_sprite_defaults, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_make_demo_sprite), mrb_cf_make_demo_sprite, MRB_ARGS_NONE());
+    mrb_define_module_function_id(mrb, mCute, MRB_SYM(cf_sprite_defaults), mrb_cf_sprite_defaults, MRB_ARGS_NONE());
 }
