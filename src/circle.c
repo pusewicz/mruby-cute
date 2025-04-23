@@ -68,25 +68,6 @@ static mrb_value mrb_cf_circle_set_radius(mrb_state* mrb, mrb_value self)
     return mrb_float_value(mrb, data->r);
 }
 
-static mrb_value mrb_cf_circle_to_s(mrb_state* mrb, mrb_value self)
-{
-    CF_Circle* data = (CF_Circle*)DATA_PTR(self);
-    char buf[64];
-
-    snprintf(buf, sizeof(buf), "Circle(position=(%.3f, %.3f), radius=%.3f)", data->p.x, data->p.y, data->r);
-    return mrb_str_new_cstr(mrb, buf);
-}
-
-static mrb_value mrb_cf_circle_inspect(mrb_state* mrb, mrb_value self)
-{
-    CF_Circle* data = (CF_Circle*)DATA_PTR(self);
-    char buf[100];
-
-    snprintf(buf, sizeof(buf), "#<Cute::Circle:0x%lx position=(%.3f, %.3f) radius=%.3f>",
-        (unsigned long)data, data->p.x, data->p.y, data->r);
-    return mrb_str_new_cstr(mrb, buf);
-}
-
 mrb_value mrb_cf_circle_wrap(mrb_state* mrb, CF_Circle* circle)
 {
     return mrb_obj_value(Data_Wrap_Struct(mrb, cCircle, &mrb_cf_circle_data_type, circle));
@@ -129,8 +110,6 @@ void mrb_cute_circle_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_method_id(mrb, cCircle, MRB_SYM_E(position), mrb_cf_circle_set_position, MRB_ARGS_REQ(1));
     mrb_define_method_id(mrb, cCircle, MRB_SYM(radius), mrb_cf_circle_get_radius, MRB_ARGS_NONE());
     mrb_define_method_id(mrb, cCircle, MRB_SYM_E(radius), mrb_cf_circle_set_radius, MRB_ARGS_REQ(1));
-    mrb_define_method_id(mrb, cCircle, MRB_SYM(to_s), mrb_cf_circle_to_s, MRB_ARGS_NONE());
-    mrb_define_method_id(mrb, cCircle, MRB_SYM(inspect), mrb_cf_circle_inspect, MRB_ARGS_NONE());
 
     mrb_define_module_function_id(mrb, mCute, MRB_SYM(Circle), mrb_cf_circle_factory, MRB_ARGS_REQ(2));
 }

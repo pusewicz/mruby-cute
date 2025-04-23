@@ -87,25 +87,6 @@ static mrb_value mrb_cf_color_set_a(mrb_state* mrb, mrb_value self)
     return mrb_float_value(mrb, data->a);
 }
 
-static mrb_value mrb_cf_color_to_s(mrb_state* mrb, mrb_value self)
-{
-    CF_Color* data = (CF_Color*)DATA_PTR(self);
-    char buf[64];
-
-    snprintf(buf, sizeof(buf), "Color(%.3f, %.3f, %.3f, %.3f)", data->r, data->g, data->b, data->a);
-    return mrb_str_new_cstr(mrb, buf);
-}
-
-static mrb_value mrb_cf_color_inspect(mrb_state* mrb, mrb_value self)
-{
-    CF_Color* data = (CF_Color*)DATA_PTR(self);
-    char buf[100];
-
-    snprintf(buf, sizeof(buf), "#<Cute::Color:0x%lx r=%.3f g=%.3f b=%.3f a=%.3f>",
-        (unsigned long)data, data->r, data->g, data->b, data->a);
-    return mrb_str_new_cstr(mrb, buf);
-}
-
 mrb_value mrb_cf_color_wrap(mrb_state* mrb, CF_Color* color)
 {
     return mrb_obj_value(Data_Wrap_Struct(mrb, cColor, &mrb_cf_color_data_type, color));
@@ -412,25 +393,6 @@ static mrb_value mrb_cf_pixel_set_a(mrb_state* mrb, mrb_value self)
     return mrb_fixnum_value(data->colors.a);
 }
 
-static mrb_value mrb_cf_pixel_to_s(mrb_state* mrb, mrb_value self)
-{
-    CF_Pixel* data = (CF_Pixel*)DATA_PTR(self);
-    char buf[64];
-
-    snprintf(buf, sizeof(buf), "Pixel(%d, %d, %d, %d)",
-        data->colors.r, data->colors.g, data->colors.b, data->colors.a);
-    return mrb_str_new_cstr(mrb, buf);
-}
-
-static mrb_value mrb_cf_pixel_inspect(mrb_state* mrb, mrb_value self)
-{
-    CF_Pixel* data = (CF_Pixel*)DATA_PTR(self);
-    char buf[100];
-
-    snprintf(buf, sizeof(buf), "#<Cute::Pixel:0x%lx r=%d g=%d b=%d a=%d>",
-        (unsigned long)data, data->colors.r, data->colors.g, data->colors.b, data->colors.a);
-    return mrb_str_new_cstr(mrb, buf);
-}
 
 mrb_value mrb_cf_pixel_wrap(mrb_state* mrb, CF_Pixel* pixel)
 {
@@ -526,8 +488,6 @@ void mrb_cute_color_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_method_id(mrb, cColor, MRB_SYM_E(b), mrb_cf_color_set_b, MRB_ARGS_REQ(1));
     mrb_define_method_id(mrb, cColor, MRB_SYM(a), mrb_cf_color_get_a, MRB_ARGS_NONE());
     mrb_define_method_id(mrb, cColor, MRB_SYM_E(a), mrb_cf_color_set_a, MRB_ARGS_REQ(1));
-    mrb_define_method_id(mrb, cColor, MRB_SYM(to_s), mrb_cf_color_to_s, MRB_ARGS_NONE());
-    mrb_define_method_id(mrb, cColor, MRB_SYM(inspect), mrb_cf_color_inspect, MRB_ARGS_NONE());
 
     // Color operations
     // TODO: Convert these to proper object operators
@@ -573,8 +533,6 @@ void mrb_cute_color_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_method(mrb, cPixel, "b=", mrb_cf_pixel_set_b, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, cPixel, "a", mrb_cf_pixel_get_a, MRB_ARGS_NONE());
     mrb_define_method(mrb, cPixel, "a=", mrb_cf_pixel_set_a, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cPixel, "to_s", mrb_cf_pixel_to_s, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cPixel, "inspect", mrb_cf_pixel_inspect, MRB_ARGS_NONE());
     mrb_define_method(mrb, cPixel, "to_color", mrb_cf_pixel_to_color, MRB_ARGS_NONE());
 
     // Factory methods for Pixel

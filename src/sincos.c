@@ -84,24 +84,6 @@ static mrb_value mrb_cf_sincos_set_c(mrb_state* mrb, mrb_value self)
     return mrb_float_value(mrb, data->c);
 }
 
-// to_s
-static mrb_value mrb_cf_sincos_to_s(mrb_state* mrb, mrb_value self)
-{
-    CF_SinCos* data = DATA_PTR(self);
-    char buf[64];
-    snprintf(buf, sizeof(buf), "SinCos(s=%.3f c=%.3f)", data->s, data->c);
-    return mrb_str_new_cstr(mrb, buf);
-}
-
-// inspect
-static mrb_value mrb_cf_sincos_inspect(mrb_state* mrb, mrb_value self)
-{
-    CF_SinCos* data = DATA_PTR(self);
-    char buf[80];
-    snprintf(buf, sizeof(buf), "#<Cute::SinCos:0x%lx s=%.3f c=%.3f>", (unsigned long)data, data->s, data->c);
-    return mrb_str_new_cstr(mrb, buf);
-}
-
 mrb_value mrb_cf_sincos_wrap(mrb_state* mrb, CF_SinCos* sincos)
 {
     return mrb_obj_value(Data_Wrap_Struct(mrb, cSinCos, &mrb_cf_sincos_data_type, sincos));
@@ -147,8 +129,6 @@ void mrb_cute_sincos_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_method(mrb, cSinCos, "s=", mrb_cf_sincos_set_s, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, cSinCos, "c", mrb_cf_sincos_get_c, MRB_ARGS_NONE());
     mrb_define_method(mrb, cSinCos, "c=", mrb_cf_sincos_set_c, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cSinCos, "to_s", mrb_cf_sincos_to_s, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cSinCos, "inspect", mrb_cf_sincos_inspect, MRB_ARGS_NONE());
 
     mrb_define_module_function(mrb, mCute, "SinCos", mrb_cf_sincos_factory, MRB_ARGS_OPT(1));
 }

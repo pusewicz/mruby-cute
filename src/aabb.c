@@ -96,26 +96,6 @@ static mrb_value mrb_cf_aabb_set_max(mrb_state* mrb, mrb_value self)
     return max_obj;
 }
 
-static mrb_value mrb_cf_aabb_to_s(mrb_state* mrb, mrb_value self)
-{
-    CF_Aabb* data = (CF_Aabb*)DATA_PTR(self);
-    char buf[128];
-
-    snprintf(buf, sizeof(buf), "Aabb(min=(%.3f, %.3f), max=(%.3f, %.3f))",
-        data->min.x, data->min.y, data->max.x, data->max.y);
-    return mrb_str_new_cstr(mrb, buf);
-}
-
-static mrb_value mrb_cf_aabb_inspect(mrb_state* mrb, mrb_value self)
-{
-    CF_Aabb* data = (CF_Aabb*)DATA_PTR(self);
-    char buf[128];
-
-    snprintf(buf, sizeof(buf), "#<Cute::Aabb:0x%lx min=(%.3f, %.3f) max=(%.3f, %.3f)>",
-        (unsigned long)data, data->min.x, data->min.y, data->max.x, data->max.y);
-    return mrb_str_new_cstr(mrb, buf);
-}
-
 static mrb_value mrb_cf_aabb_factory(mrb_state* mrb, mrb_value self)
 {
     mrb_value min_obj, max_obj;
@@ -159,7 +139,5 @@ void mrb_cute_aabb_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_method(mrb, cAabb, "min=", mrb_cf_aabb_set_min, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, cAabb, "max", mrb_cf_aabb_get_max, MRB_ARGS_NONE());
     mrb_define_method(mrb, cAabb, "max=", mrb_cf_aabb_set_max, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cAabb, "to_s", mrb_cf_aabb_to_s, MRB_ARGS_NONE());
-    mrb_define_method(mrb, cAabb, "inspect", mrb_cf_aabb_inspect, MRB_ARGS_NONE());
     mrb_define_module_function(mrb, mCute, "Aabb", mrb_cf_aabb_factory, MRB_ARGS_REQ(2));
 }

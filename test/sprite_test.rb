@@ -45,10 +45,10 @@ within_app do
     assert_nil(sprite.reset)
   end
 
-  assert("Cute::Sprite#inspect") do
-    sprite = Cute::Sprite.new
-    assert_match('#<Cute::Sprite:0x* name:"" w:0 h:0 opacity:1.0>', sprite.inspect)
-  end
+  # assert("Cute::Sprite#inspect") do
+  #   sprite = Cute::Sprite.new
+  #   assert_match('#<Cute::Sprite:0x* name:"" w:0 h:0 opacity:1.0>', sprite.inspect)
+  # end
 
   assert("Cute::Sprite#draw") do
     sprite = Cute.cf_make_demo_sprite

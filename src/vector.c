@@ -65,24 +65,6 @@ static mrb_value mrb_cf_v2_set_y(mrb_state* mrb, mrb_value self)
     return mrb_float_value(mrb, data->y);
 }
 
-static mrb_value mrb_cf_v2_to_s(mrb_state* mrb, mrb_value self)
-{
-    CF_V2* data = (CF_V2*)DATA_PTR(self);
-    char buf[64];
-
-    snprintf(buf, sizeof(buf), "V2(%.3f, %.3f)", data->x, data->y);
-    return mrb_str_new_cstr(mrb, buf);
-}
-
-static mrb_value mrb_cf_v2_inspect(mrb_state* mrb, mrb_value self)
-{
-    CF_V2* data = (CF_V2*)DATA_PTR(self);
-    char buf[80];
-
-    snprintf(buf, sizeof(buf), "#<Cute::V2:0x%lx x=%.3f y=%.3f>", (unsigned long)data, data->x, data->y);
-    return mrb_str_new_cstr(mrb, buf);
-}
-
 mrb_value mrb_cf_v2_wrap(mrb_state* mrb, CF_V2* v2)
 {
     return mrb_obj_value(Data_Wrap_Struct(mrb, cV2, &mrb_cf_v2_data_type, v2));
@@ -128,7 +110,5 @@ void mrb_cute_v2_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_method_id(mrb, cV2, MRB_SYM_E(x), mrb_cf_v2_set_x, MRB_ARGS_REQ(1));
     mrb_define_method_id(mrb, cV2, MRB_SYM(y), mrb_cf_v2_get_y, MRB_ARGS_NONE());
     mrb_define_method_id(mrb, cV2, MRB_SYM_E(y), mrb_cf_v2_set_y, MRB_ARGS_REQ(1));
-    mrb_define_method_id(mrb, cV2, MRB_SYM(to_s), mrb_cf_v2_to_s, MRB_ARGS_NONE());
-    mrb_define_method_id(mrb, cV2, MRB_SYM(inspect), mrb_cf_v2_inspect, MRB_ARGS_NONE());
     mrb_define_module_function_id(mrb, mCute, MRB_SYM(V2), mrb_cf_v2_factory, MRB_ARGS_REQ(2));
 }
