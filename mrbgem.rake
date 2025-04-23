@@ -44,7 +44,7 @@ MRuby::Gem::Specification.new("mruby-cute") do |spec|
   spec.linker.flags += static_libs.map { |lib| "-Wl,-rpath,#{File.dirname(lib)}" }.uniq
   spec.linker.library_paths += static_libs.map { |lib| File.dirname(lib) }.uniq
   spec.linker.libraries.push("c++")
-  spec.linker.libraries += static_libs.map { |lib| File.basename(lib, ".a").sub(/^lib/, "") }
+  spec.linker.libraries += static_libs.map { |lib| File.basename(lib, ".a").sub(/^lib/, "") }.uniq
 
   if /darwin/.match?(RUBY_PLATFORM)
     spec.linker.libraries.unshift("objc")
