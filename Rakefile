@@ -8,10 +8,10 @@ ENV["CMAKE_BUILD_PARALLEL_LEVEL"] ||= (Etc.nprocessors + 2).to_s
 ENV["DEBUG"] ||= "true"
 
 MRUBY_CONFIG = File.expand_path(ENV["MRUBY_CONFIG"] || "build_config.rb")
-MRUBY_VERSION = "3.3.0"
+MRUBY_VERSION = "3.4.0"
 CUTE_VERSION = "defrag-spritebatcher-before-flushing"
 DEPS_DIR = File.expand_path("deps")
-MRUBY_DEPS_DIR = File.join(DEPS_DIR, "mruby")
+MRUBY_DEPS_DIR = File.join(DEPS_DIR, "mruby-#{MRUBY_VERSION}")
 MRUBY_ARCHIVE = File.join(DEPS_DIR, "mruby-#{MRUBY_VERSION}.zip")
 CUTE_DEPS_DIR = File.join(DEPS_DIR, "cute_framework")
 CUTE_BUILD_DIR = File.join(CUTE_DEPS_DIR, ["build", ENV["CMAKE_GENERATOR"], ENV["RELEASE"] ? "release" : "debug"].join("_"))
@@ -34,7 +34,6 @@ end
 desc "Extract MRuby"
 file MRUBY_DEPS_DIR => [MRUBY_ARCHIVE] do
   sh "unzip -q #{MRUBY_ARCHIVE} -d #{DEPS_DIR}"
-  sh "mv #{DEPS_DIR}/mruby-#{MRUBY_VERSION} #{MRUBY_DEPS_DIR}"
 end
 
 desc "Download Cute"
