@@ -1,12 +1,38 @@
 #!deps/mruby/bin/mruby
 
-class Game
-  include Cute
+include Cute
 
+CANVAS_WIDTH = 800
+CANVAS_HEIGHT = 600
+
+class Circle
+  def initialize
+    @radius = 16
+    @position = V2(0, 0)
+    @velocity = 1
+  end
+
+  def update
+    @position.x += @velocity
+    if @position.x > 100
+      @velocity = -1
+    end
+
+    if @position.x < -100
+      @velocity = 1
+    end
+  end
+
+  def draw
+    cf_draw_circle_fill2(@position, @radius)
+  end
+end
+
+class Game
   def initialize
     puts "Hello, you are running #{cf_version_string_linked}!"
 
-    result = cf_make_app("Example App", 0, 0, 0, 800, 600, CF_APP_OPTIONS_WINDOW_POS_CENTERED_BIT, "example.rb")
+    result = cf_make_app("Example App", 0, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, CF_APP_OPTIONS_WINDOW_POS_CENTERED_BIT, "example.rb")
 
     if cf_is_error(result)
       puts "Error creating app: #{result.details}"
@@ -24,6 +50,8 @@ class Game
     @sprite.play("spin")
     @sprite.transform.p.x = 0
     @sprite.transform.p.y = 0
+
+    @circle = Circle.new
 
     puts "GC.interval_ratio: #{GC.interval_ratio}"
     puts "GC.step_ratio: #{GC.step_ratio}"
@@ -43,6 +71,8 @@ class Game
   def update
     h = {}
     cf_app_set_title("Example App - FPS:#{"%.2f" % cf_app_get_smoothed_framerate} DPI:#{cf_app_get_dpi_scale} - #{cf_app_get_width}x#{cf_app_get_height} Sprites:#{@sprites.size}")
+
+    @circle.update
 
     if cf_key_just_pressed(CF_KEY_SPACE)
       ObjectSpace.count_objects(h)
@@ -81,6 +111,7 @@ class Game
     cf_draw_push
     cf_draw_scale(4.0, 4.0)
     cf_draw_circle_fill2(V2(0, 0), 32)
+    @circle.draw
     @sprite.draw
     cf_draw_pop
   end

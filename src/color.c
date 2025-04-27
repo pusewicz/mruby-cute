@@ -105,7 +105,7 @@ CF_Color* mrb_cf_color_unwrap(mrb_state* mrb, mrb_value self)
 }
 
 // Factory methods for Color
-static mrb_value mrb_cf_color_rgb_f(mrb_state* mrb, mrb_value self)
+static mrb_value mrb_cf_make_color_rgb_f(mrb_state* mrb, mrb_value self)
 {
     CF_Color* data;
     mrb_float r, g, b;
@@ -118,7 +118,7 @@ static mrb_value mrb_cf_color_rgb_f(mrb_state* mrb, mrb_value self)
     return mrb_cf_color_wrap(mrb, data);
 }
 
-static mrb_value mrb_cf_color_rgba_f(mrb_state* mrb, mrb_value self)
+static mrb_value mrb_cf_make_color_rgba_f(mrb_state* mrb, mrb_value self)
 {
     CF_Color* data;
     mrb_float r, g, b, a;
@@ -131,7 +131,7 @@ static mrb_value mrb_cf_color_rgba_f(mrb_state* mrb, mrb_value self)
     return mrb_cf_color_wrap(mrb, data);
 }
 
-static mrb_value mrb_cf_color_rgb(mrb_state* mrb, mrb_value self)
+static mrb_value mrb_cf_make_color_rgb(mrb_state* mrb, mrb_value self)
 {
     CF_Color* data;
     mrb_int r, g, b;
@@ -144,7 +144,7 @@ static mrb_value mrb_cf_color_rgb(mrb_state* mrb, mrb_value self)
     return mrb_cf_color_wrap(mrb, data);
 }
 
-static mrb_value mrb_cf_color_rgba(mrb_state* mrb, mrb_value self)
+static mrb_value mrb_cf_make_color_rgba(mrb_state* mrb, mrb_value self)
 {
     CF_Color* data;
     mrb_int r, g, b, a;
@@ -157,7 +157,7 @@ static mrb_value mrb_cf_color_rgba(mrb_state* mrb, mrb_value self)
     return mrb_cf_color_wrap(mrb, data);
 }
 
-static mrb_value mrb_cf_color_hex(mrb_state* mrb, mrb_value self)
+static mrb_value mrb_cf_make_color_hex(mrb_state* mrb, mrb_value self)
 {
     CF_Color* data;
     mrb_int hex;
@@ -260,53 +260,6 @@ static mrb_value mrb_cf_color_brown(mrb_state* mrb, mrb_value self)
     CF_Color* data = (CF_Color*)mrb_malloc(mrb, sizeof(CF_Color));
     *data = cf_color_brown();
     return mrb_cf_color_wrap(mrb, data);
-}
-
-// Color operations
-static mrb_value mrb_cf_color_mul(mrb_state* mrb, mrb_value self)
-{
-    CF_Color* data = mrb_cf_color_unwrap(mrb, self);
-    CF_Color* result;
-    mrb_float s;
-
-    mrb_get_args(mrb, "f", &s);
-
-    result = (CF_Color*)mrb_malloc(mrb, sizeof(CF_Color));
-    *result = cf_mul_color(*data, s);
-
-    return mrb_cf_color_wrap(mrb, result);
-}
-
-static mrb_value mrb_cf_color_add(mrb_state* mrb, mrb_value self)
-{
-    CF_Color* data = mrb_cf_color_unwrap(mrb, self);
-    CF_Color* other;
-    CF_Color* result;
-    mrb_value other_obj;
-
-    mrb_get_args(mrb, "o", &other_obj);
-    other = mrb_cf_color_unwrap(mrb, other_obj);
-
-    result = (CF_Color*)mrb_malloc(mrb, sizeof(CF_Color));
-    *result = cf_add_color(*data, *other);
-
-    return mrb_cf_color_wrap(mrb, result);
-}
-
-static mrb_value mrb_cf_color_sub(mrb_state* mrb, mrb_value self)
-{
-    CF_Color* data = mrb_cf_color_unwrap(mrb, self);
-    CF_Color* other;
-    CF_Color* result;
-    mrb_value other_obj;
-
-    mrb_get_args(mrb, "o", &other_obj);
-    other = mrb_cf_color_unwrap(mrb, other_obj);
-
-    result = (CF_Color*)mrb_malloc(mrb, sizeof(CF_Color));
-    *result = cf_sub_color(*data, *other);
-
-    return mrb_cf_color_wrap(mrb, result);
 }
 
 // Pixel implementation
@@ -451,27 +404,6 @@ static mrb_value mrb_cf_pixel_hex(mrb_state* mrb, mrb_value self)
     return mrb_cf_pixel_wrap(mrb, data);
 }
 
-// Conversion methods
-static mrb_value mrb_cf_color_to_pixel(mrb_state* mrb, mrb_value self)
-{
-    CF_Color* color = mrb_cf_color_unwrap(mrb, self);
-    CF_Pixel* pixel = (CF_Pixel*)mrb_malloc(mrb, sizeof(CF_Pixel));
-
-    *pixel = cf_color_to_pixel(*color);
-
-    return mrb_cf_pixel_wrap(mrb, pixel);
-}
-
-static mrb_value mrb_cf_pixel_to_color(mrb_state* mrb, mrb_value self)
-{
-    CF_Pixel* pixel = mrb_cf_pixel_unwrap(mrb, self);
-    CF_Color* color = (CF_Color*)mrb_malloc(mrb, sizeof(CF_Color));
-
-    *color = cf_pixel_to_color(*pixel);
-
-    return mrb_cf_color_wrap(mrb, color);
-}
-
 // Initializing the module
 void mrb_cute_color_init(mrb_state* mrb, struct RClass* mCute)
 {
@@ -489,36 +421,28 @@ void mrb_cute_color_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_method_id(mrb, cColor, MRB_SYM(a), mrb_cf_color_get_a, MRB_ARGS_NONE());
     mrb_define_method_id(mrb, cColor, MRB_SYM_E(a), mrb_cf_color_set_a, MRB_ARGS_REQ(1));
 
-    // Color operations
-    // TODO: Convert these to proper object operators
-    mrb_define_method(mrb, cColor, "mul", mrb_cf_color_mul, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cColor, "add", mrb_cf_color_add, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cColor, "sub", mrb_cf_color_sub, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cColor, "to_pixel", mrb_cf_color_to_pixel, MRB_ARGS_NONE());
-
     // Factory methods for Color
     // TODO: Rename these to match CF
-    mrb_define_module_function(mrb, mCute, "rgb_f", mrb_cf_color_rgb_f, MRB_ARGS_REQ(3));
-    mrb_define_module_function(mrb, mCute, "rgba_f", mrb_cf_color_rgba_f, MRB_ARGS_REQ(4));
-    mrb_define_module_function(mrb, mCute, "rgb", mrb_cf_color_rgb, MRB_ARGS_REQ(3));
-    mrb_define_module_function(mrb, mCute, "rgba", mrb_cf_color_rgba, MRB_ARGS_REQ(4));
-    mrb_define_module_function(mrb, mCute, "color_hex", mrb_cf_color_hex, MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, mCute, "cf_make_color_rgb_f", mrb_cf_make_color_rgb_f, MRB_ARGS_REQ(3));
+    mrb_define_module_function(mrb, mCute, "cf_make_color_rgba_f", mrb_cf_make_color_rgba_f, MRB_ARGS_REQ(4));
+    mrb_define_module_function(mrb, mCute, "cf_make_color_rgb", mrb_cf_make_color_rgb, MRB_ARGS_REQ(3));
+    mrb_define_module_function(mrb, mCute, "cf_make_color_rgba", mrb_cf_make_color_rgba, MRB_ARGS_REQ(4));
+    mrb_define_module_function(mrb, mCute, "cf_make_color_hex", mrb_cf_make_color_hex, MRB_ARGS_REQ(1));
 
     // Predefined colors
-    // TODO: Rename these to match CF
-    mrb_define_module_function(mrb, mCute, "color_clear", mrb_cf_color_clear, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "color_black", mrb_cf_color_black, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "color_white", mrb_cf_color_white, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "color_red", mrb_cf_color_red, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "color_green", mrb_cf_color_green, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "color_blue", mrb_cf_color_blue, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "color_yellow", mrb_cf_color_yellow, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "color_cyan", mrb_cf_color_cyan, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "color_magenta", mrb_cf_color_magenta, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "color_grey", mrb_cf_color_grey, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "color_orange", mrb_cf_color_orange, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "color_purple", mrb_cf_color_purple, MRB_ARGS_NONE());
-    mrb_define_module_function(mrb, mCute, "color_brown", mrb_cf_color_brown, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_color_clear", mrb_cf_color_clear, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_color_black", mrb_cf_color_black, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_color_white", mrb_cf_color_white, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_color_red", mrb_cf_color_red, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_color_green", mrb_cf_color_green, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_color_blue", mrb_cf_color_blue, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_color_yellow", mrb_cf_color_yellow, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_color_cyan", mrb_cf_color_cyan, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_color_magenta", mrb_cf_color_magenta, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_color_grey", mrb_cf_color_grey, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_color_orange", mrb_cf_color_orange, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_color_purple", mrb_cf_color_purple, MRB_ARGS_NONE());
+    mrb_define_module_function(mrb, mCute, "cf_color_brown", mrb_cf_color_brown, MRB_ARGS_NONE());
 
     // Pixel class
     cPixel = mrb_define_class_under(mrb, mCute, "Pixel", mrb->object_class);
@@ -533,10 +457,9 @@ void mrb_cute_color_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_method(mrb, cPixel, "b=", mrb_cf_pixel_set_b, MRB_ARGS_REQ(1));
     mrb_define_method(mrb, cPixel, "a", mrb_cf_pixel_get_a, MRB_ARGS_NONE());
     mrb_define_method(mrb, cPixel, "a=", mrb_cf_pixel_set_a, MRB_ARGS_REQ(1));
-    mrb_define_method(mrb, cPixel, "to_color", mrb_cf_pixel_to_color, MRB_ARGS_NONE());
 
     // Factory methods for Pixel
-    mrb_define_module_function(mrb, mCute, "pixel_rgb", mrb_cf_pixel_rgb, MRB_ARGS_REQ(3));
-    mrb_define_module_function(mrb, mCute, "pixel_rgba", mrb_cf_pixel_rgba, MRB_ARGS_REQ(4));
-    mrb_define_module_function(mrb, mCute, "pixel_hex", mrb_cf_pixel_hex, MRB_ARGS_REQ(1));
+    mrb_define_module_function(mrb, mCute, "cf_pixel_rgb", mrb_cf_pixel_rgb, MRB_ARGS_REQ(3));
+    mrb_define_module_function(mrb, mCute, "cf_pixel_rgba", mrb_cf_pixel_rgba, MRB_ARGS_REQ(4));
+    mrb_define_module_function(mrb, mCute, "cf_pixel_hex", mrb_cf_pixel_hex, MRB_ARGS_REQ(1));
 }
