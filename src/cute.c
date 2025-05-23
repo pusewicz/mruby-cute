@@ -1,5 +1,6 @@
 #include "app.h"
 #include "aabb.h"
+#include "audio.h"
 #include "circle.h"
 #include "color.h"
 #include "draw.h"
@@ -45,6 +46,7 @@ void mrb_mruby_cute_gem_init(mrb_state* mrb)
     mrb_cute_aabb_init(mrb, mCute);
     mrb_cute_circle_init(mrb, mCute);
     mrb_cute_color_init(mrb, mCute);
+    mrb_cute_audio_init(mrb, mCute);
 }
 
 void mrb_mruby_cute_gem_final(mrb_state* mrb)
