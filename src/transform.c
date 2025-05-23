@@ -6,7 +6,7 @@
 #include <mruby/presym.h>
 #include <mruby/variable.h>
 
-extern struct RClass* cTransform;
+static struct RClass* cTransform;
 
 static void mrb_cf_transform_free(mrb_state* mrb, void* p)
 {

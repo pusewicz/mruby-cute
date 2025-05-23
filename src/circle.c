@@ -4,7 +4,7 @@
 #include <mruby/data.h>
 #include <mruby/presym.h>
 
-struct RClass* cCircle;
+static struct RClass* cCircle;
 
 static void mrb_cf_circle_free(mrb_state* mrb, void* p)
 {

@@ -2,7 +2,7 @@
 #include <mruby/class.h>
 #include <mruby/data.h>
 
-extern struct RClass* cSinCos;
+static struct RClass* cSinCos;
 
 static void mrb_cf_sincos_free(mrb_state* mrb, void* p)
 {

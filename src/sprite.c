@@ -5,7 +5,7 @@
 #include <mruby/variable.h>
 #include <mruby/presym.h>
 
-extern struct RClass* cSprite;
+static struct RClass* cSprite;
 
 static void mrb_cf_sprite_free(mrb_state* mrb, void* p)
 {
