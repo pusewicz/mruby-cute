@@ -1,16 +1,11 @@
 #include "result.h"
-#include <mruby/data.h>
 #include <mruby/class.h>
+#include <mruby/data.h>
 
 void mrb_cf_result_free(mrb_state* mrb, void* p)
 {
     CF_Result* result = (CF_Result*)p;
     mrb_free(mrb, result);
-}
-
-void mrb_free_noop(mrb_state* mrb, void* p)
-{
-    // No-op free function
 }
 
 static const struct mrb_data_type mrb_cf_result_type = { "CF_Result", mrb_cf_result_free };
