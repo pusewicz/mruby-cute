@@ -46,7 +46,7 @@ static mrb_value mrb_cf_aabb_get_min(mrb_state* mrb, mrb_value self)
     }
 
     // Create and reference a new min object
-    min_obj = mrb_cf_v2_wrap_nested(mrb, &data->min);
+    min_obj = mrb_cf_v2_wrap_contained(mrb, &data->min);
     mrb_iv_set(mrb, self, iv_name, min_obj);
     mrb_iv_set(mrb, min_obj, mrb_intern_lit(mrb, "aabb"), self);
 
@@ -77,7 +77,7 @@ static mrb_value mrb_cf_aabb_get_max(mrb_state* mrb, mrb_value self)
     }
 
     // Create and reference a new max object
-    max_obj = mrb_cf_v2_wrap_nested(mrb, &data->max);
+    max_obj = mrb_cf_v2_wrap_contained(mrb, &data->max);
     mrb_iv_set(mrb, self, iv_name, max_obj);
     mrb_iv_set(mrb, max_obj, mrb_intern_lit(mrb, "aabb"), self);
 

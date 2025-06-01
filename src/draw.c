@@ -208,7 +208,7 @@ static mrb_value mrb_cf_make_font(mrb_state* mrb, mrb_value self)
 
     CF_Result result = cf_make_font(path, font_name);
 
-    return mrb_cf_result_wrap_nested(mrb, &result);
+    return mrb_cf_result_wrap_contained(mrb, &result);
 }
 
 static mrb_value mrb_cf_push_font(mrb_state* mrb, mrb_value self)
@@ -278,7 +278,7 @@ static mrb_value mrb_cf_text_size(mrb_state* mrb, mrb_value self)
 
     CF_V2 size = cf_text_size(text, (int)num_chars_to_draw);
 
-    return mrb_cf_v2_wrap_nested(mrb, &size);
+    return mrb_cf_v2_wrap_contained(mrb, &size);
 }
 
 void mrb_cute_draw_init(mrb_state* mrb, struct RClass* mCute)

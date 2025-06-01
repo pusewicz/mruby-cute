@@ -10,24 +10,14 @@ static void mrb_cf_sincos_free(mrb_state* mrb, void* p)
     mrb_free(mrb, data);
 }
 
-static void mrb_cf_sincos_free_noop(mrb_state* mrb, void* p)
-{
-    // No-op free function
-}
-
 struct mrb_data_type const mrb_cf_sincos_data_type = {
     "CF_SinCos",
-    mrb_cf_sincos_free,
+    mrb_cf_sincos_free
 };
 
-/*
- * This is a no-op free function for nested SinCos objects.
- * It is used to prevent double-free errors when wrapping
- * nested SinCos objects in the transform.
- */
-struct mrb_data_type const mrb_cf_sincos_nested_data_type = {
+struct mrb_data_type const mrb_cf_sincos_contained_data_type = {
     "CF_SinCos",
-    mrb_cf_sincos_free_noop,
+    NULL
 };
 
 static mrb_value mrb_cf_sincos_initialize(mrb_state* mrb, mrb_value self)
@@ -89,9 +79,9 @@ mrb_value mrb_cf_sincos_wrap(mrb_state* mrb, CF_SinCos* sincos)
     return mrb_obj_value(Data_Wrap_Struct(mrb, cSinCos, &mrb_cf_sincos_data_type, sincos));
 }
 
-mrb_value mrb_cf_sincos_wrap_nested(mrb_state* mrb, CF_SinCos* sincos)
+mrb_value mrb_cf_sincos_wrap_contained(mrb_state* mrb, CF_SinCos* sincos)
 {
-    return mrb_obj_value(Data_Wrap_Struct(mrb, cSinCos, &mrb_cf_sincos_nested_data_type, sincos));
+    return mrb_obj_value(Data_Wrap_Struct(mrb, cSinCos, &mrb_cf_sincos_contained_data_type, sincos));
 }
 
 CF_SinCos* mrb_cf_sincos_unwrap(mrb_state* mrb, mrb_value self)

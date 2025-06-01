@@ -1,6 +1,6 @@
 #include "vector.h"
-#include <mruby/data.h>
 #include <mruby/class.h>
+#include <mruby/data.h>
 #include <mruby/presym.h>
 
 static struct RClass* cV2;
@@ -11,13 +11,8 @@ static void mrb_cf_v2_free(mrb_state* mrb, void* p)
     mrb_free(mrb, data);
 }
 
-static void mrb_cf_v2_free_noop(mrb_state* mrb, void* p)
-{
-    // No-op free function
-}
-
 const struct mrb_data_type mrb_cf_v2_data_type = { "CF_V2", mrb_cf_v2_free };
-const struct mrb_data_type mrb_cf_v2_nested_data_type = { "CF_V2", mrb_cf_v2_free_noop };
+const struct mrb_data_type mrb_cf_v2_contained_data_type = { "CF_V2", NULL };
 
 static mrb_value mrb_cf_v2_initialize(mrb_state* mrb, mrb_value self)
 {
@@ -70,9 +65,9 @@ mrb_value mrb_cf_v2_wrap(mrb_state* mrb, CF_V2* v2)
     return mrb_obj_value(Data_Wrap_Struct(mrb, cV2, &mrb_cf_v2_data_type, v2));
 }
 
-mrb_value mrb_cf_v2_wrap_nested(mrb_state* mrb, CF_V2* v2)
+mrb_value mrb_cf_v2_wrap_contained(mrb_state* mrb, CF_V2* v2)
 {
-    return mrb_obj_value(Data_Wrap_Struct(mrb, cV2, &mrb_cf_v2_nested_data_type, v2));
+    return mrb_obj_value(Data_Wrap_Struct(mrb, cV2, &mrb_cf_v2_contained_data_type, v2));
 }
 
 CF_V2* mrb_cf_v2_unwrap(mrb_state* mrb, mrb_value self)

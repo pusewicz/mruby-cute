@@ -14,7 +14,7 @@ void mrb_free_noop(mrb_state* mrb, void* p)
 }
 
 static const struct mrb_data_type mrb_cf_result_type = { "CF_Result", mrb_cf_result_free };
-static const struct mrb_data_type mrb_cf_result_nested_type = { "CF_Result", mrb_free_noop };
+static const struct mrb_data_type mrb_cf_result_contained_type = { "CF_Result", NULL };
 
 mrb_value mrb_cf_result_wrap(mrb_state* mrb, CF_Result* result)
 {
@@ -22,10 +22,10 @@ mrb_value mrb_cf_result_wrap(mrb_state* mrb, CF_Result* result)
     return mrb_obj_value(Data_Wrap_Struct(mrb, cResult, &mrb_cf_result_type, result));
 }
 
-mrb_value mrb_cf_result_wrap_nested(mrb_state* mrb, CF_Result* result)
+mrb_value mrb_cf_result_wrap_contained(mrb_state* mrb, CF_Result* result)
 {
     struct RClass* cResult = mrb_class_get_under(mrb, mrb_module_get(mrb, "Cute"), "CF_Result");
-    return mrb_obj_value(Data_Wrap_Struct(mrb, cResult, &mrb_cf_result_nested_type, result));
+    return mrb_obj_value(Data_Wrap_Struct(mrb, cResult, &mrb_cf_result_contained_type, result));
 }
 
 static mrb_value mrb_cf_result_initialize(mrb_state* mrb, mrb_value self)

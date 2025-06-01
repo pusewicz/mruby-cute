@@ -1,8 +1,8 @@
 #include "transform.h"
 #include "sincos.h"
 #include "vector.h"
-#include <mruby/data.h>
 #include <mruby/class.h>
+#include <mruby/data.h>
 #include <mruby/presym.h>
 #include <mruby/variable.h>
 
@@ -14,19 +14,14 @@ static void mrb_cf_transform_free(mrb_state* mrb, void* p)
     mrb_free(mrb, data);
 }
 
-static void mrb_cf_transform_free_noop(mrb_state* mrb, void* p)
-{
-    // No-op free function
-}
-
 struct mrb_data_type const mrb_cf_transform_data_type = {
     "CF_Transform",
     mrb_cf_transform_free,
 };
 
-struct mrb_data_type const mrb_cf_transform_nested_data_type = {
+struct mrb_data_type const mrb_cf_transform_contained_data_type = {
     "CF_Transform",
-    mrb_cf_transform_free_noop,
+    NULL
 };
 
 static mrb_value mrb_cf_transform_initialize(mrb_state* mrb, mrb_value self)
@@ -59,9 +54,9 @@ mrb_value mrb_cf_transform_wrap(mrb_state* mrb, CF_Transform* transform)
     return mrb_obj_value(Data_Wrap_Struct(mrb, cTransform, &mrb_cf_transform_data_type, transform));
 }
 
-mrb_value mrb_cf_transform_wrap_nested(mrb_state* mrb, CF_Transform* transform)
+mrb_value mrb_cf_transform_wrap_contained(mrb_state* mrb, CF_Transform* transform)
 {
-    return mrb_obj_value(Data_Wrap_Struct(mrb, cTransform, &mrb_cf_transform_nested_data_type, transform));
+    return mrb_obj_value(Data_Wrap_Struct(mrb, cTransform, &mrb_cf_transform_contained_data_type, transform));
 }
 
 static mrb_value mrb_cf_transform_get_p(mrb_state* mrb, mrb_value self)
@@ -76,7 +71,7 @@ static mrb_value mrb_cf_transform_get_p(mrb_state* mrb, mrb_value self)
     }
 
     // Create a new V2 object
-    p_obj = mrb_cf_v2_wrap_nested(mrb, &transform->p);
+    p_obj = mrb_cf_v2_wrap_contained(mrb, &transform->p);
     mrb_iv_set(mrb, self, iv_name, p_obj);
     mrb_iv_set(mrb, p_obj, mrb_intern_lit(mrb, "transform"), self);
 
@@ -108,7 +103,7 @@ static mrb_value mrb_cf_transform_get_r(mrb_state* mrb, mrb_value self)
     }
 
     // Create a new SinCos object
-    r_obj = mrb_cf_sincos_wrap_nested(mrb, &data->r);
+    r_obj = mrb_cf_sincos_wrap_contained(mrb, &data->r);
     mrb_iv_set(mrb, self, iv_name, r_obj);
     mrb_iv_set(mrb, r_obj, mrb_intern_lit(mrb, "transform"), self);
 
