@@ -1,0 +1,6 @@
+If:
+  PathMatch: [.*\.c, .*\.h]
+CompileFlags:
+  Add:
+    - "-std=c23" # Use C23 standard
+    - "-xc" # Set file type to C
