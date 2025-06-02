@@ -102,4 +102,10 @@ task example: :compile do
   exec "#{MRUBY_DEPS_DIR}/build/host/bin/mruby example/example.rb"
 end
 
-task default: :test
+CUTE_COMPILE_COMMANDS = File.join(CUTE_BUILD_DIR, "compile_commands.json")
+
+file "compile_commands.json" => CUTE_COMPILE_COMMANDS do
+  cp CUTE_COMPILE_COMMANDS, "compile_commands.json"
+end
+
+task default: [:test, "compile_commands.json"]
