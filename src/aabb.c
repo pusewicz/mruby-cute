@@ -5,7 +5,7 @@
 #include <mruby/data.h>
 #include <mruby/variable.h>
 
-static struct RClass* cAabb;
+struct RClass* cAabb;
 
 static void mrb_cf_aabb_free(mrb_state* mrb, void* p)
 {
@@ -121,9 +121,11 @@ CF_Aabb* mrb_cf_aabb_unwrap(mrb_state* mrb, mrb_value self)
 {
     CF_Aabb* data;
 
-    data = (CF_Aabb*)DATA_PTR(self);
+    // Type-safe unwrap
+    data = (CF_Aabb*)mrb_data_get_ptr(mrb, self, &mrb_cf_aabb_data_type);
     if (data == NULL) {
-        mrb_raise(mrb, E_RUNTIME_ERROR, "uninitialized data");
+        mrb_raisef(mrb, E_TYPE_ERROR, "expected %C, got %C",
+                   cAabb, mrb_obj_class(mrb, self));
     }
 
     return data;

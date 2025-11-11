@@ -3,7 +3,7 @@
 #include <mruby/data.h>
 #include <mruby/presym.h>
 
-static struct RClass* cV2;
+struct RClass* cV2;
 
 static void mrb_cf_v2_free(mrb_state* mrb, void* p)
 {
@@ -74,9 +74,15 @@ CF_V2* mrb_cf_v2_unwrap(mrb_state* mrb, mrb_value self)
 {
     CF_V2* data;
 
-    data = (CF_V2*)DATA_PTR(self);
+    // Type-safe unwrap - checks both data types
+    data = (CF_V2*)mrb_data_get_ptr(mrb, self, &mrb_cf_v2_data_type);
     if (data == NULL) {
-        mrb_raise(mrb, E_RUNTIME_ERROR, "uninitialized data");
+        // Try contained type
+        data = (CF_V2*)mrb_data_get_ptr(mrb, self, &mrb_cf_v2_contained_data_type);
+        if (data == NULL) {
+            mrb_raisef(mrb, E_TYPE_ERROR, "expected %C, got %C",
+                       cV2, mrb_obj_class(mrb, self));
+        }
     }
 
     return data;

@@ -99,9 +99,11 @@ CF_Color* mrb_cf_color_unwrap(mrb_state* mrb, mrb_value self)
 {
     CF_Color* data;
 
-    data = (CF_Color*)DATA_PTR(self);
+    // Type-safe unwrap
+    data = (CF_Color*)mrb_data_get_ptr(mrb, self, &mrb_cf_color_data_type);
     if (data == NULL) {
-        mrb_raise(mrb, E_RUNTIME_ERROR, "uninitialized color data");
+        mrb_raisef(mrb, E_TYPE_ERROR, "expected %C, got %C",
+                   cColor, mrb_obj_class(mrb, self));
     }
 
     return data;
@@ -359,9 +361,11 @@ CF_Pixel* mrb_cf_pixel_unwrap(mrb_state* mrb, mrb_value self)
 {
     CF_Pixel* data;
 
-    data = (CF_Pixel*)DATA_PTR(self);
+    // Type-safe unwrap
+    data = (CF_Pixel*)mrb_data_get_ptr(mrb, self, &mrb_cf_pixel_data_type);
     if (data == NULL) {
-        mrb_raise(mrb, E_RUNTIME_ERROR, "uninitialized pixel data");
+        mrb_raisef(mrb, E_TYPE_ERROR, "expected %C, got %C",
+                   cPixel, mrb_obj_class(mrb, self));
     }
 
     return data;
