@@ -3,6 +3,9 @@
 #include <mruby/data.h>
 #include <mruby/presym.h>
 
+struct RClass* cColor;
+struct RClass* cPixel;
+
 // Color implementation
 static void mrb_cf_color_free(mrb_state* mrb, void* p)
 {
