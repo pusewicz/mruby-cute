@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 # gem "rails"
 
-gem "yard", "~> 0.9.37"
+gem "yard", "~> 0.9.42"
 
 gem "rake", "~> 13.2"
 
