@@ -48,7 +48,7 @@ GEM
     unicode-display_width (3.1.4)
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
-    yard (0.9.37)
+    yard (0.9.42)
 
 PLATFORMS
   arm64-darwin-24
@@ -57,7 +57,7 @@ PLATFORMS
 DEPENDENCIES
   rake (~> 13.2)
   standard (~> 1.47)
-  yard (~> 0.9.37)
+  yard (~> 0.9.42)
 
 BUNDLED WITH
    2.6.5
