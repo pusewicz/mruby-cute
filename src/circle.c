@@ -4,7 +4,7 @@
 #include <mruby/data.h>
 #include <mruby/presym.h>
 
-static struct RClass* cCircle;
+struct RClass* cCircle;
 
 static void mrb_cf_circle_free(mrb_state* mrb, void* p)
 {
@@ -77,9 +77,11 @@ CF_Circle* mrb_cf_circle_unwrap(mrb_state* mrb, mrb_value self)
 {
     CF_Circle* data;
 
-    data = (CF_Circle*)DATA_PTR(self);
+    // Type-safe unwrap
+    data = (CF_Circle*)mrb_data_get_ptr(mrb, self, &mrb_cf_circle_data_type);
     if (data == NULL) {
-        mrb_raise(mrb, E_RUNTIME_ERROR, "uninitialized circle data");
+        mrb_raisef(mrb, E_TYPE_ERROR, "expected %C, got %C",
+                   cCircle, mrb_obj_class(mrb, self));
     }
 
     return data;
