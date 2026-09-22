@@ -3,8 +3,8 @@
 #include <cute.h>
 #include <mruby.h>
 
-struct RClass* cColor;
-struct RClass* cPixel;
+extern struct RClass* cColor;
+extern struct RClass* cPixel;
 
 void mrb_cute_color_init(mrb_state* mrb, struct RClass* mCute);
 mrb_value mrb_cf_color_wrap(mrb_state* mrb, CF_Color* color);

@@ -2,7 +2,7 @@
 #include <mruby/class.h>
 #include <mruby/data.h>
 
-static struct RClass* cSinCos;
+struct RClass* cSinCos;
 
 static void mrb_cf_sincos_free(mrb_state* mrb, void* p)
 {
@@ -87,7 +87,18 @@ mrb_value mrb_cf_sincos_wrap_contained(mrb_state* mrb, CF_SinCos* sincos)
 CF_SinCos* mrb_cf_sincos_unwrap(mrb_state* mrb, mrb_value self)
 {
     CF_SinCos* data;
-    data = (CF_SinCos*)DATA_PTR(self);
+
+    // Type-safe unwrap - checks both data types
+    data = (CF_SinCos*)mrb_data_get_ptr(mrb, self, &mrb_cf_sincos_data_type);
+    if (data == NULL) {
+        // Try contained type
+        data = (CF_SinCos*)mrb_data_get_ptr(mrb, self, &mrb_cf_sincos_contained_data_type);
+        if (data == NULL) {
+            mrb_raisef(mrb, E_TYPE_ERROR, "expected %C, got %C",
+                       cSinCos, mrb_obj_class(mrb, self));
+        }
+    }
+
     return data;
 }
 

@@ -8,7 +8,7 @@ CANVAS_HEIGHT = 600
 class Circle
   def initialize
     @radius = 16
-    @position = V2(0, 0)
+    @position = V2.new(0, 0)
     @velocity = 1
   end
 
@@ -24,7 +24,8 @@ class Circle
   end
 
   def draw
-    cf_draw_circle_fill2(@position, @radius)
+    # Use unified draw API
+    draw_circle_fill(@position, @radius)
   end
 end
 
@@ -46,10 +47,14 @@ class Game
 
     @sprites = []
 
-    @sprite = cf_make_demo_sprite
+    # Use new idiomatic API
+    @sprite = Sprite.demo
     @sprite.play("spin")
-    @sprite.transform.p.x = 0
-    @sprite.transform.p.y = 0
+    @sprite.x = 0  # Convenience accessor
+    @sprite.y = 0
+
+    # Or use fluent API:
+    # @sprite = Sprite.demo.with_position(0, 0)
 
     @circle = Circle.new
 
@@ -88,32 +93,32 @@ class Game
 
     if cf_key_just_pressed(CF_KEY_W)
       puts "Key W pressed"
-      @sprite.transform.p.y += 8
+      @sprite.y += 8  # Convenience accessor
     end
 
     if cf_key_just_pressed(CF_KEY_S)
       puts "Key S pressed"
-      @sprite.transform.p.y -= 8
+      @sprite.y -= 8
     end
 
     if cf_key_just_pressed(CF_KEY_A)
       puts "Key A pressed"
-      @sprite.transform.p.x -= 8
+      @sprite.x -= 8
     end
 
     if cf_key_just_pressed(CF_KEY_D)
       puts "Key D pressed"
-      @sprite.transform.p.x += 8
+      @sprite.x += 8
     end
 
     @sprite.update
 
-    cf_draw_push
-    cf_draw_scale(4.0, 4.0)
-    cf_draw_circle_fill2(V2(0, 0), 32)
-    @circle.draw
-    @sprite.draw
-    cf_draw_pop
+    # Use block-based transform API for cleaner code
+    with_transform(scale: 4.0) do
+      draw_circle_fill(V2.new(0, 0), 32)
+      @circle.draw
+      @sprite.draw
+    end
   end
 end
 

@@ -2,6 +2,7 @@
 #include "circle.h"
 #include "draw.h"
 #include "result.h"
+#include "sprite.h"
 #include "vector.h"
 #include <mruby/data.h>
 #include <mruby/presym.h>
@@ -9,12 +10,18 @@
 static mrb_value mrb_cf_draw_sprite(mrb_state* mrb, mrb_value self)
 {
     mrb_value sprite;
-    CF_Sprite* s;
 
     mrb_get_args(mrb, "o", &sprite);
-    s = DATA_PTR(sprite);
 
-    cf_draw_sprite(s);
+    // Type-safe unwrap through proper accessor
+    // Note: CF_Sprite* is accessed directly from DATA_PTR by cf_draw_sprite
+    // But we should validate the type first
+    if (!mrb_obj_is_kind_of(mrb, sprite, cSprite)) {
+        mrb_raisef(mrb, E_TYPE_ERROR, "expected Sprite, got %C",
+                   mrb_obj_class(mrb, sprite));
+    }
+
+    cf_draw_sprite(DATA_PTR(sprite));
 
     return mrb_nil_value();
 }

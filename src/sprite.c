@@ -5,7 +5,7 @@
 #include <mruby/presym.h>
 #include <mruby/variable.h>
 
-static struct RClass* cSprite;
+struct RClass* cSprite;
 
 static void mrb_cf_sprite_free(mrb_state* mrb, void* p)
 {
@@ -350,10 +350,6 @@ void mrb_cute_sprite_init(mrb_state* mrb, struct RClass* mCute)
     mrb_define_method_id(mrb, cSprite, MRB_SYM(reset), mrb_cf_sprite_reset, MRB_ARGS_NONE());
     mrb_define_method_id(mrb, cSprite, MRB_SYM_Q(loop), mrb_cf_sprite_get_loop, MRB_ARGS_NONE());
     mrb_define_method_id(mrb, cSprite, MRB_SYM_E(loop), mrb_cf_sprite_set_loop, MRB_ARGS_REQ(1));
-    mrb_define_method_id(mrb, cSprite, MRB_SYM(scale_x), mrb_cf_sprite_get_scale_x, MRB_ARGS_NONE());
-    mrb_define_method_id(mrb, cSprite, MRB_SYM(scale_y), mrb_cf_sprite_get_scale_y, MRB_ARGS_NONE());
-    mrb_define_method_id(mrb, cSprite, MRB_SYM_E(scale_x), mrb_cf_sprite_set_scale_x, MRB_ARGS_REQ(1));
-    mrb_define_method_id(mrb, cSprite, MRB_SYM_E(scale_y), mrb_cf_sprite_set_scale_y, MRB_ARGS_REQ(1));
     mrb_define_method_id(mrb, cSprite, MRB_SYM(offset_x), mrb_cf_sprite_get_offset_x, MRB_ARGS_NONE());
     mrb_define_method_id(mrb, cSprite, MRB_SYM(offset_y), mrb_cf_sprite_get_offset_y, MRB_ARGS_NONE());
     mrb_define_method_id(mrb, cSprite, MRB_SYM_E(offset_x), mrb_cf_sprite_set_offset_x, MRB_ARGS_REQ(1));
